@@ -1,0 +1,23 @@
+{
+  "id": "bubble-sort",
+  "title": "Bubble Sort",
+  "category": "sorting",
+  "wave": 1,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Sort an array by repeatedly comparing neighbours and swapping those that are out of order, so the largest values settle at the right end.",
+  "complexity": { "time": "O(n²)", "space": "O(1)" },
+  "defaultInput": { "values": [5, 2, 9, 1, 6] },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Array values" }
+  ],
+  "io": { "inputs": ["values"], "output": "intList" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "outer-loop", "label": "Start a pass" },
+    { "id": "inner-loop", "label": "Move to the next pair" },
+    { "id": "compare", "label": "Compare the pair" },
+    { "id": "swap", "label": "Swap the pair" },
+    { "id": "finish", "label": "Return" }
+  ]
+}

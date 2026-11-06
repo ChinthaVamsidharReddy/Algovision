@@ -1,0 +1,83 @@
+{
+  "id": "max-sum-subarray-k",
+  "title": "Maximum Sum of a Window of Size k",
+  "category": "sliding-window",
+  "wave": 6,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the largest sum of k consecutive values by sliding a fixed-size window and adjusting the sum instead of re-adding.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      1,
+      5,
+      1,
+      3,
+      2
+    ],
+    "k": 3
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "At least one value."
+    },
+    {
+      "name": "k",
+      "kind": "int",
+      "label": "Window size k",
+      "note": "From 1 to the array length."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "k"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-sum",
+      "label": "Start the window sum at 0"
+    },
+    {
+      "id": "first-window",
+      "label": "Sum the first window"
+    },
+    {
+      "id": "init-best",
+      "label": "The first window is the best so far"
+    },
+    {
+      "id": "slide",
+      "label": "Slide the window one step right"
+    },
+    {
+      "id": "update-sum",
+      "label": "Add the new value, remove the old one"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with the best sum"
+    },
+    {
+      "id": "new-best",
+      "label": "Record the new best"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best sum"
+    }
+  ]
+}

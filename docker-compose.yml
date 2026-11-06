@@ -1,0 +1,52 @@
+
+name: algovision
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: algovision-postgres
+    environment:
+      POSTGRES_DB: algovision
+      POSTGRES_USER: algovision
+      POSTGRES_PASSWORD: algovision
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U algovision -d algovision"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    profiles: ["full"]
+    build: ./apps/api
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/algovision
+      DB_USERNAME: algovision
+      DB_PASSWORD: algovision
+      SERVER_PORT: 8080
+      ALLOWED_ORIGINS: http://localhost:3000
+      AUTH_TOKEN_SECRET: Vamsidhar_reddy_application-0alogvislal_2026_platform
+      AUTH_COOKIE_SECURE: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  web:
+    profiles: ["full"]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      API_INTERNAL_URL: http://api:8080
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  pgdata:

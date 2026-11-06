@@ -1,0 +1,73 @@
+{
+  "id": "remove-duplicates-sorted",
+  "title": "Remove Duplicates from a Sorted Array",
+  "category": "two-pointers",
+  "wave": 5,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Compact the unique values to the front of a sorted array using a slow pointer that writes and a fast pointer that reads.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      1,
+      2,
+      2,
+      2,
+      3,
+      5,
+      5
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "check-empty",
+      "label": "Handle an empty array"
+    },
+    {
+      "id": "init-slow",
+      "label": "Start slow at the first index"
+    },
+    {
+      "id": "loop",
+      "label": "Move fast to the next index"
+    },
+    {
+      "id": "compare",
+      "label": "Compare fast with slow"
+    },
+    {
+      "id": "advance-slow",
+      "label": "Advance slow"
+    },
+    {
+      "id": "copy",
+      "label": "Copy the unique value forward"
+    },
+    {
+      "id": "finish",
+      "label": "Return the unique count"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  { "name": "found on the right", "input": { "values": [2, 5, 8, 12, 16, 23, 38], "target": 23 }, "expected": 5 },
+  { "name": "found at the middle", "input": { "values": [2, 5, 8, 12, 16, 23, 38], "target": 12 }, "expected": 3 },
+  { "name": "found on the left", "input": { "values": [2, 5, 8, 12, 16, 23, 38], "target": 5 }, "expected": 1 },
+  { "name": "first cell", "input": { "values": [2, 5, 8, 12], "target": 2 }, "expected": 0 },
+  { "name": "last cell", "input": { "values": [2, 5, 8, 12], "target": 12 }, "expected": 3 },
+  { "name": "absent below all", "input": { "values": [2, 5, 8, 12], "target": 1 }, "expected": -1 },
+  { "name": "absent above all", "input": { "values": [2, 5, 8, 12], "target": 40 }, "expected": -1 },
+  { "name": "absent between", "input": { "values": [2, 5, 8, 12], "target": 6 }, "expected": -1 },
+  { "name": "empty array", "input": { "values": [], "target": 1 }, "expected": -1 },
+  { "name": "single found", "input": { "values": [4], "target": 4 }, "expected": 0 },
+  { "name": "single absent", "input": { "values": [4], "target": 3 }, "expected": -1 },
+  { "name": "negatives and limits", "input": { "values": [-999, -5, 0, 7, 999], "target": 999 }, "expected": 4 }
+]

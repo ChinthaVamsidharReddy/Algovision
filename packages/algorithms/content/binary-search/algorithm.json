@@ -1,0 +1,29 @@
+{
+  "id": "binary-search",
+  "title": "Binary Search",
+  "category": "searching",
+  "wave": 1,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find a value in a sorted array by repeatedly checking the middle cell and discarding the half that cannot hold it.",
+  "complexity": { "time": "O(log n)", "space": "O(1)" },
+  "defaultInput": { "values": [2, 5, 8, 12, 16, 23, 38], "target": 23 },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Sorted array values", "note": "Must be in ascending order." },
+    { "name": "target", "kind": "int", "label": "Value to find" }
+  ],
+  "io": { "inputs": ["values", "target"], "output": "int" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "init-low", "label": "Start low at the first index" },
+    { "id": "init-high", "label": "Start high at the last index" },
+    { "id": "loop", "label": "Continue while the window is not empty" },
+    { "id": "mid", "label": "Pick the middle index" },
+    { "id": "compare", "label": "Compare the middle value with the target" },
+    { "id": "check-less", "label": "Decide which half to keep" },
+    { "id": "go-right", "label": "Discard the left half" },
+    { "id": "go-left", "label": "Discard the right half" },
+    { "id": "found", "label": "Return the index" },
+    { "id": "not-found", "label": "Return -1" }
+  ]
+}

@@ -1,0 +1,72 @@
+# Assessment and implementation plan (2026-11-05)
+
+Scope of the review: `apps/web` (all pages, components, `lib/api.ts`), `apps/api` (identity, catalog, learning, platform filters), `packages/*`, `docs/`, compose and env files.
+
+## Headline finding
+The backend has authentication, catalog, progress, bookmark and preference endpoints, but **the web app uses exactly one of them (`/api/v1/health`)**. It is a static visualizer with no accounts, no saved state and no search. The user-visible gaps (login, progress, bookmarks, search) are therefore mostly frontend work, plus two backend gaps (forgot/reset password, local-dev configuration).
+
+## 1. Implemented and working
+| Area | Status | Evidence |
+| --- | --- | --- |
+| Visualization engine, 10 algorithms (19 after this pass) (linked list, arrays, stack, queue, tree) | Working | 558 algorithm tests incl. real javac/python3/g++/gcc, 164 web tests, 54 browser checks |
+| Four-language code view synced to steps | Working | per-algorithm anchor tests |
+| Input forms, limits, lite profile, URL state, theme, keyboard controls | Working | web tests, smoke test |
+| API client with timeout/retry/backoff and server status chip | Working | `lib/api.ts`, `api.test.ts` |
+| DB schema (20 tables), Flyway, content sync to PUBLISHED | Verified on PostgreSQL 16 | `verify-*.sh` 23 + 48 checks |
+| Auth core (register, login, refresh rotation, logout, throttle) | Core and SQL verified; HTTP layer not compiled | 43 core tests |
+| Catalog/progress/bookmark/preference core and SQL | Core and SQL verified; HTTP layer not compiled | 15 core tests, 48 SQL checks |
+
+## 2. Partially implemented / needs improvement
+| Item | Problem |
+| --- | --- |
+| Auth endpoints | Exist but nothing in the web app calls them. No forgot/reset password (table `password_reset_tokens` exists, no code, no mailer). |
+| Progress, bookmarks, preferences APIs | Exist, no UI. Preferences (language, theme, speed) are only in browser storage. |
+| Catalog | Web reads a static bundled list; the API catalog is unused. Category slugs differ between the two (`linked-list` vs `linked-lists`). |
+| Algorithms page | One flat list. No grouping by category/topic, no filters. |
+| Local dev setup | `AUTH_TOKEN_SECRET` has no default and Maven does not read `.env`, so `mvn spring-boot:run` fails unless variables are exported by hand. Cookie `Secure` defaults to true. |
+| Docs | README still says "milestone 1" and one algorithm. |
+| Content breadth | 10 algorithms, 5 categories at audit time. **Resolved:** 19 algorithms in 8 categories (Arrays 4, Two Pointers 3, Sliding Window 2 added). The window view uses the existing `window` highlight role, so no trace-schema change was needed. |
+
+## 3. Missing entirely
+Login/register/forgot/reset screens; session handling (in-memory token + silent refresh); user menu and route protection; progress bar and "mark complete"; bookmark toggle and bookmarks page; learning dashboard; search; Arrays, Two Pointers and Sliding Window content; a window highlight for array views.
+
+## 4. Integration issues and bugs found
+1. **Every write would be rejected.** The API requires `Origin` plus header `X-AlgoVision-Client: web` on POST/PUT/DELETE. No web code sends the header (only `application.yml` mentions it), so register, login, refresh, view, complete and bookmark calls would all get 403 `ORIGIN_NOT_ALLOWED`.
+2. No access-token holder or refresh-on-401 logic exists on the web side.
+3. Backend will not start for a developer who only copies `.env.example` (see section 2).
+4. Category/topic grouping is defined only inside `tools/content-compiler/catalog-sync.mjs`; the web cannot reuse it. Needs one shared source.
+5. `next.config.ts` comment says SameSite=Strict, the cookie is Lax. Comment fix only.
+6. The Spring layer (identity, catalog, learning) has still never been compiled; any compile error there blocks everything above. Risk stays until `mvn verify` runs on a real machine.
+
+## 5. Backend changes
+- B1 `application-dev.yml` profile: dev-only token secret, `AUTH_COOKIE_SECURE=false`; README/dev guide updated.
+- B2 Forgot/reset password: `POST /auth/forgot-password` (always 202, no account enumeration), `POST /auth/reset-password`; token = 32 random bytes, SHA-256 stored, 30 min TTL, single use; reset revokes all refresh tokens; `Mailer` interface with console implementation (approved earlier) so the link is printed in the API log; framework-free core + SQL files + `verify-password-reset.sh` + tests.
+- B3 Move the category/topic table out of the sync tool into `packages/algorithms/catalog.json`, read by both the sync tool and the web app.
+
+## 6. Frontend changes
+- F1 `apiFetch`: send `X-AlgoVision-Client: web` on non-GET; JSON helper.
+- F2 `AuthProvider`: access token in memory only, silent refresh on load and on 401, single-flight refresh, sign-out; header user menu.
+- F3 Pages: `/login`, `/register`, `/forgot-password`, `/reset-password`, each with loading, error and retry states and field-level errors.
+- F4 Progress: record view on open, "Mark as complete" button, progress bar on `/algorithms` and a `/dashboard` page (percent, per-category bars, continue where you left off).
+- F5 Bookmarks: toggle on cards and workspace, `/bookmarks` page.
+- F6 Search: client-side over bundled catalog (title, category, topic, technique keywords, summary), header search box, `/` shortcut, `/search` page with ranked results; works offline and signed out.
+- F7 Algorithms page grouped by category with difficulty/category filters.
+- F8 Array view: shaded window between two pointers for Sliding Window.
+- F9 Guests: progress and bookmarks require sign-in; guests see a clear prompt instead of silently failing.
+
+## 7. New content (each needs executor, vectors, Java/Python/C++/C, harnesses, tests)
+| Wave | Category | Algorithms |
+| --- | --- | --- |
+| 4 | Arrays | Find Maximum, Insert at Index, Delete at Index, Prefix Sum |
+| 5 | Two Pointers | Two Sum (sorted), Reverse in Place, Remove Duplicates (sorted) |
+| 6 | Sliding Window | Max Sum Subarray of Size K, Smallest Subarray with Sum at Least S |
+Total 19 algorithms. Trace schema 1.2.0 adds an optional array `window`. Hashing, graphs, DP and recursion topics are not in this pass.
+
+## 8. Decisions made in this plan (override any of them)
+- Search is client-side, not an API endpoint (instant, offline, no extra backend).
+- Guests cannot save progress; sign in required (avoids a local/server merge).
+- Password reset uses the console mailer in dev; real email delivery needs a provider decision later.
+- The topic list in section 7 is my selection; tell me if you want others.
+
+## 9. Order of work
+Foundation (F1, B1, B3) -> B2 -> F2/F3 auth -> F4 progress -> F5 bookmarks -> F6/F7 search and catalog UI -> content waves 4-6 with F8 -> end-to-end browser test against a stub API, docs, zip.

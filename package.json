@@ -1,0 +1,29 @@
+{
+  "name": "algovision",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AlgoVision: interactive DSA visual learning platform (working name)",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build:content": "node tools/content-compiler/compile.mjs",
+    "check:content": "node tools/content-compiler/compile.mjs --check && node tools/content-compiler/catalog-sync.mjs --check",
+    "build:catalog": "node tools/content-compiler/catalog-sync.mjs",
+    "typecheck": "pnpm -r --workspace-concurrency=1 typecheck",
+    "lint": "eslint .",
+    "test": "pnpm build:content && pnpm -r --workspace-concurrency=1 test",
+    "test:strict": "REQUIRE_TOOLCHAINS=1 pnpm test",
+    "build": "pnpm build:content && pnpm --filter @algovision/web build",
+    "dev": "pnpm build:content && pnpm --filter @algovision/web dev"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^22.19.0",
+    "eslint": "^10.14.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.0.5"
+  }
+}

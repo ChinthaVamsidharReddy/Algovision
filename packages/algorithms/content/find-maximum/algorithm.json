@@ -1,0 +1,23 @@
+{
+  "id": "find-maximum",
+  "title": "Find the Maximum",
+  "category": "arrays",
+  "wave": 4,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Scan an array once, remembering the largest value seen so far. The simplest array traversal.",
+  "complexity": { "time": "O(n)", "space": "O(1)" },
+  "defaultInput": { "values": [4, 9, 2, 11, 7] },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Array values", "note": "At least one value." }
+  ],
+  "io": { "inputs": ["values"], "output": "int" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "init-max", "label": "Start with the first value" },
+    { "id": "loop", "label": "Visit the next index" },
+    { "id": "compare", "label": "Compare with the best so far" },
+    { "id": "update", "label": "Remember the new largest value" },
+    { "id": "finish", "label": "Return the maximum" }
+  ]
+}

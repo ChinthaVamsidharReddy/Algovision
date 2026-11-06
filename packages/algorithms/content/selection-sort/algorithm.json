@@ -1,0 +1,25 @@
+{
+  "id": "selection-sort",
+  "title": "Selection Sort",
+  "category": "sorting",
+  "wave": 3,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Sort an array by repeatedly selecting the smallest remaining value and swapping it into the next position from the left.",
+  "complexity": { "time": "O(n²)", "space": "O(1)" },
+  "defaultInput": { "values": [64, 25, 12, 22, 11] },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Array values" }
+  ],
+  "io": { "inputs": ["values"], "output": "intList" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "outer-loop", "label": "Start a pass" },
+    { "id": "init-min", "label": "Assume the first unsorted value is the smallest" },
+    { "id": "inner-loop", "label": "Look at the next value" },
+    { "id": "compare", "label": "Compare with the smallest so far" },
+    { "id": "new-min", "label": "Remember the new smallest" },
+    { "id": "swap", "label": "Swap it into place" },
+    { "id": "finish", "label": "Return" }
+  ]
+}

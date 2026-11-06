@@ -1,0 +1,11 @@
+[
+  { "name": "push three, pop two", "input": { "values": [3, 5, 8], "pops": 2 }, "expected": [3] },
+  { "name": "no pops", "input": { "values": [3, 5, 8], "pops": 0 }, "expected": [3, 5, 8] },
+  { "name": "pop everything", "input": { "values": [3, 5, 8], "pops": 3 }, "expected": [] },
+  { "name": "underflow", "input": { "values": [1], "pops": 4 }, "expected": [] },
+  { "name": "empty stack, no pops", "input": { "values": [], "pops": 0 }, "expected": [] },
+  { "name": "empty stack, pop", "input": { "values": [], "pops": 2 }, "expected": [] },
+  { "name": "single value kept", "input": { "values": [7], "pops": 0 }, "expected": [7] },
+  { "name": "negatives and zero", "input": { "values": [-4, 0, 6, -1], "pops": 1 }, "expected": [-4, 0, 6] },
+  { "name": "limit values", "input": { "values": [999, -999, 0], "pops": 1 }, "expected": [999, -999] }
+]

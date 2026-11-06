@@ -1,0 +1,23 @@
+{
+  "id": "linked-list-insert-head",
+  "title": "Linked List: Insert at Beginning",
+  "category": "linked-list",
+  "wave": 0,
+  "stateKind": "linkedList",
+  "difficulty": "beginner",
+  "summary": "Add a new node at the front of a singly linked list in constant time by re-pointing the head.",
+  "complexity": { "time": "O(1)", "space": "O(1)" },
+  "defaultInput": { "values": [3, 5, 8], "value": 1 },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "List values" },
+    { "name": "value", "kind": "int", "label": "Value to insert" }
+  ],
+  "io": { "inputs": ["values", "value"], "output": "intList" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "create-node", "label": "Create the new node" },
+    { "id": "link-next", "label": "Point the new node at the old head" },
+    { "id": "move-head", "label": "Move head to the new node" },
+    { "id": "finish", "label": "Return" }
+  ]
+}

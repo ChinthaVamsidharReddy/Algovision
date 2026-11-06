@@ -1,0 +1,24 @@
+{
+  "id": "queue-enqueue-dequeue",
+  "title": "Queue: Enqueue and Dequeue",
+  "category": "stacks-and-queues",
+  "wave": 2,
+  "stateKind": "queue",
+  "difficulty": "beginner",
+  "summary": "Add values at the rear of a queue, then remove from the front. The first value in is the first one out.",
+  "complexity": { "time": "O(n)", "space": "O(n)" },
+  "defaultInput": { "values": [3, 5, 8], "removes": 2 },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Values to enqueue (in order)" },
+    { "name": "removes", "kind": "int", "label": "Number of dequeues", "hint": "A whole number from 0 up to the list limit. Dequeuing more than you added shows underflow." }
+  ],
+  "io": { "inputs": ["values", "removes"], "output": "intList" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "enqueue", "label": "Add at the rear" },
+    { "id": "check-empty", "label": "Check the queue is not empty" },
+    { "id": "underflow", "label": "Stop on underflow" },
+    { "id": "dequeue", "label": "Remove from the front" },
+    { "id": "finish", "label": "Return the remaining items" }
+  ]
+}

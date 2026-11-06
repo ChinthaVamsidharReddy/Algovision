@@ -1,0 +1,66 @@
+{
+  "id": "reverse-in-place",
+  "title": "Reverse an Array in Place",
+  "category": "two-pointers",
+  "wave": 5,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Reverse an array without extra memory by swapping the values at two pointers that move toward the middle.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-left",
+      "label": "Start left at the first index"
+    },
+    {
+      "id": "init-right",
+      "label": "Start right at the last index"
+    },
+    {
+      "id": "loop",
+      "label": "Continue while the pointers have not met"
+    },
+    {
+      "id": "swap",
+      "label": "Swap the two values"
+    },
+    {
+      "id": "move",
+      "label": "Move both pointers inward"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "id": "smallest-subarray-sum",
+  "title": "Smallest Subarray with Sum at Least S",
+  "category": "sliding-window",
+  "wave": 6,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the shortest run of consecutive positive numbers whose sum reaches a target, by growing and shrinking a window.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      3,
+      1,
+      2,
+      4,
+      3
+    ],
+    "target": 7
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Positive array values",
+      "note": "Every value must be 1 or more."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target sum",
+      "note": "1 or more."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-left",
+      "label": "Start the left edge at 0"
+    },
+    {
+      "id": "init-sum",
+      "label": "Start the window sum at 0"
+    },
+    {
+      "id": "init-best",
+      "label": "No valid window found yet"
+    },
+    {
+      "id": "expand",
+      "label": "Extend the window on the right"
+    },
+    {
+      "id": "add",
+      "label": "Add the new value"
+    },
+    {
+      "id": "shrink-check",
+      "label": "Is the sum big enough?"
+    },
+    {
+      "id": "measure",
+      "label": "Measure the window length"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with the shortest so far"
+    },
+    {
+      "id": "new-best",
+      "label": "Record the shorter length"
+    },
+    {
+      "id": "shrink",
+      "label": "Drop the left value"
+    },
+    {
+      "id": "finish",
+      "label": "Return the shortest length"
+    }
+  ]
+}

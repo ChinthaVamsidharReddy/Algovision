@@ -1,0 +1,90 @@
+{
+  "id": "two-sum-sorted",
+  "title": "Two Sum (Sorted Array)",
+  "category": "two-pointers",
+  "wave": 5,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find two values in a sorted array that add up to a target by moving one pointer in from each end.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      4,
+      6,
+      8,
+      11
+    ],
+    "target": 10
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target sum"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-left",
+      "label": "Start left at the first index"
+    },
+    {
+      "id": "init-right",
+      "label": "Start right at the last index"
+    },
+    {
+      "id": "loop",
+      "label": "Continue while the pointers have not met"
+    },
+    {
+      "id": "sum",
+      "label": "Add the two values"
+    },
+    {
+      "id": "check-equal",
+      "label": "Compare the sum with the target"
+    },
+    {
+      "id": "found",
+      "label": "Return the pair"
+    },
+    {
+      "id": "check-less",
+      "label": "Decide which pointer to move"
+    },
+    {
+      "id": "move-left",
+      "label": "Move left right"
+    },
+    {
+      "id": "move-right",
+      "label": "Move right left"
+    },
+    {
+      "id": "not-found",
+      "label": "Return no pair"
+    }
+  ]
+}

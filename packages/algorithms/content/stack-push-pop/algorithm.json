@@ -1,0 +1,24 @@
+{
+  "id": "stack-push-pop",
+  "title": "Stack: Push and Pop",
+  "category": "stacks-and-queues",
+  "wave": 2,
+  "stateKind": "stack",
+  "difficulty": "beginner",
+  "summary": "Push values onto a stack one by one, then pop from the top. The last value in is the first one out.",
+  "complexity": { "time": "O(n)", "space": "O(n)" },
+  "defaultInput": { "values": [3, 5, 8], "pops": 2 },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Values to push (in order)" },
+    { "name": "pops", "kind": "int", "label": "Number of pops", "hint": "A whole number from 0 up to the list limit. Popping more than you pushed shows underflow." }
+  ],
+  "io": { "inputs": ["values", "pops"], "output": "intList" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "push", "label": "Push onto the top" },
+    { "id": "check-empty", "label": "Check the stack is not empty" },
+    { "id": "underflow", "label": "Stop on underflow" },
+    { "id": "pop", "label": "Pop from the top" },
+    { "id": "finish", "label": "Return the stack" }
+  ]
+}

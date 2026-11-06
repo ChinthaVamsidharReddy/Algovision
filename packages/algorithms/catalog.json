@@ -1,0 +1,207 @@
+{
+  "categories": [
+    {
+      "id": "arrays",
+      "slug": "arrays",
+      "name": "Arrays",
+      "description": "Contiguous values you read, insert, delete and total up.",
+      "sort": 10,
+      "keywords": [
+        "array",
+        "list",
+        "index",
+        "traversal",
+        "shift",
+        "prefix",
+        "cumulative"
+      ],
+      "topic": {
+        "slug": "arrays-basics",
+        "name": "Array Basics",
+        "difficulty": "BEGINNER",
+        "summary": "The core array operations: scan, insert, delete and running totals.",
+        "objectives": [
+          "Scan an array to find a maximum",
+          "Explain why inserting or deleting in the middle shifts elements",
+          "Build and use a prefix-sum array"
+        ]
+      }
+    },
+    {
+      "id": "two-pointers",
+      "slug": "two-pointers",
+      "name": "Two Pointers",
+      "description": "A technique that moves two indices through an array to avoid nested loops.",
+      "sort": 20,
+      "keywords": [
+        "two pointers",
+        "technique",
+        "pointer",
+        "opposite ends",
+        "same direction",
+        "in place"
+      ],
+      "topic": {
+        "slug": "two-pointer-technique",
+        "name": "Two Pointer Technique",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Using a left and a right index, or a slow and a fast index, to solve array problems in one pass.",
+        "objectives": [
+          "Recognise when two indices can replace two nested loops",
+          "Move pointers from both ends of a sorted array",
+          "Overwrite an array in place with a slow and a fast pointer"
+        ]
+      }
+    },
+    {
+      "id": "sliding-window",
+      "slug": "sliding-window",
+      "name": "Sliding Window",
+      "description": "A technique that keeps a moving range of an array and updates it instead of recomputing.",
+      "sort": 30,
+      "keywords": [
+        "sliding window",
+        "technique",
+        "window",
+        "subarray",
+        "contiguous",
+        "fixed size",
+        "variable size"
+      ],
+      "topic": {
+        "slug": "sliding-window-technique",
+        "name": "Sliding Window Technique",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Maintaining a window over a contiguous part of an array while it slides or grows and shrinks.",
+        "objectives": [
+          "Slide a fixed-size window by adding one value and removing one",
+          "Grow and shrink a variable window to meet a condition"
+        ]
+      }
+    },
+    {
+      "id": "linked-list",
+      "slug": "linked-lists",
+      "name": "Linked Lists",
+      "description": "Nodes connected by pointers.",
+      "sort": 40,
+      "keywords": [
+        "linked list",
+        "node",
+        "pointer",
+        "head",
+        "tail",
+        "insert"
+      ],
+      "topic": {
+        "slug": "linked-list-basics",
+        "name": "Linked List Basics",
+        "difficulty": "BEGINNER",
+        "summary": "How a singly linked list stores values and how its head pointer works.",
+        "objectives": [
+          "Explain what a node and a head pointer are",
+          "Insert a node at the front in O(1)",
+          "Insert at the end by walking to the tail"
+        ]
+      }
+    },
+    {
+      "id": "searching",
+      "slug": "searching",
+      "name": "Searching",
+      "description": "Finding a value in a collection.",
+      "sort": 50,
+      "keywords": [
+        "search",
+        "find",
+        "lookup",
+        "sorted"
+      ],
+      "topic": {
+        "slug": "searching-basics",
+        "name": "Searching Basics",
+        "difficulty": "BEGINNER",
+        "summary": "Two ways to find a value: check everything, or halve the search space.",
+        "objectives": [
+          "Trace a linear search",
+          "Explain why binary search needs sorted input"
+        ]
+      }
+    },
+    {
+      "id": "sorting",
+      "slug": "sorting",
+      "name": "Sorting",
+      "description": "Putting values in order.",
+      "sort": 60,
+      "keywords": [
+        "sort",
+        "order",
+        "swap",
+        "comparison"
+      ],
+      "topic": {
+        "slug": "elementary-sorting",
+        "name": "Elementary Sorting",
+        "difficulty": "BEGINNER",
+        "summary": "Simple comparison sorts and how each one moves values.",
+        "objectives": [
+          "Follow bubble, selection and insertion sort step by step",
+          "Compare their swap and comparison patterns"
+        ]
+      }
+    },
+    {
+      "id": "stacks-and-queues",
+      "slug": "stacks-and-queues",
+      "name": "Stacks and Queues",
+      "description": "Last-in-first-out and first-in-first-out containers.",
+      "sort": 70,
+      "keywords": [
+        "stack",
+        "queue",
+        "lifo",
+        "fifo",
+        "push",
+        "pop",
+        "enqueue",
+        "dequeue"
+      ],
+      "topic": {
+        "slug": "stack-and-queue-basics",
+        "name": "Stack and Queue Basics",
+        "difficulty": "BEGINNER",
+        "summary": "How push/pop and enqueue/dequeue change a container.",
+        "objectives": [
+          "Predict the result of a push/pop sequence",
+          "Contrast LIFO with FIFO"
+        ]
+      }
+    },
+    {
+      "id": "trees",
+      "slug": "trees",
+      "name": "Trees",
+      "description": "Hierarchical data with a root and children.",
+      "sort": 80,
+      "keywords": [
+        "tree",
+        "binary tree",
+        "traversal",
+        "recursion",
+        "inorder",
+        "node"
+      ],
+      "topic": {
+        "slug": "binary-tree-traversal",
+        "name": "Binary Tree Traversal",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Visiting every node of a binary tree with recursion.",
+        "objectives": [
+          "Follow the call stack during a recursive traversal",
+          "State the in-order visiting rule"
+        ]
+      }
+    }
+  ]
+}

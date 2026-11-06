@@ -1,0 +1,11 @@
+[
+  { "name": "add three, remove two", "input": { "values": [3, 5, 8], "removes": 2 }, "expected": [8] },
+  { "name": "no removals", "input": { "values": [3, 5, 8], "removes": 0 }, "expected": [3, 5, 8] },
+  { "name": "remove everything", "input": { "values": [3, 5, 8], "removes": 3 }, "expected": [] },
+  { "name": "underflow", "input": { "values": [1], "removes": 4 }, "expected": [] },
+  { "name": "empty queue, no removals", "input": { "values": [], "removes": 0 }, "expected": [] },
+  { "name": "empty queue, remove", "input": { "values": [], "removes": 2 }, "expected": [] },
+  { "name": "single value kept", "input": { "values": [7], "removes": 0 }, "expected": [7] },
+  { "name": "negatives and zero", "input": { "values": [-4, 0, 6, -1], "removes": 1 }, "expected": [0, 6, -1] },
+  { "name": "limit values", "input": { "values": [999, -999, 0], "removes": 1 }, "expected": [-999, 0] }
+]

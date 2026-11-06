@@ -1,0 +1,161 @@
+[
+ {
+  "name": "positive",
+  "input": {
+   "values": [
+    4,
+    9,
+    2,
+    11,
+    7
+   ]
+  },
+  "expected": 11
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    5
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "all negative",
+  "input": {
+   "values": [
+    -8,
+    -3,
+    -9
+   ]
+  },
+  "expected": -3
+ },
+ {
+  "name": "max first",
+  "input": {
+   "values": [
+    9,
+    1,
+    2
+   ]
+  },
+  "expected": 9
+ },
+ {
+  "name": "max last",
+  "input": {
+   "values": [
+    1,
+    2,
+    9
+   ]
+  },
+  "expected": 9
+ },
+ {
+  "name": "duplicates",
+  "input": {
+   "values": [
+    3,
+    7,
+    7,
+    2
+   ]
+  },
+  "expected": 7
+ },
+ {
+  "name": "limits",
+  "input": {
+   "values": [
+    -999,
+    0,
+    999
+   ]
+  },
+  "expected": 999
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    0,
+    12
+   ]
+  },
+  "expected": 12
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    -14,
+    -6,
+    18,
+    19,
+    15,
+    6,
+    16,
+    15,
+    11
+   ]
+  },
+  "expected": 19
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    17,
+    8,
+    -5,
+    -20,
+    19,
+    -15,
+    -13,
+    -2,
+    -14,
+    8,
+    -20,
+    11,
+    0
+   ]
+  },
+  "expected": 19
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    5,
+    -4,
+    2,
+    2
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    4,
+    12,
+    20,
+    -16,
+    1,
+    -15,
+    15,
+    14,
+    -2,
+    -2,
+    9,
+    -11,
+    16
+   ]
+  },
+  "expected": 20
+ }
+]

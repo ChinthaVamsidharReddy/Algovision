@@ -1,0 +1,72 @@
+{
+  "id": "insert-at-index",
+  "title": "Insert at an Index",
+  "category": "arrays",
+  "wave": 4,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Insert a value into an array by shifting everything from that index one place to the right.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      20,
+      30,
+      40
+    ],
+    "index": 2,
+    "value": 25
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "One cell is kept free for the new value."
+    },
+    {
+      "name": "index",
+      "kind": "int",
+      "label": "Insert position",
+      "note": "From 0 to the array length."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "New value"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "index",
+      "value"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "shift-loop",
+      "label": "Pick the next slot to fill"
+    },
+    {
+      "id": "shift",
+      "label": "Slide a value one place right"
+    },
+    {
+      "id": "place",
+      "label": "Write the new value"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

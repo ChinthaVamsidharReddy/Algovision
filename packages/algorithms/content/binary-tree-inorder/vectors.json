@@ -1,0 +1,11 @@
+[
+  { "name": "small tree", "input": { "values": [5, 3, 8, 1, 4] }, "expected": [1, 3, 4, 5, 8] },
+  { "name": "balanced seven", "input": { "values": [4, 2, 6, 1, 3, 5, 7] }, "expected": [1, 2, 3, 4, 5, 6, 7] },
+  { "name": "ascending chain", "input": { "values": [1, 2, 3, 4] }, "expected": [1, 2, 3, 4] },
+  { "name": "descending chain", "input": { "values": [4, 3, 2, 1] }, "expected": [1, 2, 3, 4] },
+  { "name": "duplicates go right", "input": { "values": [4, 2, 4, 2, 4] }, "expected": [2, 2, 4, 4, 4] },
+  { "name": "empty tree", "input": { "values": [] }, "expected": [] },
+  { "name": "single node", "input": { "values": [7] }, "expected": [7] },
+  { "name": "negatives and zero", "input": { "values": [0, -3, 7, -3, 2] }, "expected": [-3, -3, 0, 2, 7] },
+  { "name": "limit values", "input": { "values": [999, -999, 0] }, "expected": [-999, 0, 999] }
+]

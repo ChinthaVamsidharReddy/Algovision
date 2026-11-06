@@ -1,0 +1,26 @@
+{
+  "name": "@algovision/algorithms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Algorithm executors, limits, generated code/line maps and the per-algorithm test contract",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build:content": "node ../../tools/content-compiler/compile.mjs",
+    "typecheck": "node ../../tools/content-compiler/compile.mjs && tsc -p tsconfig.json && tsc -p tsconfig.test.json",
+    "test": "node ../../tools/content-compiler/compile.mjs && vitest run"
+  },
+  "dependencies": {
+    "@algovision/trace-schema": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

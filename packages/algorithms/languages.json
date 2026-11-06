@@ -1,0 +1,6 @@
+[
+  { "id": "java", "label": "Java", "extension": "java", "comment": "//" },
+  { "id": "python", "label": "Python", "extension": "py", "comment": "#" },
+  { "id": "cpp", "label": "C++", "extension": "cpp", "comment": "//" },
+  { "id": "c", "label": "C", "extension": "c", "comment": "//" }
+]

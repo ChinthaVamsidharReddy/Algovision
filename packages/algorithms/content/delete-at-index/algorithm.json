@@ -1,0 +1,62 @@
+{
+  "id": "delete-at-index",
+  "title": "Delete at an Index",
+  "category": "arrays",
+  "wave": 4,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Remove a value from an array by sliding every later value one place to the left.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "index": 1
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "At least one value."
+    },
+    {
+      "name": "index",
+      "kind": "int",
+      "label": "Position to delete",
+      "note": "From 0 to the last index."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "index"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "shift-loop",
+      "label": "Pick the next slot to fill"
+    },
+    {
+      "id": "shift",
+      "label": "Slide a value one place left"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

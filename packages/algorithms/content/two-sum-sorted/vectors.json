@@ -1,0 +1,225 @@
+[
+ {
+  "name": "found",
+  "input": {
+   "values": [
+    1,
+    3,
+    4,
+    6,
+    8,
+    11
+   ],
+   "target": 10
+  },
+  "expected": [
+   2,
+   3
+  ]
+ },
+ {
+  "name": "ends",
+  "input": {
+   "values": [
+    1,
+    5,
+    9
+   ],
+   "target": 10
+  },
+  "expected": [
+   0,
+   2
+  ]
+ },
+ {
+  "name": "absent",
+  "input": {
+   "values": [
+    1,
+    2,
+    3
+   ],
+   "target": 100
+  },
+  "expected": []
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": [],
+   "target": 1
+  },
+  "expected": []
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    4
+   ],
+   "target": 8
+  },
+  "expected": []
+ },
+ {
+  "name": "duplicates",
+  "input": {
+   "values": [
+    2,
+    2,
+    3
+   ],
+   "target": 4
+  },
+  "expected": [
+   0,
+   1
+  ]
+ },
+ {
+  "name": "negatives",
+  "input": {
+   "values": [
+    -5,
+    -2,
+    0,
+    3,
+    8
+   ],
+   "target": -2
+  },
+  "expected": [
+   0,
+   3
+  ]
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    8
+   ],
+   "target": 25
+  },
+  "expected": []
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    -19,
+    -12,
+    -7,
+    10,
+    13,
+    13
+   ],
+   "target": 27
+  },
+  "expected": []
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    -10,
+    -9,
+    -3,
+    4
+   ],
+   "target": -3
+  },
+  "expected": []
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    -15,
+    -9,
+    -9,
+    -9,
+    -4,
+    -2,
+    -1,
+    2,
+    4,
+    6,
+    9,
+    9,
+    11
+   ],
+   "target": -10
+  },
+  "expected": [
+   1,
+   6
+  ]
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    -20,
+    -15,
+    -14,
+    -13,
+    -9,
+    -7,
+    -6,
+    -3,
+    1,
+    6,
+    8,
+    9,
+    13,
+    13,
+    14
+   ],
+   "target": -29
+  },
+  "expected": [
+   0,
+   4
+  ]
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    -13,
+    -10,
+    -7,
+    -3,
+    2,
+    14,
+    15,
+    15,
+    16,
+    16,
+    19
+   ],
+   "target": 16
+  },
+  "expected": [
+   3,
+   10
+  ]
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    -999,
+    0,
+    999
+   ],
+   "target": 0
+  },
+  "expected": [
+   0,
+   2
+  ]
+ }
+]

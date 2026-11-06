@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Components use semantic tokens only (bg-surface, text-muted, ...), never raw colors,
+ * so light, dark and future themes are a matter of redefining variables. test/tokens.test.ts checks
+ * the WCAG contrast of the pairs below.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #edf0f6;
+  --border: #cfd6e3;
+  --text: #121826;
+  --muted: #4a5568;
+  --accent: #3445d6;
+  --accent-text: #ffffff;
+  --focus: #3445d6;
+  --danger: #b42318;
+  --success: #067647;
+  --code-bg: #f1f4fa;
+  --code-active-bg: #fff1c2;
+  --code-active-bar: #b45309;
+  --tok-keyword: #7c2d9a;
+  --tok-type: #0b6b8a;
+  --tok-string: #8a4b08;
+  --tok-number: #1f6f3a;
+  --tok-comment: #546072;
+  --tok-preproc: #8a4b08;
+  --role-active-fill: #ffe9a8;
+  --role-active-stroke: #b45309;
+  --role-created-fill: #c9f2d8;
+  --role-created-stroke: #067647;
+  --role-pointer-fill: #e6dcff;
+  --role-pointer-stroke: #6d3fd0;
+  --role-compared-fill: #cfe4ff;
+  --role-compared-stroke: #1d5fc4;
+  --role-found-fill: #bff0ee;
+  --role-found-stroke: #0b7d78;
+  --role-swapped-fill: #ffd5d5;
+  --role-swapped-stroke: #b42318;
+  --role-visited-fill: #e3e7ef;
+  --role-visited-stroke: #5a667a;
+  --role-sorted-fill: #d6f0c8;
+  --role-sorted-stroke: #3d7a1f;
+  --role-window-fill: #ffe0f0;
+  --role-window-stroke: #a8266a;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b0f17;
+  --surface: #131a26;
+  --surface-2: #1b2434;
+  --border: #2d394d;
+  --text: #e8edf6;
+  --muted: #a3afc4;
+  --accent: #96a3ff;
+  --accent-text: #0b0f17;
+  --focus: #b4beff;
+  --danger: #ff8a7d;
+  --success: #5fd08f;
+  --code-bg: #0f1520;
+  --code-active-bg: #3a2f10;
+  --code-active-bar: #fbbf24;
+  --tok-keyword: #d3a0f0;
+  --tok-type: #6fd0ee;
+  --tok-string: #f2b872;
+  --tok-number: #8fdca8;
+  --tok-comment: #93a0b5;
+  --tok-preproc: #f2b872;
+  --role-active-fill: #4a3a0c;
+  --role-active-stroke: #fbbf24;
+  --role-created-fill: #0f3a26;
+  --role-created-stroke: #5fd08f;
+  --role-pointer-fill: #33285c;
+  --role-pointer-stroke: #b9a2ff;
+  --role-compared-fill: #12345e;
+  --role-compared-stroke: #7db4ff;
+  --role-found-fill: #0d3a39;
+  --role-found-stroke: #5fd6d0;
+  --role-swapped-fill: #5a1f1f;
+  --role-swapped-stroke: #ff9a8f;
+  --role-visited-fill: #2a3345;
+  --role-visited-stroke: #a3afc4;
+  --role-sorted-fill: #213d14;
+  --role-sorted-stroke: #9be07a;
+  --role-window-fill: #55193a;
+  --role-window-stroke: #ff9fcf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0b0f17;
+    --surface: #131a26;
+    --surface-2: #1b2434;
+    --border: #2d394d;
+    --text: #e8edf6;
+    --muted: #a3afc4;
+    --accent: #96a3ff;
+    --accent-text: #0b0f17;
+    --focus: #b4beff;
+    --danger: #ff8a7d;
+    --success: #5fd08f;
+    --code-bg: #0f1520;
+    --code-active-bg: #3a2f10;
+    --code-active-bar: #fbbf24;
+    --tok-keyword: #d3a0f0;
+    --tok-type: #6fd0ee;
+    --tok-string: #f2b872;
+    --tok-number: #8fdca8;
+    --tok-comment: #93a0b5;
+    --tok-preproc: #f2b872;
+    --role-active-fill: #4a3a0c;
+    --role-active-stroke: #fbbf24;
+    --role-created-fill: #0f3a26;
+    --role-created-stroke: #5fd08f;
+    --role-pointer-fill: #33285c;
+    --role-pointer-stroke: #b9a2ff;
+    --role-compared-fill: #12345e;
+    --role-compared-stroke: #7db4ff;
+    --role-found-fill: #0d3a39;
+    --role-found-stroke: #5fd6d0;
+    --role-swapped-fill: #5a1f1f;
+    --role-swapped-stroke: #ff9a8f;
+    --role-visited-fill: #2a3345;
+    --role-visited-stroke: #a3afc4;
+    --role-sorted-fill: #213d14;
+    --role-sorted-stroke: #9be07a;
+    --role-window-fill: #55193a;
+    --role-window-stroke: #ff9fcf;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-text);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sr-only-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Visualization */
+.viz-node,
+.viz-edge,
+.viz-pointer {
+  transition: transform 450ms ease, opacity 300ms ease;
+}
+.viz-edge line,
+.viz-edge path {
+  transition: all 450ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .viz-node,
+  .viz-edge,
+  .viz-pointer,
+  .viz-edge line {
+    transition: none !important;
+  }
+}
+
+.code-line[data-active="true"] {
+  background: var(--code-active-bg);
+  box-shadow: inset 4px 0 0 var(--code-active-bar);
+}
+.tok-keyword { color: var(--tok-keyword); font-weight: 600; }
+.tok-type { color: var(--tok-type); }
+.tok-string { color: var(--tok-string); }
+.tok-number { color: var(--tok-number); }
+.tok-comment { color: var(--tok-comment); font-style: italic; }
+.tok-preproc { color: var(--tok-preproc); }

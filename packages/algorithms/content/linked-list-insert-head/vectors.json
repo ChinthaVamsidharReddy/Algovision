@@ -1,0 +1,8 @@
+[
+  { "name": "typical", "input": { "values": [3, 5, 8], "value": 1 }, "expected": [1, 3, 5, 8] },
+  { "name": "empty list", "input": { "values": [], "value": 7 }, "expected": [7] },
+  { "name": "single node", "input": { "values": [4], "value": 9 }, "expected": [9, 4] },
+  { "name": "duplicates", "input": { "values": [2, 2, 2], "value": 2 }, "expected": [2, 2, 2, 2] },
+  { "name": "negatives and zero", "input": { "values": [-5, 0, 5], "value": -1 }, "expected": [-1, -5, 0, 5] },
+  { "name": "limit values", "input": { "values": [999, -999], "value": -999 }, "expected": [-999, 999, -999] }
+]

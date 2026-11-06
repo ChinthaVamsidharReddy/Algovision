@@ -1,0 +1,23 @@
+{
+  "id": "linear-search",
+  "title": "Linear Search",
+  "category": "searching",
+  "wave": 1,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find a value by checking each cell from left to right until it is found or the array ends.",
+  "complexity": { "time": "O(n)", "space": "O(1)" },
+  "defaultInput": { "values": [7, 3, 9, 4, 1], "target": 4 },
+  "inputs": [
+    { "name": "values", "kind": "intList", "label": "Array values" },
+    { "name": "target", "kind": "int", "label": "Value to find" }
+  ],
+  "io": { "inputs": ["values", "target"], "output": "int" },
+  "anchors": [
+    { "id": "entry", "label": "Function entry" },
+    { "id": "loop", "label": "Move to the next cell" },
+    { "id": "compare", "label": "Compare the cell with the target" },
+    { "id": "found", "label": "Return the index" },
+    { "id": "not-found", "label": "Return -1" }
+  ]
+}
