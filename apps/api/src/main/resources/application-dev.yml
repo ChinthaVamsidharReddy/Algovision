@@ -1,9 +1,13 @@
-# Local development profile: `mvn spring-boot:run -Dspring-boot.run.profiles=dev` (or SPRING_PROFILES_ACTIVE=dev).
-# Values here are public and for a developer machine only. Never enable this profile in production.
+
+# Local development profile only.
+# Never enable this profile in production.
+
 auth:
-  token-secret: Vamsidhar_reddy_application-0alogvislal_2026_platform
+  token-secret: ${AUTH_TOKEN_SECRET:replace-with-a-local-development-secret-of-at-least-32-bytes}
+
   refresh-cookie:
     secure: false
+
 logging:
   level:
     dev.algovision: DEBUG

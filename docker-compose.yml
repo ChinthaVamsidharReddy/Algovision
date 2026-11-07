@@ -2,17 +2,22 @@
 name: algovision
 
 services:
+
   postgres:
     image: postgres:16-alpine
     container_name: algovision-postgres
+
     environment:
       POSTGRES_DB: algovision
-      POSTGRES_USER: algovision
-      POSTGRES_PASSWORD: algovision
+      POSTGRES_USER: ${DB_USERNAME:-algovision}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-algovision}
+
     ports:
       - "127.0.0.1:5432:5432"
+
     volumes:
       - pgdata:/var/lib/postgresql/data
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U algovision -d algovision"]
       interval: 5s
@@ -21,30 +26,45 @@ services:
 
   api:
     profiles: ["full"]
+
     build: ./apps/api
+
     environment:
-      DB_URL: jdbc:postgresql://postgres:5432/algovision
-      DB_USERNAME: algovision
-      DB_PASSWORD: algovision
-      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/algovision
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME:-algovision}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-algovision}
+
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT: 30000
+
       ALLOWED_ORIGINS: http://localhost:3000
-      AUTH_TOKEN_SECRET: Vamsidhar_reddy_application-0alogvislal_2026_platform
-      AUTH_COOKIE_SECURE: "false"
+      APP_ORIGIN_CHECK_ENABLED: "true"
+
+      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:?AUTH_TOKEN_SECRET must be configured}
+      AUTH_REFRESH_COOKIE_SECURE: "false"
+
+      SERVER_PORT: 8080
+
     depends_on:
       postgres:
         condition: service_healthy
+
     ports:
       - "127.0.0.1:8080:8080"
 
   web:
     profiles: ["full"]
+
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+
     environment:
       API_INTERNAL_URL: http://api:8080
+
     depends_on:
       - api
+
     ports:
       - "127.0.0.1:3000:3000"
 
