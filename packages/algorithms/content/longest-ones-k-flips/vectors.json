@@ -1,0 +1,244 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "k": 2
+  },
+  "expected": 6
+ },
+ {
+  "name": "k zero",
+  "input": {
+   "values": [
+    1,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "k": 0
+  },
+  "expected": 3
+ },
+ {
+  "name": "k covers all",
+  "input": {
+   "values": [
+    0,
+    0,
+    0
+   ],
+   "k": 3
+  },
+  "expected": 3
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": [],
+   "k": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "single one",
+  "input": {
+   "values": [
+    1
+   ],
+   "k": 0
+  },
+  "expected": 1
+ },
+ {
+  "name": "single zero no flips",
+  "input": {
+   "values": [
+    0
+   ],
+   "k": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "all ones",
+  "input": {
+   "values": [
+    1,
+    1,
+    1
+   ],
+   "k": 1
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "k": 1
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1
+   ],
+   "k": 0
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    1
+   ],
+   "k": 2
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [],
+   "k": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0
+   ],
+   "k": 6
+  },
+  "expected": 10
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [],
+   "k": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0
+   ],
+   "k": 0
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0
+   ],
+   "k": 10
+  },
+  "expected": 13
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0
+   ],
+   "k": 7
+  },
+  "expected": 7
+ }
+]

@@ -1,0 +1,52 @@
+{
+  "id": "tower-of-hanoi-moves",
+  "title": "Tower of Hanoi (Move Count)",
+  "category": "recursion",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "Count the moves needed to shift n disks: move n - 1 disks aside, move the biggest disk once, then move the n - 1 disks back on top.",
+  "complexity": {
+    "time": "O(2^n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 3
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Number of disks",
+      "note": "From 1 to 7 (fewer on the lite profile)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Is there nothing to move?"
+    },
+    {
+      "id": "recurse-first",
+      "label": "Move the smaller stack aside"
+    },
+    {
+      "id": "recurse-second",
+      "label": "Move the smaller stack back on top"
+    },
+    {
+      "id": "move-disk",
+      "label": "Add the single big-disk move"
+    }
+  ]
+}

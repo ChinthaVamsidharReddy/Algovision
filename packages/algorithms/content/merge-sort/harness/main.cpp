@@ -1,0 +1,19 @@
+#include <iostream>
+#include <vector>
+#include "solution.cpp"
+
+int main() {
+    int cases;
+    std::cin >> cases;
+    while (cases--) {
+        int n;
+        std::cin >> n;
+        std::vector<int> values(n);
+        for (int i = 0; i < n; i++) std::cin >> values[i];
+        std::vector<int> temp(n > 0 ? n : 1); mergeSort(values.data(), temp.data(), 0, n - 1);
+        std::cout << n;
+        for (int i = 0; i < n; i++) std::cout << ' ' << values[i];
+        std::cout << '\n';
+    }
+    return 0;
+}

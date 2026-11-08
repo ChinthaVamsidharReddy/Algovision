@@ -25,7 +25,7 @@ The backend has authentication, catalog, progress, bookmark and preference endpo
 | Algorithms page | One flat list. No grouping by category/topic, no filters. |
 | Local dev setup | `AUTH_TOKEN_SECRET` has no default and Maven does not read `.env`, so `mvn spring-boot:run` fails unless variables are exported by hand. Cookie `Secure` defaults to true. |
 | Docs | README still says "milestone 1" and one algorithm. |
-| Content breadth | 10 algorithms, 5 categories at audit time. **Resolved:** 19 algorithms in 8 categories (Arrays 4, Two Pointers 3, Sliding Window 2 added). The window view uses the existing `window` highlight role, so no trace-schema change was needed. |
+| Content breadth | 10 algorithms, 5 categories at audit time. **Resolved:** 19 algorithms in 8 categories in pass 1, then 69 algorithms in 11 categories in pass 2 (section 9). The window view uses the existing `window` highlight role, so no trace-schema change was needed. |
 
 ## 3. Missing entirely
 Login/register/forgot/reset screens; session handling (in-memory token + silent refresh); user menu and route protection; progress bar and "mark complete"; bookmark toggle and bookmarks page; learning dashboard; search; Arrays, Two Pointers and Sliding Window content; a window highlight for array views.
@@ -70,3 +70,25 @@ Total 19 algorithms. Trace schema 1.2.0 adds an optional array `window`. Hashing
 
 ## 9. Order of work
 Foundation (F1, B1, B3) -> B2 -> F2/F3 auth -> F4 progress -> F5 bookmarks -> F6/F7 search and catalog UI -> content waves 4-6 with F8 -> end-to-end browser test against a stub API, docs, zip.
+
+## 9. Pass 2: complete algorithm library (69 algorithms)
+Added 50 algorithms in seven waves (A to G, all `wave: 7` in `algorithm.json`). Every one has an executor, an independent-reference vector file, verified Java, Python, C++ and C solutions with `@a` anchors, four harnesses, and property tests.
+
+| Wave | Category | Algorithms |
+| --- | --- | --- |
+| A | Sorting and searching | Merge, Quick, Heap, Counting and Shell Sort; Jump Search; Binary Search (first occurrence) |
+| B | Arrays, two pointers, sliding window | Kadane, Rotate Array, Move Zeroes, Dutch National Flag, Container With Most Water, 3Sum count, Longest Ones with K flips, Longest Subarray with Sum at most S |
+| C | Linked lists | Search, Delete Value, Reverse, Find Middle, Remove Nth From End, Insert at Position |
+| D | Stacks, queues, recursion | Valid Parentheses, Next Greater Element, Evaluate Postfix, Circular Queue, Sliding Window Maximum, Factorial, Fibonacci (recursive), Fast Exponentiation, Sum of Digits, Tower of Hanoi (move count) |
+| E | Trees | Pre-order, Post-order, Level-order, BST Search, BST Insert, Height, Count Leaves, BST Min/Max |
+| F | Hashing | Hash Table Insert and Search (linear probing), Two Sum (hash map), First Repeating Element, Count Frequencies |
+| G | Dynamic programming | Fibonacci DP, Climbing Stairs, House Robber, Coin Change, Longest Increasing Subsequence, 0/1 Knapsack (1-D table) |
+
+Design notes:
+- No trace-schema change. Recursion is drawn as a call stack (`stack` state); level-order shows its queue as "queued" highlights; hashing and DP use `array` state (hash tables show -1 as an empty slot, DP shows the table).
+- The input kinds stay `intList` and `int`. Other data is encoded and explained in the input label (bracket codes 1 to 6, postfix operators -1 to -4, knapsack items as weight/value pairs, circular-queue operations where 0 means dequeue).
+- Scalar-only algorithms (factorial, Fibonacci, powers, Hanoi, digits, Fibonacci DP, stairs) have no array; the content test now checks their smallest and largest accepted value instead.
+- Limits adapt to the profile where a recursion would otherwise exceed the step budget (Fibonacci and Hanoi lower their maximum n on the lite profile).
+- C has no hash map or set; its hashing solutions use a value-indexed array and say so in a comment. Java, Python and C++ use their standard hash collections.
+
+Deliberately not built: graph algorithms (BFS, DFS, shortest path, topological sort, union-find). They need a graph state kind, which is a trace-schema change (1.3). This is a decision for you, see the final report.

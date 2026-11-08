@@ -1,0 +1,74 @@
+{
+  "id": "linked-list-reverse",
+  "title": "Linked List: Reverse",
+  "category": "linked-list",
+  "wave": 7,
+  "stateKind": "linkedList",
+  "difficulty": "intermediate",
+  "summary": "Reverse a singly linked list in place by turning each node's next pointer around, using prev, current and next pointers.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values",
+      "note": "Node values from head to tail."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-prev",
+      "label": "prev starts as null"
+    },
+    {
+      "id": "init-current",
+      "label": "current starts at the head"
+    },
+    {
+      "id": "loop",
+      "label": "While there is a node to reverse"
+    },
+    {
+      "id": "save-next",
+      "label": "Remember the next node"
+    },
+    {
+      "id": "reverse-link",
+      "label": "Point current backwards"
+    },
+    {
+      "id": "move-prev",
+      "label": "Move prev forward"
+    },
+    {
+      "id": "move-current",
+      "label": "Move current forward"
+    },
+    {
+      "id": "finish",
+      "label": "Return the new head"
+    }
+  ]
+}

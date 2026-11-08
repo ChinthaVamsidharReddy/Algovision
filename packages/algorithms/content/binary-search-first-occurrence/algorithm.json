@@ -1,0 +1,99 @@
+{
+  "id": "binary-search-first-occurrence",
+  "title": "Binary Search: First Occurrence",
+  "category": "searching",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "A binary search for the leftmost copy of a value in a sorted array with duplicates: on a match, keep searching to the left.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      2,
+      2,
+      3,
+      5,
+      8
+    ],
+    "target": 2
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order. Duplicates are allowed."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Value to find"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-low",
+      "label": "Start low at the left edge"
+    },
+    {
+      "id": "init-high",
+      "label": "Start high at the right edge"
+    },
+    {
+      "id": "init-result",
+      "label": "No match recorded yet"
+    },
+    {
+      "id": "loop",
+      "label": "While the range is not empty"
+    },
+    {
+      "id": "mid",
+      "label": "Find the middle"
+    },
+    {
+      "id": "check-equal",
+      "label": "Is the middle the target?"
+    },
+    {
+      "id": "record",
+      "label": "Remember this index"
+    },
+    {
+      "id": "go-left-eq",
+      "label": "Keep looking further left"
+    },
+    {
+      "id": "check-less",
+      "label": "Is the middle too small?"
+    },
+    {
+      "id": "go-right",
+      "label": "Discard the left half"
+    },
+    {
+      "id": "go-left",
+      "label": "Discard the right half"
+    },
+    {
+      "id": "finish",
+      "label": "Return the answer"
+    }
+  ]
+}

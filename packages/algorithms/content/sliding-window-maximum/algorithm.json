@@ -1,0 +1,76 @@
+{
+  "id": "sliding-window-maximum",
+  "title": "Sliding Window Maximum (Monotonic Deque)",
+  "category": "stacks-and-queues",
+  "wave": 7,
+  "stateKind": "queue",
+  "difficulty": "advanced",
+  "summary": "Find the maximum of every window of size k in linear time with a deque that keeps candidates in decreasing order.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(k)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      -1,
+      -3,
+      5,
+      3,
+      6,
+      7
+    ],
+    "k": 3
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "k",
+      "kind": "int",
+      "label": "Window size (k)",
+      "note": "From 1 to the number of values."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "k"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "Move the right edge"
+    },
+    {
+      "id": "pop-back",
+      "label": "Drop smaller values from the back"
+    },
+    {
+      "id": "push-back",
+      "label": "Add this index at the back"
+    },
+    {
+      "id": "pop-front",
+      "label": "Drop the front if it left the window"
+    },
+    {
+      "id": "record",
+      "label": "Record the window maximum"
+    },
+    {
+      "id": "finish",
+      "label": "Return the maxima"
+    }
+  ]
+}

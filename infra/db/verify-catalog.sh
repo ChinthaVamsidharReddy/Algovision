@@ -30,13 +30,13 @@ eq() { if [ "$2" = "$3" ]; then ok "$1"; else bad "$1" "expected '$3' got '$2'";
 has() { if grep -q -- "$3" <<<"$2"; then ok "$1"; else bad "$1" "expected to contain '$3' got '$2'"; fi; }
 
 # ---- content sync -------------------------------------------------------------------------------------------
-eq "sync publishes all 19 algorithms" "$(sql "SELECT count(*) FROM algorithms WHERE status='PUBLISHED'")" "19"
+eq "sync publishes all 69 algorithms" "$(sql "SELECT count(*) FROM algorithms WHERE status='PUBLISHED'")" "69"
 eq "no algorithm stays DRAFT" "$(sql "SELECT count(*) FROM algorithms WHERE status<>'PUBLISHED'")" "0"
-eq "every algorithm has 4 language hashes" "$(sql "SELECT count(*) FROM (SELECT algorithm_id FROM algorithm_languages GROUP BY 1 HAVING count(*)=4) s")" "19"
-eq "language hashes are real sha256 (distinct per language/algorithm)" "$(sql "SELECT count(DISTINCT content_hash) FROM algorithm_languages")" "76"
-eq "one version row per algorithm after first sync" "$(sql "SELECT count(*)||'/'||min(version)||'/'||max(version) FROM algorithm_versions")" "19/1/1"
+eq "every algorithm has 4 language hashes" "$(sql "SELECT count(*) FROM (SELECT algorithm_id FROM algorithm_languages GROUP BY 1 HAVING count(*)=4) s")" "69"
+eq "language hashes are real sha256 (276 rows; C and C++ share identical source for some algorithms, so 266 distinct)" "$(sql "SELECT count(DISTINCT content_hash) FROM algorithm_languages")" "266"
+eq "one version row per algorithm after first sync" "$(sql "SELECT count(*)||'/'||min(version)||'/'||max(version) FROM algorithm_versions")" "69/1/1"
 "${P[@]}" -v ON_ERROR_STOP=1 -d algovision -f "$MIG/R__catalog_sync.sql" >/dev/null
-eq "re-running the sync is idempotent (no new versions, no duplicates)" "$(sql "SELECT (SELECT count(*) FROM algorithm_versions)||'/'||(SELECT count(*) FROM algorithms)||'/'||(SELECT count(*) FROM topics)||'/'||(SELECT count(*) FROM categories)")" "19/19/8/8"
+eq "re-running the sync is idempotent (no new versions, no duplicates)" "$(sql "SELECT (SELECT count(*) FROM algorithm_versions)||'/'||(SELECT count(*) FROM algorithms)||'/'||(SELECT count(*) FROM topics)||'/'||(SELECT count(*) FROM categories)")" "69/69/11/11"
 eq "the V6 starter row was upgraded in place, not duplicated" "$(sql "SELECT count(*) FROM algorithms WHERE slug='linked-list-insert-head'")" "1"
 # simulate edited content: change one source hash in a temp copy, expect exactly one new version and a new language hash
 H=$(sql "SELECT content_hash FROM algorithm_languages al JOIN algorithms a ON a.id=al.algorithm_id WHERE a.slug='linear-search' AND language_code='java'")
@@ -46,13 +46,13 @@ VH=$(sql "SELECT content_hash FROM algorithm_versions v JOIN algorithms a ON a.i
 sed -i "s/$VH/$(printf 'e%.0s' $(seq 64))/g" "$WORK/changed.sql"
 "${P[@]}" -v ON_ERROR_STOP=1 -d algovision -f "$WORK/changed.sql" >/dev/null
 eq "changed content appends version 2 for that algorithm only" "$(sql "SELECT string_agg(a.slug||':'||v.version, ',' ORDER BY a.slug, v.version) FROM algorithm_versions v JOIN algorithms a ON a.id=v.algorithm_id WHERE a.slug='linear-search'")" "linear-search:1,linear-search:2"
-eq "the other 18 algorithms still have exactly one version" "$(sql "SELECT count(*) FROM algorithm_versions v JOIN algorithms a ON a.id=v.algorithm_id WHERE a.slug<>'linear-search'")" "18"
+eq "the other 68 algorithms still have exactly one version" "$(sql "SELECT count(*) FROM algorithm_versions v JOIN algorithms a ON a.id=v.algorithm_id WHERE a.slug<>'linear-search'")" "68"
 eq "changed language hash was stored" "$(sql "SELECT content_hash FROM algorithm_languages al JOIN algorithms a ON a.id=al.algorithm_id WHERE a.slug='linear-search' AND language_code='java'")" "$NEW"
 
 # ---- catalog reads ------------------------------------------------------------------------------------------
-eq "list-categories returns 8 published categories in order" "$(q catalog/list-categories | cut -d'|' -f1 | paste -sd,)" "arrays,two-pointers,sliding-window,linked-lists,searching,sorting,stacks-and-queues,trees"
-eq "category counts add up to 19" "$(q catalog/list-categories | awk -F'|' '{s+=$4} END{print s}')" "19"
-eq "list-algorithms returns 19 rows" "$(q catalog/list-algorithms | wc -l | tr -d ' ')" "19"
+eq "list-categories returns 11 published categories in order" "$(q catalog/list-categories | cut -d'|' -f1 | paste -sd,)" "arrays,two-pointers,sliding-window,linked-lists,searching,sorting,stacks-and-queues,hashing,trees,recursion,dynamic-programming"
+eq "category counts add up to 69" "$(q catalog/list-categories | awk -F'|' '{s+=$4} END{print s}')" "69"
+eq "list-algorithms returns 69 rows" "$(q catalog/list-algorithms | wc -l | tr -d ' ')" "69"
 eq "list-algorithms is grouped by category order (first is the first Arrays algorithm)" "$(q catalog/list-algorithms | head -1 | cut -d'|' -f1)" "delete-at-index"
 eq "find-algorithm returns latest version hash" "$(q catalog/find-algorithm slug=linear-search | cut -d'|' -f15)" "$(sql "SELECT content_hash FROM algorithm_versions v JOIN algorithms a ON a.id=v.algorithm_id WHERE a.slug='linear-search' AND version=2")"
 eq "find-algorithm: unknown slug returns nothing" "$(q catalog/find-algorithm slug=nope)" ""

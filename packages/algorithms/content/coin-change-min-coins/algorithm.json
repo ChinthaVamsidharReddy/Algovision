@@ -1,0 +1,72 @@
+{
+  "id": "coin-change-min-coins",
+  "title": "Coin Change (Fewest Coins)",
+  "category": "dynamic-programming",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the fewest coins that make an amount: dp[a] is the best for amount a, built from dp[a - coin] + 1 for every coin that fits.",
+  "complexity": {
+    "time": "O(amount * coins)",
+    "space": "O(amount)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      5
+    ],
+    "amount": 11
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Coin values",
+      "note": "Whole numbers from 1 to 99; each coin can be used any number of times."
+    },
+    {
+      "name": "amount",
+      "kind": "int",
+      "label": "Amount",
+      "note": "From 0 to 20."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "amount"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-table",
+      "label": "Amount 0 needs 0 coins; others start impossible"
+    },
+    {
+      "id": "loop",
+      "label": "Next amount"
+    },
+    {
+      "id": "try-coin",
+      "label": "Try each coin"
+    },
+    {
+      "id": "check",
+      "label": "Does this coin give fewer coins?"
+    },
+    {
+      "id": "fill",
+      "label": "Record the better count"
+    },
+    {
+      "id": "finish",
+      "label": "Return dp[amount] or -1"
+    }
+  ]
+}

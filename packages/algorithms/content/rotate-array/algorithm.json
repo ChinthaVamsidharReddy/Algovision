@@ -1,0 +1,87 @@
+{
+  "id": "rotate-array",
+  "title": "Rotate an Array (Three Reversals)",
+  "category": "arrays",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Rotate an array left by k places in place with three reversals: the first k values, the rest, then the whole array.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "k": 3
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "k",
+      "kind": "int",
+      "label": "Rotate left by k",
+      "note": "From 0 to the array length."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "k"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "empty-check",
+      "label": "Nothing to do for an empty array"
+    },
+    {
+      "id": "normalize",
+      "label": "Reduce k modulo n"
+    },
+    {
+      "id": "rev-first",
+      "label": "Reverse the first k values"
+    },
+    {
+      "id": "rev-second",
+      "label": "Reverse the rest"
+    },
+    {
+      "id": "rev-all",
+      "label": "Reverse the whole array"
+    },
+    {
+      "id": "rev-loop",
+      "label": "Reverse: pointers still apart?"
+    },
+    {
+      "id": "rev-swap",
+      "label": "Reverse: swap the pair"
+    },
+    {
+      "id": "rev-move",
+      "label": "Reverse: move the pointers inward"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

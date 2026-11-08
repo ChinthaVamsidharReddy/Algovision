@@ -1,0 +1,64 @@
+{
+  "id": "count-leaves",
+  "title": "Binary Tree: Count the Leaves",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Count the leaves (nodes with no children) recursively: a leaf counts 1, any other node counts the leaves of its two subtrees.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(h)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Call countLeaves on the root"
+    },
+    {
+      "id": "base-case",
+      "label": "Empty subtree: 0 leaves"
+    },
+    {
+      "id": "check-leaf",
+      "label": "No children? It is a leaf"
+    },
+    {
+      "id": "go-left",
+      "label": "Leaves in the left subtree"
+    },
+    {
+      "id": "go-right",
+      "label": "Leaves in the right subtree"
+    },
+    {
+      "id": "combine",
+      "label": "Add the two counts"
+    }
+  ]
+}

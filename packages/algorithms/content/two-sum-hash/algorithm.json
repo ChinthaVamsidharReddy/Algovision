@@ -1,0 +1,75 @@
+{
+  "id": "two-sum-hash",
+  "title": "Two Sum with a Hash Map",
+  "category": "hashing",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find two positions whose values add up to a target in one pass: a hash map remembers every value seen so far, so the partner is looked up instead of searched for.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      7,
+      11,
+      15
+    ],
+    "target": 9
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target sum"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-map",
+      "label": "Start with an empty map"
+    },
+    {
+      "id": "loop",
+      "label": "Next position"
+    },
+    {
+      "id": "compute-complement",
+      "label": "Work out the partner value"
+    },
+    {
+      "id": "check-seen",
+      "label": "Is the partner in the map?"
+    },
+    {
+      "id": "found",
+      "label": "Return the two positions"
+    },
+    {
+      "id": "store",
+      "label": "Remember this value"
+    },
+    {
+      "id": "not-found",
+      "label": "No pair exists"
+    }
+  ]
+}

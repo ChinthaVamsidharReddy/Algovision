@@ -1,0 +1,254 @@
+[
+ {
+  "name": "found after wrap-around",
+  "input": {
+   "values": [
+    12,
+    22,
+    32,
+    5,
+    13
+   ],
+   "size": 7,
+   "key": 13
+  },
+  "expected": 0
+ },
+ {
+  "name": "found at home slot",
+  "input": {
+   "values": [
+    12,
+    22,
+    32,
+    5,
+    13
+   ],
+   "size": 7,
+   "key": 12
+  },
+  "expected": 5
+ },
+ {
+  "name": "absent stops at empty slot",
+  "input": {
+   "values": [
+    12,
+    22,
+    32,
+    5,
+    13
+   ],
+   "size": 7,
+   "key": 19
+  },
+  "expected": -1
+ },
+ {
+  "name": "empty table",
+  "input": {
+   "values": [],
+   "size": 4,
+   "key": 3
+  },
+  "expected": -1
+ },
+ {
+  "name": "single hit",
+  "input": {
+   "values": [
+    7
+   ],
+   "size": 3,
+   "key": 7
+  },
+  "expected": 1
+ },
+ {
+  "name": "limit key",
+  "input": {
+   "values": [
+    999,
+    0
+   ],
+   "size": 4,
+   "key": 999
+  },
+  "expected": 3
+ },
+ {
+  "name": "full table, key absent",
+  "input": {
+   "values": [
+    1,
+    2,
+    3
+   ],
+   "size": 3,
+   "key": 6
+  },
+  "expected": -1
+ },
+ {
+  "name": "one slot",
+  "input": {
+   "values": [
+    5
+   ],
+   "size": 1,
+   "key": 5
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    23,
+    19,
+    15,
+    11,
+    15,
+    5,
+    36,
+    19,
+    33,
+    31,
+    21,
+    28,
+    18,
+    38
+   ],
+   "size": 8,
+   "key": 4
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    10,
+    21,
+    9,
+    31,
+    26,
+    2,
+    4,
+    35,
+    36,
+    20,
+    21,
+    22,
+    38
+   ],
+   "size": 2,
+   "key": 31
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    4,
+    5,
+    17,
+    30,
+    4,
+    3,
+    19,
+    36,
+    28,
+    18,
+    24,
+    22,
+    1,
+    29
+   ],
+   "size": 10,
+   "key": 22
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    31,
+    3,
+    13
+   ],
+   "size": 3,
+   "key": 18
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    25,
+    25,
+    31,
+    5,
+    10,
+    28,
+    25
+   ],
+   "size": 3,
+   "key": 35
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    27,
+    35,
+    17,
+    26
+   ],
+   "size": 5,
+   "key": 22
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    14,
+    9,
+    5,
+    11,
+    9,
+    14,
+    14,
+    0,
+    31,
+    37,
+    11,
+    16
+   ],
+   "size": 11,
+   "key": 18
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    26,
+    34,
+    23,
+    39
+   ],
+   "size": 1,
+   "key": 36
+  },
+  "expected": -1
+ }
+]

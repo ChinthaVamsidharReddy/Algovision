@@ -1,0 +1,80 @@
+{
+  "id": "bst-find-min-max",
+  "title": "Binary Search Tree: Find Minimum and Maximum",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "beginner",
+  "summary": "The smallest value in a binary search tree is its leftmost node and the largest is its rightmost node: just keep walking one way.",
+  "complexity": {
+    "time": "O(h)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "At least one value. They are inserted into a binary search tree first."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-min",
+      "label": "Start at the root"
+    },
+    {
+      "id": "loop-min",
+      "label": "Is there a left child?"
+    },
+    {
+      "id": "go-left",
+      "label": "Move left"
+    },
+    {
+      "id": "record-min",
+      "label": "Record the minimum"
+    },
+    {
+      "id": "init-max",
+      "label": "Start at the root again"
+    },
+    {
+      "id": "loop-max",
+      "label": "Is there a right child?"
+    },
+    {
+      "id": "go-right",
+      "label": "Move right"
+    },
+    {
+      "id": "record-max",
+      "label": "Record the maximum"
+    },
+    {
+      "id": "finish",
+      "label": "Done"
+    }
+  ]
+}

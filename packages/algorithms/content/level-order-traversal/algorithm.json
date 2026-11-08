@@ -1,0 +1,72 @@
+{
+  "id": "level-order-traversal",
+  "title": "Binary Tree: Level-order Traversal (BFS)",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Visit a binary search tree level by level with a queue: take a node from the front, visit it, then add its children to the back.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(w)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "enqueue-root",
+      "label": "Put the root in the queue"
+    },
+    {
+      "id": "loop",
+      "label": "While the queue is not empty"
+    },
+    {
+      "id": "dequeue",
+      "label": "Take the front node"
+    },
+    {
+      "id": "visit",
+      "label": "Visit it"
+    },
+    {
+      "id": "enqueue-left",
+      "label": "Queue its left child"
+    },
+    {
+      "id": "enqueue-right",
+      "label": "Queue its right child"
+    },
+    {
+      "id": "finish",
+      "label": "Done"
+    }
+  ]
+}

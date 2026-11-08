@@ -1,0 +1,76 @@
+{
+  "id": "longest-increasing-subsequence",
+  "title": "Longest Increasing Subsequence",
+  "category": "dynamic-programming",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the length of the longest strictly increasing subsequence: dp[i] is the longest one ending at position i, built from every smaller earlier value.",
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      9,
+      2,
+      5,
+      3,
+      7,
+      101,
+      18
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Empty array"
+    },
+    {
+      "id": "init-table",
+      "label": "Every value alone has length 1"
+    },
+    {
+      "id": "loop",
+      "label": "Next end position i"
+    },
+    {
+      "id": "inner-loop",
+      "label": "Try each earlier position j"
+    },
+    {
+      "id": "check",
+      "label": "Is it smaller and does it help?"
+    },
+    {
+      "id": "fill",
+      "label": "Extend that subsequence"
+    },
+    {
+      "id": "update-best",
+      "label": "Track the best length"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best length"
+    }
+  ]
+}

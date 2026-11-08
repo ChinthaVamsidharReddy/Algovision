@@ -59,12 +59,30 @@ describe("completeness: every algorithm ships everything the contract requires",
 
       it("covers vectors for the empty, single and limit cases", () => {
         const vs = readVectors(entry.id);
+        // Scalar-only algorithms (e.g. factorial) have no array: they must cover their smallest and largest accepted value.
+        if (!("values" in entry.content.meta.defaultInput)) {
+          const candidates = [...Array.from({ length: 2001 }, (_, i) => i - 1000), 999999, 1000000];
+          for (const name of Object.keys(entry.content.meta.defaultInput)) {
+            const accepted = (x: number) => entry.definition.parseInput({ ...vs[0]!.input, [name]: x }, LIMIT_PROFILES.standard).ok;
+            const ok = candidates.filter(accepted);
+            const seen = new Set(vs.map((v) => (v.input as unknown as Record<string, number>)[name]));
+            expect(seen.has(ok[0]!), `${name}: smallest accepted value ${ok[0]} is covered`).toBe(true);
+            expect(seen.has(ok[ok.length - 1]!), `${name}: largest accepted value ${ok[ok.length - 1]} is covered`).toBe(true);
+          }
+          return;
+        }
         // An empty array is only required when the algorithm accepts one (e.g. find-maximum needs a value).
         const extras = Object.fromEntries(Object.keys(entry.content.meta.defaultInput).map((k) => [k, 0]));
         const acceptsEmpty = entry.definition.parseInput({ ...extras, values: [] }, LIMIT_PROFILES.standard).ok;
         if (acceptsEmpty) expect(vs.some((v) => v.input.values.length === 0)).toBe(true);
-        expect(vs.some((v) => v.input.values.length === 1)).toBe(true);
-        expect(vs.some((v) => v.input.values.some((x) => Math.abs(x) === LIMIT_PROFILES.standard.maxAbsValue))).toBe(true);
+        // A one-value vector is required only when a one-value array is valid (the knapsack takes weight/value pairs, so it never is).
+        const acceptsSingle = entry.definition.parseInput({ ...vs[0]!.input, values: [1] }, LIMIT_PROFILES.standard).ok;
+        if (acceptsSingle) expect(vs.some((v) => v.input.values.length === 1)).toBe(true);
+        // The limit is the largest magnitude the algorithm accepts: 999 normally, less where the algorithm restricts the range (counting sort).
+        const probe = (x: number) => entry.definition.parseInput({ ...vs[0]!.input, values: [x] }, LIMIT_PROFILES.standard).ok;
+        let limit = LIMIT_PROFILES.standard.maxAbsValue;
+        while (limit > 0 && !probe(limit) && !probe(-limit)) limit--;
+        if (limit > 0) expect(vs.some((v) => v.input.values.some((x) => Math.abs(x) === limit))).toBe(true);
       });
     });
   }

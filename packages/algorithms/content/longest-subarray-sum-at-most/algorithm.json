@@ -1,0 +1,79 @@
+{
+  "id": "longest-subarray-sum-at-most",
+  "title": "Longest Subarray With Sum at Most S",
+  "category": "sliding-window",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the longest run of consecutive positive numbers whose sum does not exceed a limit, by growing and shrinking a window.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      1,
+      2,
+      1,
+      1,
+      4
+    ],
+    "target": 5
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Positive array values",
+      "note": "Every value must be 1 or more."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Maximum sum",
+      "note": "0 or more."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start the window"
+    },
+    {
+      "id": "add",
+      "label": "Add the next value"
+    },
+    {
+      "id": "shrink-check",
+      "label": "Is the sum over the limit?"
+    },
+    {
+      "id": "shrink",
+      "label": "Drop a value from the left"
+    },
+    {
+      "id": "measure",
+      "label": "Measure the window"
+    },
+    {
+      "id": "update-best",
+      "label": "Keep the longest"
+    },
+    {
+      "id": "finish",
+      "label": "Return the longest length"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    1,
+    8,
+    6,
+    2,
+    5,
+    4,
+    8,
+    3,
+    7
+   ]
+  },
+  "expected": 49
+ },
+ {
+  "name": "two lines",
+  "input": {
+   "values": [
+    1,
+    1
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": []
+  },
+  "expected": 0
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    5
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "all zero",
+  "input": {
+   "values": [
+    0,
+    0,
+    0
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "equal heights",
+  "input": {
+   "values": [
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  "expected": 12
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    999,
+    0,
+    999
+   ]
+  },
+  "expected": 1998
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    12,
+    28,
+    15
+   ]
+  },
+  "expected": 24
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    21,
+    26,
+    7,
+    5,
+    22
+   ]
+  },
+  "expected": 84
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    16,
+    12,
+    10,
+    13,
+    6,
+    11,
+    10,
+    2,
+    23,
+    11,
+    0,
+    10,
+    17
+   ]
+  },
+  "expected": 192
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    14,
+    22,
+    0,
+    12,
+    10,
+    16,
+    19,
+    9,
+    16,
+    30,
+    2,
+    3,
+    29,
+    25
+   ]
+  },
+  "expected": 264
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    28,
+    3,
+    2,
+    8,
+    8,
+    1,
+    28
+   ]
+  },
+  "expected": 168
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    8,
+    24,
+    4,
+    26,
+    13
+   ]
+  },
+  "expected": 48
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    12,
+    4,
+    17,
+    29,
+    16,
+    18,
+    15,
+    22
+   ]
+  },
+  "expected": 88
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    2,
+    8,
+    1,
+    25,
+    22,
+    5,
+    13,
+    28,
+    2,
+    8
+   ]
+  },
+  "expected": 100
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": []
+  },
+  "expected": 0
+ }
+]

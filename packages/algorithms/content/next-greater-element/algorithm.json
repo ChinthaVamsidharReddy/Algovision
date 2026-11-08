@@ -1,0 +1,65 @@
+{
+  "id": "next-greater-element",
+  "title": "Next Greater Element (Monotonic Stack)",
+  "category": "stacks-and-queues",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "For every value find the first larger value to its right, using a stack of positions that are still waiting for a larger value.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      5,
+      2,
+      25,
+      7
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-result",
+      "label": "Every answer starts as -1"
+    },
+    {
+      "id": "loop",
+      "label": "Visit the next value"
+    },
+    {
+      "id": "while-check",
+      "label": "Is the waiting value smaller?"
+    },
+    {
+      "id": "pop-assign",
+      "label": "Pop it and record its answer"
+    },
+    {
+      "id": "push",
+      "label": "Push this position to wait"
+    },
+    {
+      "id": "finish",
+      "label": "Return the answers"
+    }
+  ]
+}

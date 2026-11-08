@@ -1,0 +1,92 @@
+{
+  "id": "merge-sort",
+  "title": "Merge Sort",
+  "category": "sorting",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Split the array in halves, sort each half recursively, then merge the two sorted halves. Always O(n log n).",
+  "complexity": {
+    "time": "O(n log n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      38,
+      27,
+      43,
+      3,
+      9,
+      82,
+      10
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Up to 15 values."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Sort a range"
+    },
+    {
+      "id": "base-case",
+      "label": "One value or none: already sorted"
+    },
+    {
+      "id": "split",
+      "label": "Find the middle"
+    },
+    {
+      "id": "recurse-left",
+      "label": "Sort the left half"
+    },
+    {
+      "id": "recurse-right",
+      "label": "Sort the right half"
+    },
+    {
+      "id": "merge-call",
+      "label": "Merge the two sorted halves"
+    },
+    {
+      "id": "merge-init",
+      "label": "Start i, j and k"
+    },
+    {
+      "id": "merge-compare",
+      "label": "Compare the two front values"
+    },
+    {
+      "id": "take-left",
+      "label": "Take from the left half"
+    },
+    {
+      "id": "take-right",
+      "label": "Take from the right half"
+    },
+    {
+      "id": "copy-rest",
+      "label": "Copy what is left of one half"
+    },
+    {
+      "id": "write-back",
+      "label": "Copy the merged range back"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "linked-list-insert-at-position",
+  "title": "Linked List: Insert at a Position",
+  "category": "linked-list",
+  "wave": 7,
+  "stateKind": "linkedList",
+  "difficulty": "intermediate",
+  "summary": "Insert a node at any position: walk to the node before it, point the new node at what follows, then point the earlier node at the new one.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      20,
+      40,
+      50
+    ],
+    "position": 2,
+    "value": 30
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values",
+      "note": "Node values from head to tail."
+    },
+    {
+      "name": "position",
+      "kind": "int",
+      "label": "Insert position",
+      "note": "From 0 to the list length."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "New value"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "position",
+      "value"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "create-node",
+      "label": "Create the new node"
+    },
+    {
+      "id": "check-head",
+      "label": "Is the position 0?"
+    },
+    {
+      "id": "link-new-head",
+      "label": "Make it the new head"
+    },
+    {
+      "id": "init-prev",
+      "label": "Start prev at the head"
+    },
+    {
+      "id": "walk-loop",
+      "label": "Walk toward the position"
+    },
+    {
+      "id": "advance",
+      "label": "Move prev forward"
+    },
+    {
+      "id": "link-new",
+      "label": "Point the new node at what follows"
+    },
+    {
+      "id": "link-prev",
+      "label": "Point prev at the new node"
+    },
+    {
+      "id": "finish",
+      "label": "Return the head"
+    }
+  ]
+}

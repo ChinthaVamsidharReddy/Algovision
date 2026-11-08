@@ -1,0 +1,191 @@
+[
+ {
+  "name": "balanced",
+  "input": {
+   "values": [
+    5,
+    3,
+    8,
+    1,
+    4,
+    7,
+    9
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    7
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "left chain",
+  "input": {
+   "values": [
+    5,
+    4,
+    3,
+    2,
+    1
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "right chain",
+  "input": {
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "duplicates go right",
+  "input": {
+   "values": [
+    4,
+    4,
+    4,
+    2,
+    4
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    -999,
+    999,
+    0
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": []
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    8,
+    -9,
+    -7,
+    5,
+    1,
+    7,
+    7,
+    -3,
+    -1,
+    5,
+    7,
+    8,
+    6,
+    7
+   ]
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    7,
+    -1,
+    8,
+    -3,
+    5,
+    -5,
+    4
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    3,
+    5,
+    1
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    -2,
+    4
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    -3,
+    0
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    -5,
+    2,
+    -5
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    -5,
+    5,
+    -2,
+    -6,
+    3,
+    6,
+    -4,
+    -2
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    4,
+    7,
+    3,
+    1,
+    4
+   ]
+  },
+  "expected": 3
+ }
+]

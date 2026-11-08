@@ -1,0 +1,82 @@
+{
+  "id": "hash-table-insert-linear-probing",
+  "title": "Hash Table: Insert with Linear Probing",
+  "category": "hashing",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Store keys in a fixed-size table at slot key % size; when the slot is taken, probe the next slots (wrapping around) until a free one is found.",
+  "complexity": {
+    "time": "O(1) average",
+    "space": "O(m)"
+  },
+  "defaultInput": {
+    "values": [
+      12,
+      22,
+      32,
+      5,
+      13
+    ],
+    "size": 7
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Keys",
+      "note": "Whole numbers from 0 to 999."
+    },
+    {
+      "name": "size",
+      "kind": "int",
+      "label": "Table size",
+      "note": "Number of slots."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "size"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-table",
+      "label": "Every slot starts empty (-1)"
+    },
+    {
+      "id": "loop",
+      "label": "Next key"
+    },
+    {
+      "id": "compute-hash",
+      "label": "Home slot = key % size"
+    },
+    {
+      "id": "probe-check",
+      "label": "Is the slot taken?"
+    },
+    {
+      "id": "probe-next",
+      "label": "Try the next slot"
+    },
+    {
+      "id": "table-full",
+      "label": "Every slot is taken: skip"
+    },
+    {
+      "id": "place",
+      "label": "Store the key"
+    },
+    {
+      "id": "finish",
+      "label": "Return the table"
+    }
+  ]
+}

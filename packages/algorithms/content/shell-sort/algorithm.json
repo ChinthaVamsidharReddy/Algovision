@@ -1,0 +1,69 @@
+{
+  "id": "shell-sort",
+  "title": "Shell Sort",
+  "category": "sorting",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Insertion sort on values a gap apart, with the gap shrinking to 1. Far-apart values move into place early.",
+  "complexity": {
+    "time": "O(n\u00b2) worst",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      23,
+      12,
+      1,
+      8,
+      34,
+      54,
+      2,
+      3
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Up to 15 values."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "gap-loop",
+      "label": "Choose the next gap"
+    },
+    {
+      "id": "pick",
+      "label": "Pick up the next value"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with the value one gap left"
+    },
+    {
+      "id": "shift",
+      "label": "Shift the larger value right"
+    },
+    {
+      "id": "place",
+      "label": "Drop the value into its gap"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

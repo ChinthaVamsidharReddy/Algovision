@@ -1,0 +1,85 @@
+{
+  "id": "linked-list-delete-value",
+  "title": "Linked List: Delete a Value",
+  "category": "linked-list",
+  "wave": 7,
+  "stateKind": "linkedList",
+  "difficulty": "intermediate",
+  "summary": "Remove the first node holding a value: walk to the node before it, then make that node's next skip over it.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      8,
+      15,
+      16,
+      23
+    ],
+    "value": 15
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values",
+      "note": "Node values from head to tail."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "Value to delete"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "value"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "check-empty",
+      "label": "Is the list empty?"
+    },
+    {
+      "id": "check-head",
+      "label": "Is the head the node to delete?"
+    },
+    {
+      "id": "delete-head",
+      "label": "Move head to the second node"
+    },
+    {
+      "id": "init-prev",
+      "label": "Start prev at the head"
+    },
+    {
+      "id": "loop",
+      "label": "Look at the node after prev"
+    },
+    {
+      "id": "advance",
+      "label": "Move prev forward"
+    },
+    {
+      "id": "check-found",
+      "label": "Did we find the value?"
+    },
+    {
+      "id": "unlink",
+      "label": "Skip the node"
+    },
+    {
+      "id": "finish",
+      "label": "Return the head"
+    }
+  ]
+}

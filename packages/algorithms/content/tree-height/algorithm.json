@@ -1,0 +1,60 @@
+{
+  "id": "tree-height",
+  "title": "Binary Tree: Height",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Compute the height of a binary tree recursively: an empty tree has height 0, otherwise it is 1 plus the taller of its two subtrees.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(h)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Call height on the root"
+    },
+    {
+      "id": "base-case",
+      "label": "Empty subtree: height 0"
+    },
+    {
+      "id": "go-left",
+      "label": "Height of the left subtree"
+    },
+    {
+      "id": "go-right",
+      "label": "Height of the right subtree"
+    },
+    {
+      "id": "combine",
+      "label": "1 plus the taller side"
+    }
+  ]
+}

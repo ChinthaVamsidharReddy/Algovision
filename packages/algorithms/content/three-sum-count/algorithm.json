@@ -1,0 +1,95 @@
+{
+  "id": "three-sum-count",
+  "title": "Three Sum: Count Triplets",
+  "category": "two-pointers",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Count the distinct triplets in a sorted array that add up to 0: fix one value, then walk two pointers inward over the rest.",
+  "complexity": {
+    "time": "O(n\u00b2)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      -4,
+      -1,
+      -1,
+      0,
+      1,
+      2
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order. Duplicates are allowed."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-count",
+      "label": "Start the count at 0"
+    },
+    {
+      "id": "outer",
+      "label": "Fix the next value i"
+    },
+    {
+      "id": "skip-dup-i",
+      "label": "Skip a repeated i"
+    },
+    {
+      "id": "init-pointers",
+      "label": "Start left and right"
+    },
+    {
+      "id": "loop",
+      "label": "While left < right"
+    },
+    {
+      "id": "sum",
+      "label": "Add the three values"
+    },
+    {
+      "id": "check-zero",
+      "label": "Is the sum 0?"
+    },
+    {
+      "id": "found",
+      "label": "Count the triplet"
+    },
+    {
+      "id": "skip-dup",
+      "label": "Skip repeated left values"
+    },
+    {
+      "id": "check-neg",
+      "label": "Is the sum negative?"
+    },
+    {
+      "id": "move-left",
+      "label": "Move left up"
+    },
+    {
+      "id": "move-right",
+      "label": "Move right down"
+    },
+    {
+      "id": "finish",
+      "label": "Return the count"
+    }
+  ]
+}

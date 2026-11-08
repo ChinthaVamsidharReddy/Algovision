@@ -1,0 +1,52 @@
+{
+  "id": "fibonacci-recursive",
+  "title": "Fibonacci (Plain Recursion)",
+  "category": "recursion",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "Compute the nth Fibonacci number straight from its definition. The call stack shows how the same small values are recomputed again and again.",
+  "complexity": {
+    "time": "O(2^n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 5
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "n",
+      "note": "From 0 up to a limit that keeps the animation short (9 on the full profile)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Is n 0 or 1?"
+    },
+    {
+      "id": "recurse-left",
+      "label": "Call fib(n - 1)"
+    },
+    {
+      "id": "recurse-right",
+      "label": "Call fib(n - 2)"
+    },
+    {
+      "id": "combine",
+      "label": "Add the two answers"
+    }
+  ]
+}

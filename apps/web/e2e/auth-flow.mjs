@@ -33,7 +33,8 @@ LocatorProto.isVisible = async function () {
 // ---- guest ----
 await page.goto(`${base}/algorithms`);
 check("guest header shows Sign in and Sign up", (await header.getByRole("link", { name: "Sign in" }).isVisible()) && (await header.getByRole("link", { name: "Sign up" }).isVisible()));
-check("guest sees the progress-free catalog with grouped topics", (await page.getByRole("heading", { level: 2 }).count()) >= 5);
+const topicHeadings = await page.getByRole("heading", { level: 2 }).count();
+check("guest sees the progress-free catalog with grouped topics", topicHeadings >= 5, `${topicHeadings} category headings`);
 const guestBookmark = await page.getByRole("link", { name: /Bookmark/ }).first().getAttribute("href");
 check("guest bookmark link returns here after sign-in", guestBookmark === "/login?next=%2Falgorithms", guestBookmark ?? "");
 await page.goto(`${base}/dashboard`);

@@ -23,6 +23,13 @@ import { reverseInPlace } from "./algorithms/reverse-in-place";
 import { removeDuplicatesSorted } from "./algorithms/remove-duplicates-sorted";
 import { maxSumSubarrayK } from "./algorithms/max-sum-subarray-k";
 import { smallestSubarraySum } from "./algorithms/smallest-subarray-sum";
+import { waveA } from "./algorithms/waveA";
+import { waveB } from "./algorithms/waveB";
+import { waveC } from "./algorithms/waveC";
+import { waveD } from "./algorithms/waveD";
+import { waveE } from "./algorithms/waveE";
+import { waveF } from "./algorithms/waveF";
+import { waveG } from "./algorithms/waveG";
 import type { ExecutionTrace } from "@algovision/trace-schema";
 
 // Add each new algorithm here; completeness tests fail if content or definition is missing.
@@ -46,6 +53,13 @@ const definitions: readonly AlgorithmDefinition<never>[] = [
   removeDuplicatesSorted as AlgorithmDefinition<never>,
   maxSumSubarrayK as AlgorithmDefinition<never>,
   smallestSubarraySum as AlgorithmDefinition<never>,
+  ...waveA,
+  ...waveB,
+  ...waveC,
+  ...waveD,
+  ...waveE,
+  ...waveF,
+  ...waveG,
 ];
 
 export interface RegisteredAlgorithm {

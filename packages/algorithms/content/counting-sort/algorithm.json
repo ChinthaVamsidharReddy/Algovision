@@ -1,0 +1,64 @@
+{
+  "id": "counting-sort",
+  "title": "Counting Sort",
+  "category": "sorting",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Sort small whole numbers without comparing them: count each value, then write the values back in order.",
+  "complexity": {
+    "time": "O(n + k)",
+    "space": "O(k)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      2,
+      2,
+      8,
+      3,
+      3,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values (0 to 20)",
+      "note": "Whole numbers from 0 to 20, up to 15 of them."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-counts",
+      "label": "Create the count table"
+    },
+    {
+      "id": "count",
+      "label": "Count each value"
+    },
+    {
+      "id": "value-loop",
+      "label": "Go through the values 0 to 20"
+    },
+    {
+      "id": "write",
+      "label": "Write the value back"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

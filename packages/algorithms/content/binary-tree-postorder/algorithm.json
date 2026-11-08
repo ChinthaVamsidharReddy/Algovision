@@ -1,0 +1,64 @@
+{
+  "id": "binary-tree-postorder",
+  "title": "Binary Tree: Post-order Traversal",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Walk a binary search tree recursively: visit the left subtree, then the right subtree, and the node last. Children are always finished before their parent.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(h)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Call visit on the root"
+    },
+    {
+      "id": "base-case",
+      "label": "Empty subtree: return"
+    },
+    {
+      "id": "go-left",
+      "label": "Recurse into the left subtree"
+    },
+    {
+      "id": "go-right",
+      "label": "Recurse into the right subtree"
+    },
+    {
+      "id": "visit",
+      "label": "Visit the node"
+    },
+    {
+      "id": "finish",
+      "label": "Return to the caller"
+    }
+  ]
+}

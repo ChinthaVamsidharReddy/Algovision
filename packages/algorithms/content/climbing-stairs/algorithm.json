@@ -1,0 +1,56 @@
+{
+  "id": "climbing-stairs",
+  "title": "Climbing Stairs",
+  "category": "dynamic-programming",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Count the ways to climb n stairs taking 1 or 2 steps at a time: the ways to reach a stair are the ways to reach the two stairs below it.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 6
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Number of stairs",
+      "note": "From 1 to 14."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "1 or 2 stairs"
+    },
+    {
+      "id": "init-table",
+      "label": "Ways to reach stairs 1 and 2"
+    },
+    {
+      "id": "loop",
+      "label": "Next stair"
+    },
+    {
+      "id": "fill",
+      "label": "Add the two stairs below"
+    },
+    {
+      "id": "finish",
+      "label": "Return the last cell"
+    }
+  ]
+}

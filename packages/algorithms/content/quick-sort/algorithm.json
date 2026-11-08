@@ -1,0 +1,87 @@
+{
+  "id": "quick-sort",
+  "title": "Quick Sort",
+  "category": "sorting",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Pick a pivot, move smaller values to its left and the rest to its right, then sort each side the same way. Fast on average.",
+  "complexity": {
+    "time": "O(n log n) average, O(n\u00b2) worst",
+    "space": "O(log n)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      7,
+      8,
+      9,
+      1,
+      5
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Up to 15 values."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Sort a range"
+    },
+    {
+      "id": "base-case",
+      "label": "One value or none: done"
+    },
+    {
+      "id": "choose-pivot",
+      "label": "Pick the last value as the pivot"
+    },
+    {
+      "id": "init-i",
+      "label": "Start i at the left edge"
+    },
+    {
+      "id": "scan",
+      "label": "Look at the next value"
+    },
+    {
+      "id": "compare",
+      "label": "Is it smaller than the pivot?"
+    },
+    {
+      "id": "swap",
+      "label": "Move it into the left part"
+    },
+    {
+      "id": "advance",
+      "label": "Advance i"
+    },
+    {
+      "id": "place-pivot",
+      "label": "Put the pivot in its final place"
+    },
+    {
+      "id": "recurse-left",
+      "label": "Sort the left side"
+    },
+    {
+      "id": "recurse-right",
+      "label": "Sort the right side"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

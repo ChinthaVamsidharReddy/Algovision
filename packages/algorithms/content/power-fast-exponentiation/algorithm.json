@@ -1,0 +1,60 @@
+{
+  "id": "power-fast-exponentiation",
+  "title": "Fast Exponentiation (Recursive Power)",
+  "category": "recursion",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "Compute base^exp by squaring the answer for half the exponent, so only about log2(exp) calls are needed instead of exp.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(log n)"
+  },
+  "defaultInput": {
+    "base": 3,
+    "exp": 9
+  },
+  "inputs": [
+    {
+      "name": "base",
+      "kind": "int",
+      "label": "Base",
+      "note": "From -9 to 9."
+    },
+    {
+      "name": "exp",
+      "kind": "int",
+      "label": "Exponent",
+      "note": "From 0 to 9."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "base",
+      "exp"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Is the exponent 0?"
+    },
+    {
+      "id": "recurse",
+      "label": "Solve for half the exponent"
+    },
+    {
+      "id": "combine-even",
+      "label": "Even exponent: square"
+    },
+    {
+      "id": "combine-odd",
+      "label": "Odd exponent: square and multiply"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "id": "first-repeating-element",
+  "title": "First Repeating Element (Hash Set)",
+  "category": "hashing",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find the first value that has already appeared earlier. A hash set answers \"have I seen this?\" in constant time as we scan left to right.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      1,
+      4,
+      1,
+      5,
+      9,
+      2,
+      6
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Whole numbers from 0 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-set",
+      "label": "Start with an empty set"
+    },
+    {
+      "id": "loop",
+      "label": "Next value"
+    },
+    {
+      "id": "check-seen",
+      "label": "Is it already in the set?"
+    },
+    {
+      "id": "found",
+      "label": "Return the repeated value"
+    },
+    {
+      "id": "store",
+      "label": "Add it to the set"
+    },
+    {
+      "id": "not-found",
+      "label": "All values were new: -1"
+    }
+  ]
+}

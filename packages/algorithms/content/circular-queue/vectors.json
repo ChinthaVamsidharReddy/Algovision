@@ -1,0 +1,261 @@
+[
+ {
+  "name": "wraps around",
+  "input": {
+   "values": [
+    10,
+    20,
+    30,
+    0,
+    40,
+    50
+   ],
+   "capacity": 3
+  },
+  "expected": [
+   20,
+   30,
+   40
+  ]
+ },
+ {
+  "name": "empty operations",
+  "input": {
+   "values": [],
+   "capacity": 3
+  },
+  "expected": []
+ },
+ {
+  "name": "single enqueue",
+  "input": {
+   "values": [
+    7
+   ],
+   "capacity": 1
+  },
+  "expected": [
+   7
+  ]
+ },
+ {
+  "name": "underflow",
+  "input": {
+   "values": [
+    0,
+    0
+   ],
+   "capacity": 2
+  },
+  "expected": []
+ },
+ {
+  "name": "overflow",
+  "input": {
+   "values": [
+    1,
+    2,
+    3
+   ],
+   "capacity": 2
+  },
+  "expected": [
+   1,
+   2
+  ]
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    999,
+    -999,
+    0,
+    5
+   ],
+   "capacity": 15
+  },
+  "expected": [
+   -999,
+   5
+  ]
+ },
+ {
+  "name": "capacity one churn",
+  "input": {
+   "values": [
+    1,
+    0,
+    2,
+    3,
+    0,
+    4
+   ],
+   "capacity": 1
+  },
+  "expected": [
+   4
+  ]
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [],
+   "capacity": 3
+  },
+  "expected": []
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    0,
+    6,
+    0,
+    -6,
+    0,
+    -9,
+    0,
+    -6
+   ],
+   "capacity": 1
+  },
+  "expected": [
+   -6
+  ]
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    -8,
+    0,
+    0,
+    -7,
+    3,
+    0,
+    0,
+    -7,
+    0,
+    5,
+    9,
+    -1,
+    3
+   ],
+   "capacity": 2
+  },
+  "expected": [
+   5,
+   9
+  ]
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    -1,
+    0,
+    4,
+    -8,
+    0,
+    0,
+    -2,
+    9
+   ],
+   "capacity": 4
+  },
+  "expected": [
+   -2,
+   9
+  ]
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    -7,
+    -3,
+    0,
+    0,
+    0,
+    6
+   ],
+   "capacity": 5
+  },
+  "expected": [
+   6
+  ]
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    -8,
+    0,
+    -3,
+    0,
+    0,
+    6,
+    -2,
+    1,
+    0,
+    0,
+    2,
+    1,
+    3,
+    -7
+   ],
+   "capacity": 2
+  },
+  "expected": [
+   2,
+   1
+  ]
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    8,
+    9,
+    0,
+    2,
+    0
+   ],
+   "capacity": 6
+  },
+  "expected": [
+   2
+  ]
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    9,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -8,
+    -1,
+    0
+   ],
+   "capacity": 3
+  },
+  "expected": [
+   -1
+  ]
+ }
+]

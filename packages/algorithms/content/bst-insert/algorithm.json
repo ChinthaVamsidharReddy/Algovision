@@ -1,0 +1,81 @@
+{
+  "id": "bst-insert",
+  "title": "Binary Search Tree: Insert",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Insert a value into a binary search tree: walk down comparing at each node until there is a free spot, then attach the new node there.",
+  "complexity": {
+    "time": "O(h)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4
+    ],
+    "value": 6
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "Value to insert"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "value"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "create-node",
+      "label": "Create the new node"
+    },
+    {
+      "id": "check-empty",
+      "label": "Is the tree empty?"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with the current node"
+    },
+    {
+      "id": "go-left",
+      "label": "Move to the left child"
+    },
+    {
+      "id": "go-right",
+      "label": "Move to the right child"
+    },
+    {
+      "id": "attach-left",
+      "label": "Attach as the left child"
+    },
+    {
+      "id": "attach-right",
+      "label": "Attach as the right child"
+    },
+    {
+      "id": "finish",
+      "label": "The tree now holds the value"
+    }
+  ]
+}

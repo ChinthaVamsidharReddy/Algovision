@@ -1,0 +1,67 @@
+{
+  "id": "move-zeroes",
+  "title": "Move Zeroes",
+  "category": "two-pointers",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Push every zero to the end while keeping the other values in order, using a read pointer and a write pointer.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      0,
+      3,
+      12,
+      0,
+      5
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-write",
+      "label": "Start write at 0"
+    },
+    {
+      "id": "loop",
+      "label": "Move read forward"
+    },
+    {
+      "id": "check-nonzero",
+      "label": "Is the value non-zero?"
+    },
+    {
+      "id": "swap",
+      "label": "Swap it into the write position"
+    },
+    {
+      "id": "advance-write",
+      "label": "Advance write"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

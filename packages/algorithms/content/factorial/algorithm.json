@@ -1,0 +1,48 @@
+{
+  "id": "factorial",
+  "title": "Factorial (Recursion)",
+  "category": "recursion",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "beginner",
+  "summary": "Compute n! by letting each call wait for the call on n - 1. The call stack grows to depth n + 1, then unwinds.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 5
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "n",
+      "note": "From 0 to 12."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Is n 0?"
+    },
+    {
+      "id": "recurse",
+      "label": "Call factorial(n - 1)"
+    },
+    {
+      "id": "combine",
+      "label": "Multiply and return"
+    }
+  ]
+}

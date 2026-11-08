@@ -1,0 +1,77 @@
+{
+  "id": "knapsack-01-1d",
+  "title": "0/1 Knapsack (One-Dimensional Table)",
+  "category": "dynamic-programming",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Choose items to maximise value within a weight limit, using each item at most once. One table over capacities is updated from high to low so an item is never counted twice.",
+  "complexity": {
+    "time": "O(items * capacity)",
+    "space": "O(capacity)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      1,
+      3,
+      4,
+      4,
+      5,
+      5,
+      7
+    ],
+    "capacity": 7
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Items as weight, value pairs",
+      "note": "Write each item as two numbers: weight (1 to 20) then value (0 to 999). For example 1, 1, 3, 4 means two items."
+    },
+    {
+      "name": "capacity",
+      "kind": "int",
+      "label": "Capacity",
+      "note": "From 0 to 20."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "capacity"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-table",
+      "label": "Every capacity starts at value 0"
+    },
+    {
+      "id": "loop",
+      "label": "Next item"
+    },
+    {
+      "id": "inner-loop",
+      "label": "Capacities from high to low"
+    },
+    {
+      "id": "check",
+      "label": "Does taking the item beat leaving it?"
+    },
+    {
+      "id": "fill",
+      "label": "Record the better value"
+    },
+    {
+      "id": "finish",
+      "label": "Return dp[capacity]"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+[
+ {
+  "name": "1 disks",
+  "input": {
+   "n": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "2 disks",
+  "input": {
+   "n": 2
+  },
+  "expected": 3
+ },
+ {
+  "name": "3 disks",
+  "input": {
+   "n": 3
+  },
+  "expected": 7
+ },
+ {
+  "name": "4 disks",
+  "input": {
+   "n": 4
+  },
+  "expected": 15
+ },
+ {
+  "name": "5 disks",
+  "input": {
+   "n": 5
+  },
+  "expected": 31
+ },
+ {
+  "name": "6 disks",
+  "input": {
+   "n": 6
+  },
+  "expected": 63
+ },
+ {
+  "name": "7 disks",
+  "input": {
+   "n": 7
+  },
+  "expected": 127
+ }
+]

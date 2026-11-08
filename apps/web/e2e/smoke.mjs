@@ -4,7 +4,7 @@
  * Needs Playwright with Chromium (preinstalled in the dev container; install separately elsewhere).
  */
 import { createRequire } from "node:module";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync } from "node:fs";
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 
@@ -92,6 +92,24 @@ await session({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch:
 });
 
 // 4. Low-end device: 6x CPU throttle, lite profile; measure step latency over a 15-node list.
+// 5b. Every other published algorithm (waves A-G): renders, plays to the last step, readable on mobile, no errors.
+{
+  const known = new Set(["linear-search", "binary-search", "bubble-sort", "stack-push-pop", "queue-enqueue-dequeue", "binary-tree-inorder", "selection-sort", "insertion-sort", "linked-list-insert-tail", "find-maximum", "prefix-sum", "insert-at-index", "delete-at-index", "two-sum-sorted", "reverse-in-place", "remove-duplicates-sorted", "max-sum-subarray-k", "smallest-subarray-sum", "linked-list-insert-head"]);
+  const slugs = readdirSync(new URL("../../../packages/algorithms/content", import.meta.url)).filter((x) => !known.has(x));
+  check("content lists the additional algorithms", slugs.length >= 50, String(slugs.length));
+  for (const slug of slugs) {
+    await session({ viewport: { width: 375, height: 800 }, isMobile: true }, async (page, problems) => {
+      await page.goto(`${base}/algorithms/${slug}`);
+      await page.getByRole("heading", { name: /^Step 1 of/ }).waitFor();
+      await page.keyboard.press("End");
+      const state = (await page.getByTestId("state-text").textContent()) ?? "";
+      check(`${slug}: final state text is present`, state.trim().length > 0, state);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+      check(`${slug}: no horizontal page overflow at 375px`, !overflow);
+      check(`${slug}: no page or console errors`, problems.length === 0, problems.join(" | "));
+    });
+  }
+}
 await session({ viewport: { width: 412, height: 800 }, isMobile: true }, async (page) => {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send("Emulation.setCPUThrottlingRate", { rate: 6 });

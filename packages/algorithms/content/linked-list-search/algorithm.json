@@ -1,0 +1,77 @@
+{
+  "id": "linked-list-search",
+  "title": "Linked List: Search for a Value",
+  "category": "linked-list",
+  "wave": 7,
+  "stateKind": "linkedList",
+  "difficulty": "beginner",
+  "summary": "Walk a singly linked list from the head and report the index of the first node holding a value, or -1.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      7,
+      3,
+      9,
+      3,
+      5
+    ],
+    "value": 9
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values",
+      "note": "Node values from head to tail."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "Value to find"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "value"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-index",
+      "label": "Start counting at index 0"
+    },
+    {
+      "id": "init-current",
+      "label": "Start at the head"
+    },
+    {
+      "id": "loop",
+      "label": "While there is a node"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with the value"
+    },
+    {
+      "id": "found",
+      "label": "Return the index"
+    },
+    {
+      "id": "advance",
+      "label": "Move to the next node"
+    },
+    {
+      "id": "not-found",
+      "label": "Return -1"
+    }
+  ]
+}

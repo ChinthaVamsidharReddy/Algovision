@@ -1,0 +1,76 @@
+{
+  "id": "container-with-most-water",
+  "title": "Container With Most Water",
+  "category": "two-pointers",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Pick two vertical lines that hold the most water. Start with the widest pair and always move the shorter line inward.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      8,
+      6,
+      2,
+      5,
+      4,
+      8
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Line heights",
+      "note": "Whole numbers from 0 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start with the widest container"
+    },
+    {
+      "id": "loop",
+      "label": "While the lines are apart"
+    },
+    {
+      "id": "measure",
+      "label": "Water level = the shorter line"
+    },
+    {
+      "id": "area",
+      "label": "Area = level \u00d7 width"
+    },
+    {
+      "id": "update-best",
+      "label": "Keep the best area"
+    },
+    {
+      "id": "move-left",
+      "label": "Move the shorter left line"
+    },
+    {
+      "id": "move-right",
+      "label": "Move the right line"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best area"
+    }
+  ]
+}

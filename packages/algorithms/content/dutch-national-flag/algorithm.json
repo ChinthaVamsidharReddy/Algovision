@@ -1,0 +1,76 @@
+{
+  "id": "dutch-national-flag",
+  "title": "Dutch National Flag (Sort 0s, 1s and 2s)",
+  "category": "two-pointers",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Sort an array of 0s, 1s and 2s in one pass with three pointers: low, mid and high.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      0,
+      2,
+      1,
+      1,
+      0,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values (0, 1 or 2)",
+      "note": "Each value is 0, 1 or 2."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start the three pointers"
+    },
+    {
+      "id": "loop",
+      "label": "Continue while mid <= high"
+    },
+    {
+      "id": "check-zero",
+      "label": "Is the value 0?"
+    },
+    {
+      "id": "zero-swap",
+      "label": "Swap it to the front"
+    },
+    {
+      "id": "check-one",
+      "label": "Is the value 1?"
+    },
+    {
+      "id": "one-advance",
+      "label": "Leave it, advance mid"
+    },
+    {
+      "id": "two-swap",
+      "label": "Swap it to the back"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

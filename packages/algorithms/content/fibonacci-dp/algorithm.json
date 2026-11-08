@@ -1,0 +1,56 @@
+{
+  "id": "fibonacci-dp",
+  "title": "Fibonacci with Dynamic Programming",
+  "category": "dynamic-programming",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Compute Fibonacci numbers bottom-up with a table: each entry is the sum of the two before it, so nothing is computed twice.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 7
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "n",
+      "note": "From 0 to 14 (0 to 7 on the lite profile)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "n is 0 or 1"
+    },
+    {
+      "id": "init-table",
+      "label": "Create the table and base values"
+    },
+    {
+      "id": "loop",
+      "label": "Next table cell"
+    },
+    {
+      "id": "fill",
+      "label": "Fill from the two cells before"
+    },
+    {
+      "id": "finish",
+      "label": "Return the last cell"
+    }
+  ]
+}

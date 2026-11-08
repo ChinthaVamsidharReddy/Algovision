@@ -21,12 +21,13 @@ export interface ArraySpec {
   /** Maximum array length override (e.g. insertion needs room for one more value). */
   readonly maxLength?: (limits: LimitProfile) => number;
   readonly valueMin?: number;
+  readonly valueMax?: number;
   readonly valueMessage?: string;
 }
 
 /** Validates {values, ...extra integer fields} with human-readable, field-scoped messages. */
 export function parseArrayWithFields(raw: unknown, limits: LimitProfile, spec: ArraySpec): InputResult<Record<string, unknown>> {
-  const max = limits.maxAbsValue;
+  const max = spec.valueMax ?? limits.maxAbsValue;
   const lo = spec.valueMin ?? -max;
   const whole = (what: string, a: number, b: number, message?: string) =>
     z

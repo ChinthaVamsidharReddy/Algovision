@@ -1,0 +1,212 @@
+[
+ {
+  "name": "balanced mix",
+  "input": {
+   "values": [
+    1,
+    3,
+    5,
+    6,
+    4,
+    2
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "wrong closer",
+  "input": {
+   "values": [
+    1,
+    4
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "empty is balanced",
+  "input": {
+   "values": []
+  },
+  "expected": 1
+ },
+ {
+  "name": "single opener",
+  "input": {
+   "values": [
+    1
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "single closer",
+  "input": {
+   "values": [
+    2
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "limit code",
+  "input": {
+   "values": [
+    5,
+    6
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "leftover opener",
+  "input": {
+   "values": [
+    1,
+    3,
+    4
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "crossed",
+  "input": {
+   "values": [
+    1,
+    3,
+    2,
+    4
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "two pairs",
+  "input": {
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    1,
+    3,
+    4,
+    2,
+    5,
+    6
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    1,
+    1,
+    1,
+    2,
+    2,
+    1,
+    2,
+    2,
+    5,
+    1,
+    2,
+    6
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    2,
+    6
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    1,
+    3,
+    3,
+    5,
+    4,
+    3,
+    4,
+    2
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    1,
+    5,
+    6,
+    2
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    5,
+    2,
+    6,
+    6,
+    5,
+    6
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    1,
+    1,
+    5,
+    6,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    5,
+    6
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    3,
+    4
+   ]
+  },
+  "expected": 1
+ }
+]

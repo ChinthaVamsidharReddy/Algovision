@@ -1,0 +1,201 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    1,
+    2,
+    5
+   ],
+   "amount": 11
+  },
+  "expected": 3
+ },
+ {
+  "name": "impossible",
+  "input": {
+   "values": [
+    2
+   ],
+   "amount": 3
+  },
+  "expected": -1
+ },
+ {
+  "name": "amount zero",
+  "input": {
+   "values": [
+    1
+   ],
+   "amount": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "no coins",
+  "input": {
+   "values": [],
+   "amount": 4
+  },
+  "expected": -1
+ },
+ {
+  "name": "single coin",
+  "input": {
+   "values": [
+    7
+   ],
+   "amount": 7
+  },
+  "expected": 1
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    99,
+    1
+   ],
+   "amount": 20
+  },
+  "expected": 20
+ },
+ {
+  "name": "greedy fails",
+  "input": {
+   "values": [
+    1,
+    3,
+    4
+   ],
+   "amount": 6
+  },
+  "expected": 2
+ },
+ {
+  "name": "duplicate coins",
+  "input": {
+   "values": [
+    2,
+    2,
+    5
+   ],
+   "amount": 9
+  },
+  "expected": 3
+ },
+ {
+  "name": "max amount",
+  "input": {
+   "values": [
+    1,
+    5,
+    10
+   ],
+   "amount": 20
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    2,
+    9
+   ],
+   "amount": 2
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    1,
+    4,
+    8,
+    9
+   ],
+   "amount": 13
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    6,
+    8,
+    8,
+    6,
+    5,
+    4
+   ],
+   "amount": 5
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    4,
+    2,
+    5,
+    9,
+    8
+   ],
+   "amount": 10
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    8,
+    5,
+    2,
+    2,
+    9
+   ],
+   "amount": 13
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    6
+   ],
+   "amount": 4
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    7,
+    1,
+    2
+   ],
+   "amount": 17
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    6,
+    6,
+    6,
+    8
+   ],
+   "amount": 18
+  },
+  "expected": 3
+ }
+]

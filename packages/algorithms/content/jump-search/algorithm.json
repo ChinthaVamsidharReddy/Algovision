@@ -1,0 +1,88 @@
+{
+  "id": "jump-search",
+  "title": "Jump Search",
+  "category": "searching",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "On a sorted array, jump ahead in blocks of about \u221an to find the block that could hold the target, then scan inside it.",
+  "complexity": {
+    "time": "O(\u221an)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      5,
+      7,
+      9,
+      11,
+      13,
+      15
+    ],
+    "target": 11
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Value to find"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-step",
+      "label": "Choose the block size \u2248 \u221an"
+    },
+    {
+      "id": "init-prev",
+      "label": "Start at the first block"
+    },
+    {
+      "id": "block-end",
+      "label": "Mark the end of the block"
+    },
+    {
+      "id": "jump-check",
+      "label": "Is the target beyond this block?"
+    },
+    {
+      "id": "jump",
+      "label": "Jump to the next block"
+    },
+    {
+      "id": "linear-loop",
+      "label": "Scan inside the block"
+    },
+    {
+      "id": "linear-compare",
+      "label": "Compare with the target"
+    },
+    {
+      "id": "found",
+      "label": "Return the index"
+    },
+    {
+      "id": "not-found",
+      "label": "Return -1"
+    }
+  ]
+}

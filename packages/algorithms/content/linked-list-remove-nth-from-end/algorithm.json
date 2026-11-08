@@ -1,0 +1,90 @@
+{
+  "id": "linked-list-remove-nth-from-end",
+  "title": "Linked List: Remove the Nth Node From the End",
+  "category": "linked-list",
+  "wave": 7,
+  "stateKind": "linkedList",
+  "difficulty": "intermediate",
+  "summary": "Remove the nth node from the end in one pass: give a fast pointer an n-node head start, then walk both pointers together.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n": 2
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values",
+      "note": "At least one node."
+    },
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Position from the end (n)",
+      "note": "1 is the last node."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "n"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-pointers",
+      "label": "Start fast and slow at the head"
+    },
+    {
+      "id": "gap-loop",
+      "label": "Build an n-node gap"
+    },
+    {
+      "id": "gap-advance",
+      "label": "Advance fast"
+    },
+    {
+      "id": "check-head",
+      "label": "Did fast run off the end?"
+    },
+    {
+      "id": "remove-head",
+      "label": "Remove the head"
+    },
+    {
+      "id": "loop",
+      "label": "Is fast on the last node?"
+    },
+    {
+      "id": "move-fast",
+      "label": "Move fast forward"
+    },
+    {
+      "id": "move-slow",
+      "label": "Move slow forward"
+    },
+    {
+      "id": "unlink",
+      "label": "Skip the node"
+    },
+    {
+      "id": "finish",
+      "label": "Return the head"
+    }
+  ]
+}

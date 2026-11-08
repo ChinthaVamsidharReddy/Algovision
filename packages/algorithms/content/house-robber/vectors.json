@@ -1,0 +1,179 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    2,
+    7,
+    9,
+    3,
+    1
+   ]
+  },
+  "expected": 12
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": []
+  },
+  "expected": 0
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    5
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "two houses",
+  "input": {
+   "values": [
+    3,
+    8
+   ]
+  },
+  "expected": 8
+ },
+ {
+  "name": "limit values",
+  "input": {
+   "values": [
+    999,
+    0,
+    999
+   ]
+  },
+  "expected": 1998
+ },
+ {
+  "name": "all zero",
+  "input": {
+   "values": [
+    0,
+    0,
+    0
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "alternating",
+  "input": {
+   "values": [
+    1,
+    100,
+    1,
+    100
+   ]
+  },
+  "expected": 200
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    9,
+    25,
+    41,
+    3,
+    4,
+    34,
+    6,
+    23,
+    37,
+    3
+   ]
+  },
+  "expected": 121
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    2,
+    5,
+    27,
+    26,
+    4,
+    15
+   ]
+  },
+  "expected": 46
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    35,
+    27
+   ]
+  },
+  "expected": 35
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    36
+   ]
+  },
+  "expected": 36
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    14,
+    40,
+    40
+   ]
+  },
+  "expected": 54
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    36
+   ]
+  },
+  "expected": 36
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    3,
+    14,
+    2,
+    35,
+    8,
+    18,
+    26,
+    9,
+    34,
+    7,
+    36,
+    19
+   ]
+  },
+  "expected": 145
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    6,
+    37,
+    36,
+    40,
+    12
+   ]
+  },
+  "expected": 77
+ }
+]

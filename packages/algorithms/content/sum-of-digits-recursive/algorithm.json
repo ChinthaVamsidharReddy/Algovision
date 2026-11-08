@@ -1,0 +1,48 @@
+{
+  "id": "sum-of-digits-recursive",
+  "title": "Sum of Digits (Recursion)",
+  "category": "recursion",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "beginner",
+  "summary": "Add the digits of a number by splitting off the last digit and recursing on the rest.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(log n)"
+  },
+  "defaultInput": {
+    "n": 4825
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "n",
+      "note": "From 0 to 999999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "base-case",
+      "label": "Is it one digit?"
+    },
+    {
+      "id": "recurse",
+      "label": "Recurse on n / 10"
+    },
+    {
+      "id": "combine",
+      "label": "Add the last digit"
+    }
+  ]
+}

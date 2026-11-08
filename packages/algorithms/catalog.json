@@ -202,6 +202,88 @@
           "State the in-order visiting rule"
         ]
       }
+    },
+    {
+      "id": "hashing",
+      "slug": "hashing",
+      "name": "Hashing",
+      "description": "Store and find values by key in constant time on average.",
+      "sort": 75,
+      "keywords": [
+        "hash",
+        "table",
+        "bucket",
+        "collision",
+        "probing",
+        "key",
+        "map",
+        "set"
+      ],
+      "topic": {
+        "slug": "hash-tables",
+        "name": "Hash Tables",
+        "difficulty": "INTERMEDIATE",
+        "summary": "How a hash function maps keys to slots and what happens on a collision.",
+        "objectives": [
+          "Compute a bucket index with a hash function",
+          "Resolve collisions with linear probing",
+          "Explain average versus worst-case lookup"
+        ]
+      }
+    },
+    {
+      "id": "recursion",
+      "slug": "recursion",
+      "name": "Recursion",
+      "description": "Functions that call themselves, shown as a growing and shrinking call stack.",
+      "sort": 85,
+      "keywords": [
+        "recursion",
+        "recursive",
+        "call stack",
+        "base case",
+        "factorial",
+        "fibonacci",
+        "backtracking"
+      ],
+      "topic": {
+        "slug": "recursion-basics",
+        "name": "Recursion Basics",
+        "difficulty": "BEGINNER",
+        "summary": "Base cases, recursive cases and how the call stack unwinds.",
+        "objectives": [
+          "Identify the base case and recursive case",
+          "Trace a call stack frame by frame",
+          "Compare recursive and iterative solutions"
+        ]
+      }
+    },
+    {
+      "id": "dynamic-programming",
+      "slug": "dynamic-programming",
+      "name": "Dynamic Programming",
+      "description": "Build answers from smaller answers stored in a table.",
+      "sort": 90,
+      "keywords": [
+        "dp",
+        "dynamic",
+        "memoization",
+        "tabulation",
+        "subproblem",
+        "optimal",
+        "table"
+      ],
+      "topic": {
+        "slug": "dp-one-dimensional",
+        "name": "One-Dimensional DP",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Fill a one-dimensional table from smaller subproblems.",
+        "objectives": [
+          "Define a DP state and recurrence",
+          "Fill a table bottom-up",
+          "Recognize overlapping subproblems"
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,83 @@
+{
+  "id": "circular-queue",
+  "title": "Circular Queue (Ring Buffer)",
+  "category": "stacks-and-queues",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "A fixed-size queue that wraps around the end of its array: front and size decide where the next item is stored or removed.",
+  "complexity": {
+    "time": "O(1) per operation",
+    "space": "O(capacity)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      20,
+      30,
+      0,
+      40,
+      50
+    ],
+    "capacity": 3
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Operations",
+      "note": "A non-zero value is enqueued; 0 dequeues."
+    },
+    {
+      "name": "capacity",
+      "kind": "int",
+      "label": "Capacity",
+      "note": "How many items the queue can hold."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "capacity"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start with front 0 and size 0"
+    },
+    {
+      "id": "loop",
+      "label": "Next operation"
+    },
+    {
+      "id": "check-op",
+      "label": "Enqueue or dequeue?"
+    },
+    {
+      "id": "overflow",
+      "label": "Queue full: reject"
+    },
+    {
+      "id": "enqueue",
+      "label": "Store at (front + size) % capacity"
+    },
+    {
+      "id": "underflow",
+      "label": "Queue empty: nothing to remove"
+    },
+    {
+      "id": "dequeue",
+      "label": "Remove at front and wrap"
+    },
+    {
+      "id": "finish",
+      "label": "Return the stored items"
+    }
+  ]
+}

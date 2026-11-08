@@ -1,0 +1,66 @@
+{
+  "id": "count-frequencies",
+  "title": "Count Frequencies (Hash Map)",
+  "category": "hashing",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Count how many times each value appears with a hash map from value to count. The answer lists value, count pairs in order of first appearance.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      2,
+      4,
+      1,
+      2,
+      4
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-map",
+      "label": "Start with an empty map and order list"
+    },
+    {
+      "id": "loop",
+      "label": "Next value"
+    },
+    {
+      "id": "first-seen",
+      "label": "First time: remember its order"
+    },
+    {
+      "id": "increment",
+      "label": "Add one to its count"
+    },
+    {
+      "id": "build-output",
+      "label": "Write value, count pairs"
+    },
+    {
+      "id": "finish",
+      "label": "Return the pairs"
+    }
+  ]
+}

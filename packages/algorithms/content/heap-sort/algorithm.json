@@ -1,0 +1,86 @@
+{
+  "id": "heap-sort",
+  "title": "Heap Sort",
+  "category": "sorting",
+  "wave": 7,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Turn the array into a max-heap, then repeatedly swap the largest value to the end and repair the heap.",
+  "complexity": {
+    "time": "O(n log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      10,
+      3,
+      5,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Up to 15 values."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-heap",
+      "label": "Build the heap from the bottom up"
+    },
+    {
+      "id": "sift-entry",
+      "label": "Sift a value down"
+    },
+    {
+      "id": "pick-largest",
+      "label": "Assume the root is largest"
+    },
+    {
+      "id": "compare-left",
+      "label": "Compare with the left child"
+    },
+    {
+      "id": "compare-right",
+      "label": "Compare with the right child"
+    },
+    {
+      "id": "sift-done",
+      "label": "The heap rule holds: stop"
+    },
+    {
+      "id": "sift-swap",
+      "label": "Swap with the larger child"
+    },
+    {
+      "id": "sift-move",
+      "label": "Continue from the child"
+    },
+    {
+      "id": "extract-loop",
+      "label": "Take the maximum off the heap"
+    },
+    {
+      "id": "extract-swap",
+      "label": "Swap it to the end"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

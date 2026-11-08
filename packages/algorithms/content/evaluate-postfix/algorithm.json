@@ -1,0 +1,74 @@
+{
+  "id": "evaluate-postfix",
+  "title": "Evaluate a Postfix Expression",
+  "category": "stacks-and-queues",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "Evaluate an expression written with the operator after its operands: numbers go on a stack and each operator combines the top two.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      3,
+      4,
+      -3,
+      -1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Tokens",
+      "note": "0 to 99 are numbers; -1 = +, -2 = -, -3 = *, -4 = / (whole-number division)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "Read the next token"
+    },
+    {
+      "id": "check-operand",
+      "label": "Is it a number?"
+    },
+    {
+      "id": "push-operand",
+      "label": "Push the number"
+    },
+    {
+      "id": "pop-right",
+      "label": "Pop the right operand"
+    },
+    {
+      "id": "pop-left",
+      "label": "Pop the left operand"
+    },
+    {
+      "id": "apply",
+      "label": "Apply the operator"
+    },
+    {
+      "id": "push-result",
+      "label": "Push the result"
+    },
+    {
+      "id": "finish",
+      "label": "The answer is the last value"
+    }
+  ]
+}

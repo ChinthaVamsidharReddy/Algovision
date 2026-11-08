@@ -1,0 +1,71 @@
+{
+  "id": "valid-parentheses",
+  "title": "Valid Parentheses (Balanced Brackets)",
+  "category": "stacks-and-queues",
+  "wave": 7,
+  "stateKind": "stack",
+  "difficulty": "beginner",
+  "summary": "Check that every bracket is closed by the right kind in the right order, using a stack of openers still waiting for their closer.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      4,
+      2,
+      5,
+      6
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Brackets (codes 1-6)",
+      "note": "1 = (  2 = )  3 = [  4 = ]  5 = {  6 = }"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "Read the next bracket"
+    },
+    {
+      "id": "check-open",
+      "label": "Is it an opening bracket?"
+    },
+    {
+      "id": "push",
+      "label": "Push the opener"
+    },
+    {
+      "id": "check-empty",
+      "label": "Is there an opener to match?"
+    },
+    {
+      "id": "check-match",
+      "label": "Does the top match?"
+    },
+    {
+      "id": "pop",
+      "label": "Pop the matched opener"
+    },
+    {
+      "id": "finish",
+      "label": "Balanced only if the stack is empty"
+    }
+  ]
+}

@@ -49,6 +49,24 @@ INSERT INTO topics (category_id, slug, name, difficulty, summary, objectives, st
 SELECT id, 'binary-tree-traversal', 'Binary Tree Traversal', 'INTERMEDIATE', 'Visiting every node of a binary tree with recursion.', ARRAY['Follow the call stack during a recursive traversal', 'State the in-order visiting rule'], 'PUBLISHED', 10 FROM categories WHERE slug = 'trees'
 ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, objectives = EXCLUDED.objectives, status = 'PUBLISHED';
 
+INSERT INTO categories (slug, name, description, status, sort_order) VALUES ('hashing', 'Hashing', 'Store and find values by key in constant time on average.', 'PUBLISHED', 75)
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO topics (category_id, slug, name, difficulty, summary, objectives, status, sort_order)
+SELECT id, 'hash-tables', 'Hash Tables', 'INTERMEDIATE', 'How a hash function maps keys to slots and what happens on a collision.', ARRAY['Compute a bucket index with a hash function', 'Resolve collisions with linear probing', 'Explain average versus worst-case lookup'], 'PUBLISHED', 10 FROM categories WHERE slug = 'hashing'
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, objectives = EXCLUDED.objectives, status = 'PUBLISHED';
+
+INSERT INTO categories (slug, name, description, status, sort_order) VALUES ('recursion', 'Recursion', 'Functions that call themselves, shown as a growing and shrinking call stack.', 'PUBLISHED', 85)
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO topics (category_id, slug, name, difficulty, summary, objectives, status, sort_order)
+SELECT id, 'recursion-basics', 'Recursion Basics', 'BEGINNER', 'Base cases, recursive cases and how the call stack unwinds.', ARRAY['Identify the base case and recursive case', 'Trace a call stack frame by frame', 'Compare recursive and iterative solutions'], 'PUBLISHED', 10 FROM categories WHERE slug = 'recursion'
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, objectives = EXCLUDED.objectives, status = 'PUBLISHED';
+
+INSERT INTO categories (slug, name, description, status, sort_order) VALUES ('dynamic-programming', 'Dynamic Programming', 'Build answers from smaller answers stored in a table.', 'PUBLISHED', 90)
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO topics (category_id, slug, name, difficulty, summary, objectives, status, sort_order)
+SELECT id, 'dp-one-dimensional', 'One-Dimensional DP', 'INTERMEDIATE', 'Fill a one-dimensional table from smaller subproblems.', ARRAY['Define a DP state and recurrence', 'Fill a table bottom-up', 'Recognize overlapping subproblems'], 'PUBLISHED', 10 FROM categories WHERE slug = 'dynamic-programming'
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, objectives = EXCLUDED.objectives, status = 'PUBLISHED';
+
 -- binary-search
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
 SELECT id, 'binary-search', 'binary-search', 'Binary Search', 'array', 'BEGINNER', 'Find a value in a sorted array by repeatedly checking the middle cell and discarding the half that cannot hold it.', 'O(log n)', 'O(1)', 1, 'PUBLISHED', 10 FROM topics WHERE slug = 'searching-basics'
@@ -66,9 +84,26 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'binary-search'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c4fdfd4cb453685eb368a4e5509b759a4af37b116afbfa57c69ef162a64082cb';
 
+-- binary-search-first-occurrence
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'binary-search-first-occurrence', 'binary-search-first-occurrence', 'Binary Search: First Occurrence', 'array', 'INTERMEDIATE', 'A binary search for the leftmost copy of a value in a sorted array with duplicates: on a match, keep searching to the left.', 'O(log n)', 'O(1)', 7, 'PUBLISHED', 20 FROM topics WHERE slug = 'searching-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'b4f57f80304e65260170006778ad572703fb13b8aacc9906cfa6538f5a48740c' FROM algorithms WHERE slug = 'binary-search-first-occurrence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '08ace2d8ffce2968950c2460669ace22624bbaf2aef6bf92e6e2f7993e32b11b' FROM algorithms WHERE slug = 'binary-search-first-occurrence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '152da093b038205f5168f3df4350ab533516aa0cb78a5c9f17f3d7b95cc2e50a' FROM algorithms WHERE slug = 'binary-search-first-occurrence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '45ed55bfca83a9c5aec10bb6c9f9902bed8f86bdf801a2dcdbe000b8b3116131' FROM algorithms WHERE slug = 'binary-search-first-occurrence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '545bb3f15eaeaa5995f16b1ff72210ea43dccd5c1c466ab9e8f6576ae8aba77e', 'content sync'
+FROM algorithms a WHERE a.slug = 'binary-search-first-occurrence'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '545bb3f15eaeaa5995f16b1ff72210ea43dccd5c1c466ab9e8f6576ae8aba77e';
+
 -- binary-tree-inorder
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'binary-tree-inorder', 'binary-tree-inorder', 'Binary Tree: In-order Traversal', 'tree', 'INTERMEDIATE', 'Walk a binary search tree recursively: visit the left subtree, then the node, then the right subtree. Watch the call stack grow and shrink.', 'O(n)', 'O(h)', 2, 'PUBLISHED', 20 FROM topics WHERE slug = 'binary-tree-traversal'
+SELECT id, 'binary-tree-inorder', 'binary-tree-inorder', 'Binary Tree: In-order Traversal', 'tree', 'INTERMEDIATE', 'Walk a binary search tree recursively: visit the left subtree, then the node, then the right subtree. Watch the call stack grow and shrink.', 'O(n)', 'O(h)', 2, 'PUBLISHED', 30 FROM topics WHERE slug = 'binary-tree-traversal'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c1d9966d446d1f58a992e6cdce65fe258d09f44b6ce9949a2665a568d6ccf388' FROM algorithms WHERE slug = 'binary-tree-inorder'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -83,9 +118,94 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'binary-tree-inorder'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '98f7c90b603a304e1e0159774da109d4d7f28cec57f843fb27771abaabf0e407';
 
+-- binary-tree-postorder
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'binary-tree-postorder', 'binary-tree-postorder', 'Binary Tree: Post-order Traversal', 'tree', 'INTERMEDIATE', 'Walk a binary search tree recursively: visit the left subtree, then the right subtree, and the node last. Children are always finished before their parent.', 'O(n)', 'O(h)', 7, 'PUBLISHED', 40 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '907a2878f93b21e68f09523a399f8b4b60b535e90e3c3ee61662d773f45509db' FROM algorithms WHERE slug = 'binary-tree-postorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '209e99fc10147babc7459d0477075a00547191286ef839d905ebd309757b6151' FROM algorithms WHERE slug = 'binary-tree-postorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '293eb04b13bea30ceff6cb568810146e5dbe10a46480157336697c3ef5eb1dcd' FROM algorithms WHERE slug = 'binary-tree-postorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '693ec7c3a70cc015d81b680235369f649b02879b1c171b498810006512ce826b' FROM algorithms WHERE slug = 'binary-tree-postorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '7e7d37de5e62fe68caa4549e24aebfa5af4da08cb803ad2ecf26dfb30035c449', 'content sync'
+FROM algorithms a WHERE a.slug = 'binary-tree-postorder'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '7e7d37de5e62fe68caa4549e24aebfa5af4da08cb803ad2ecf26dfb30035c449';
+
+-- binary-tree-preorder
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'binary-tree-preorder', 'binary-tree-preorder', 'Binary Tree: Pre-order Traversal', 'tree', 'INTERMEDIATE', 'Walk a binary search tree recursively: visit the node first, then the left subtree, then the right subtree. Watch the call stack grow and shrink.', 'O(n)', 'O(h)', 7, 'PUBLISHED', 50 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '8a44b0ae0c1954bdcd0a92ee1e3084d291c2e6747bbaefc2e0d9d99433bcdc2f' FROM algorithms WHERE slug = 'binary-tree-preorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'ec449a67c54e553e2fc5204fd36f2c7c7c77ebb3d2967ffce6345e1a8b2b564f' FROM algorithms WHERE slug = 'binary-tree-preorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '7518702ede60b929df33c0a6eeacd49ab3599bb439f34f0b6891d2cf1048b3be' FROM algorithms WHERE slug = 'binary-tree-preorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '1442ff8d259147398f0f8932605597da630784a8a0b12cb371f7ab197495a7cd' FROM algorithms WHERE slug = 'binary-tree-preorder'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '68b0a5cb8edac8aa95591211a1bf0f4b20771b3b134e4105b6b00b360169162a', 'content sync'
+FROM algorithms a WHERE a.slug = 'binary-tree-preorder'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '68b0a5cb8edac8aa95591211a1bf0f4b20771b3b134e4105b6b00b360169162a';
+
+-- bst-find-min-max
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'bst-find-min-max', 'bst-find-min-max', 'Binary Search Tree: Find Minimum and Maximum', 'tree', 'BEGINNER', 'The smallest value in a binary search tree is its leftmost node and the largest is its rightmost node: just keep walking one way.', 'O(h)', 'O(1)', 7, 'PUBLISHED', 60 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '990a66d031296979fa52cd5204ad20d91cbe2f7d9b00da4762a186da9066bcb3' FROM algorithms WHERE slug = 'bst-find-min-max'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '69c1c88c7b4c1d657ea2d38450124fcaafd599a44d1d7fda1eff49506c35b309' FROM algorithms WHERE slug = 'bst-find-min-max'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'f74ce1d5145a068ee940909b1ecc50721b729e839d7bd73bb85afb49b5e935da' FROM algorithms WHERE slug = 'bst-find-min-max'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '4e12a5c1c07b58a818c278cb73eba80894ff5762531ec67787caca1d5be7b99c' FROM algorithms WHERE slug = 'bst-find-min-max'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '28a15d5609025a83a5de2d2911fc9c02d7f6cc25144888a4b5543dab34224a7b', 'content sync'
+FROM algorithms a WHERE a.slug = 'bst-find-min-max'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '28a15d5609025a83a5de2d2911fc9c02d7f6cc25144888a4b5543dab34224a7b';
+
+-- bst-insert
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'bst-insert', 'bst-insert', 'Binary Search Tree: Insert', 'tree', 'INTERMEDIATE', 'Insert a value into a binary search tree: walk down comparing at each node until there is a free spot, then attach the new node there.', 'O(h)', 'O(1)', 7, 'PUBLISHED', 70 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '6c92971f0ff8fd8d9978ab99617f20eb88eaee668ad23f68cb3ee5c7dad5172b' FROM algorithms WHERE slug = 'bst-insert'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '8f2ffee806eac14a8b2fdc2c6de2f97ca53b30c94ddef83b721630dc0d6576b7' FROM algorithms WHERE slug = 'bst-insert'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '1d1d9e3c168196808c8ac1df5bb8423490c29abb8a04f30b1afd2d2f701978a4' FROM algorithms WHERE slug = 'bst-insert'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'ee2ed10ec41ef8f18ea2aded0292798adfb20d3b540c758a8254930ab7b7616a' FROM algorithms WHERE slug = 'bst-insert'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'c35712628e284221e8e6d43aa38c36237b0ce50b1a97672a2d75e24a6eb959b8', 'content sync'
+FROM algorithms a WHERE a.slug = 'bst-insert'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c35712628e284221e8e6d43aa38c36237b0ce50b1a97672a2d75e24a6eb959b8';
+
+-- bst-search
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'bst-search', 'bst-search', 'Binary Search Tree: Search', 'tree', 'BEGINNER', 'Find a value in a binary search tree by going left when it is smaller than the current node and right when it is larger.', 'O(h)', 'O(1)', 7, 'PUBLISHED', 80 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '4b67ec185aa16111c56528fdd87b031a4fc37a87f9ea9f36421c516846e9fac7' FROM algorithms WHERE slug = 'bst-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'e64a31d1cd8b5448dcd83eedc9fbd714c61ee9f9096276962a24044dd9812d2a' FROM algorithms WHERE slug = 'bst-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '4efecc90198cbbb56aa2be1eaf66c8e7156df550b019a6a988dbe8903bad5b92' FROM algorithms WHERE slug = 'bst-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '296c5e2781be6b7a0f0feab46ba0217ea15601bb117c1129f1bcf134cf0736b2' FROM algorithms WHERE slug = 'bst-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'cd0f2841ddee387088f550a81dc026d34255d94492af0e8c8cb2fa523ade9eac', 'content sync'
+FROM algorithms a WHERE a.slug = 'bst-search'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'cd0f2841ddee387088f550a81dc026d34255d94492af0e8c8cb2fa523ade9eac';
+
 -- bubble-sort
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'bubble-sort', 'bubble-sort', 'Bubble Sort', 'array', 'BEGINNER', 'Sort an array by repeatedly comparing neighbours and swapping those that are out of order, so the largest values settle at the right end.', 'O(n²)', 'O(1)', 1, 'PUBLISHED', 30 FROM topics WHERE slug = 'elementary-sorting'
+SELECT id, 'bubble-sort', 'bubble-sort', 'Bubble Sort', 'array', 'BEGINNER', 'Sort an array by repeatedly comparing neighbours and swapping those that are out of order, so the largest values settle at the right end.', 'O(n²)', 'O(1)', 1, 'PUBLISHED', 90 FROM topics WHERE slug = 'elementary-sorting'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '2734f1a376831ce100c03b24bda7d911394a9ba01384c4f171bfa49787658b75' FROM algorithms WHERE slug = 'bubble-sort'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -100,9 +220,128 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'bubble-sort'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '0f847bedfb8cb637f66ec26cecb28d0813cd063c8df46d7b39f36a58e3ebaa11';
 
+-- circular-queue
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'circular-queue', 'circular-queue', 'Circular Queue (Ring Buffer)', 'array', 'INTERMEDIATE', 'A fixed-size queue that wraps around the end of its array: front and size decide where the next item is stored or removed.', 'O(1) per operation', 'O(capacity)', 7, 'PUBLISHED', 100 FROM topics WHERE slug = 'stack-and-queue-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '13236ba957b7da0bc4f8100b5410516db56cd7b363a5e750f01bef0b449d5143' FROM algorithms WHERE slug = 'circular-queue'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '6834db2179cda9ea746fd74b49a6481d33e945bfdc4e1260c88d9be2581c63c0' FROM algorithms WHERE slug = 'circular-queue'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '042973fd089d319a87381ffbcef7481389ee2ebd1253370f9c42cbf152f170e1' FROM algorithms WHERE slug = 'circular-queue'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'e567f20c6ee224302accf955347b99cb314306add9ca989d1c924983fa571e93' FROM algorithms WHERE slug = 'circular-queue'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '091f97ce86a02b3fae2e887c06c4e9578dd7dd33f86e16c926e23dcc571c44f3', 'content sync'
+FROM algorithms a WHERE a.slug = 'circular-queue'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '091f97ce86a02b3fae2e887c06c4e9578dd7dd33f86e16c926e23dcc571c44f3';
+
+-- climbing-stairs
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'climbing-stairs', 'climbing-stairs', 'Climbing Stairs', 'array', 'BEGINNER', 'Count the ways to climb n stairs taking 1 or 2 steps at a time: the ways to reach a stair are the ways to reach the two stairs below it.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 110 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '977164765e4a1cd32e183eb592b310103730f5a3a2964cffdb33b1c731ed3b92' FROM algorithms WHERE slug = 'climbing-stairs'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '36b5e3edd070b28a9bbe74557f741075b679dcd66283ce4bcdb4f60e21e13bd2' FROM algorithms WHERE slug = 'climbing-stairs'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '210dc83c0ac476fe3fe461d514d6a19c43aabd47aec43f0508a36a34a5ee94a7' FROM algorithms WHERE slug = 'climbing-stairs'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '210dc83c0ac476fe3fe461d514d6a19c43aabd47aec43f0508a36a34a5ee94a7' FROM algorithms WHERE slug = 'climbing-stairs'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '197e7f074dd336dd3720320871d2605e0ffb32ef07d657131211839f1d8080d0', 'content sync'
+FROM algorithms a WHERE a.slug = 'climbing-stairs'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '197e7f074dd336dd3720320871d2605e0ffb32ef07d657131211839f1d8080d0';
+
+-- coin-change-min-coins
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'coin-change-min-coins', 'coin-change-min-coins', 'Coin Change (Fewest Coins)', 'array', 'INTERMEDIATE', 'Find the fewest coins that make an amount: dp[a] is the best for amount a, built from dp[a - coin] + 1 for every coin that fits.', 'O(amount * coins)', 'O(amount)', 7, 'PUBLISHED', 120 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c640d7b38392181375aa4f0584e89b1b0329970007668bc38d9f78e5acbb1a85' FROM algorithms WHERE slug = 'coin-change-min-coins'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'df58ddb59fd2877007a6a71963a499fb3f7f894094a77dc00aaeee0bbbaf1b12' FROM algorithms WHERE slug = 'coin-change-min-coins'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '49ffa11b1d49770f4e8f3030d17a719e728a43992d7d0e87d9036b402d03ef1c' FROM algorithms WHERE slug = 'coin-change-min-coins'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '50c4d8ea9d2b2a46dc19d0bc5bd23b793c287e59d3f31b6b386dff629c17aaa8' FROM algorithms WHERE slug = 'coin-change-min-coins'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '4e6770f012a62c4132076ab23adcd0594e3a28844c2b28b2b98e02c100824ad4', 'content sync'
+FROM algorithms a WHERE a.slug = 'coin-change-min-coins'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '4e6770f012a62c4132076ab23adcd0594e3a28844c2b28b2b98e02c100824ad4';
+
+-- container-with-most-water
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'container-with-most-water', 'container-with-most-water', 'Container With Most Water', 'array', 'INTERMEDIATE', 'Pick two vertical lines that hold the most water. Start with the widest pair and always move the shorter line inward.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 130 FROM topics WHERE slug = 'two-pointer-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'b1363cdef15b652c725b580906bcfa46f608705033732172dfe9af363d18d0fb' FROM algorithms WHERE slug = 'container-with-most-water'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'b0d638df9eaa91fea2a6843449f7d3a70b17fee50aaf4f40706b7a92f3df4c83' FROM algorithms WHERE slug = 'container-with-most-water'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '7de984d607b45334eeec9f6c3607b465039fa49fcf72eb36930d18c3ab58437f' FROM algorithms WHERE slug = 'container-with-most-water'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '2da4c1d3736b175574c994dc4b8c5601887da16374e6399c5a124bbce81e6995' FROM algorithms WHERE slug = 'container-with-most-water'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '2fcc5655d4c3c5414438aad4218af1a139748d086a7fb2216eb3a4c6a5907c64', 'content sync'
+FROM algorithms a WHERE a.slug = 'container-with-most-water'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '2fcc5655d4c3c5414438aad4218af1a139748d086a7fb2216eb3a4c6a5907c64';
+
+-- count-frequencies
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'count-frequencies', 'count-frequencies', 'Count Frequencies (Hash Map)', 'array', 'BEGINNER', 'Count how many times each value appears with a hash map from value to count. The answer lists value, count pairs in order of first appearance.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 140 FROM topics WHERE slug = 'hash-tables'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '89d1712d95f3fddb2b2226a7dcc47aae458ed3aea849ea0fdaac7735e5015eb0' FROM algorithms WHERE slug = 'count-frequencies'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'df266f7564f2105d56c2b8c39183708c278d02b8ca519571be144e8855a9e170' FROM algorithms WHERE slug = 'count-frequencies'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '7378cc77332ebfbed172d0ff2ea29cbd546c6dcdea6999718e35abca793da65e' FROM algorithms WHERE slug = 'count-frequencies'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '44f336252a04611364c5025b3ebcec7bdd1c816acb9c4c82208ce96a92593de0' FROM algorithms WHERE slug = 'count-frequencies'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'e788db6b201ed88e7f71608e0ecae1b27cc50dac5ecdf875b12b5eb11eb067b6', 'content sync'
+FROM algorithms a WHERE a.slug = 'count-frequencies'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'e788db6b201ed88e7f71608e0ecae1b27cc50dac5ecdf875b12b5eb11eb067b6';
+
+-- count-leaves
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'count-leaves', 'count-leaves', 'Binary Tree: Count the Leaves', 'tree', 'INTERMEDIATE', 'Count the leaves (nodes with no children) recursively: a leaf counts 1, any other node counts the leaves of its two subtrees.', 'O(n)', 'O(h)', 7, 'PUBLISHED', 150 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '95dd4b22a8cc26155e4eceffb33e3999714ae26eda59b908c280e52cc8a44fbe' FROM algorithms WHERE slug = 'count-leaves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '2c9eaa991cfe4886fbc572755ff0c495f3dcfdfd45f52a1099e3c409411328b2' FROM algorithms WHERE slug = 'count-leaves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '862ce68c900d26eec00ab359c9421042f97db0e4ac116d320ccd909bf6877870' FROM algorithms WHERE slug = 'count-leaves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '1640864b6ed6407e669cea904e9a87346aec50be24ea2f4243ccca009fc4dd34' FROM algorithms WHERE slug = 'count-leaves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '6f256d8e7ad2993825ad9b9ba5d326835e74da625dcdc961b74a88458c224063', 'content sync'
+FROM algorithms a WHERE a.slug = 'count-leaves'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '6f256d8e7ad2993825ad9b9ba5d326835e74da625dcdc961b74a88458c224063';
+
+-- counting-sort
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'counting-sort', 'counting-sort', 'Counting Sort', 'array', 'INTERMEDIATE', 'Sort small whole numbers without comparing them: count each value, then write the values back in order.', 'O(n + k)', 'O(k)', 7, 'PUBLISHED', 160 FROM topics WHERE slug = 'elementary-sorting'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'f0cd553dcbc4757a53441b259d060ed4ce8e9aa71363fd548311ed5a3d562af5' FROM algorithms WHERE slug = 'counting-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'ede396e07dfb50ca441366763ef172e5eb2876c7bc8796edc9fdd3493e2b3185' FROM algorithms WHERE slug = 'counting-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'fa27efd369b99ca85c92dbf8099709029aa37dc488130efe70bab184fa15036a' FROM algorithms WHERE slug = 'counting-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'bcb8267fd58a9b2e977a231ebd47d402080ddef3958e5bf2da0885f4e629a2f6' FROM algorithms WHERE slug = 'counting-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '9680a71592dcf903599f70762cd64c59d021ee83fa07781bbd1876b58023580d', 'content sync'
+FROM algorithms a WHERE a.slug = 'counting-sort'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '9680a71592dcf903599f70762cd64c59d021ee83fa07781bbd1876b58023580d';
+
 -- delete-at-index
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'delete-at-index', 'delete-at-index', 'Delete at an Index', 'array', 'BEGINNER', 'Remove a value from an array by sliding every later value one place to the left.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 40 FROM topics WHERE slug = 'arrays-basics'
+SELECT id, 'delete-at-index', 'delete-at-index', 'Delete at an Index', 'array', 'BEGINNER', 'Remove a value from an array by sliding every later value one place to the left.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 170 FROM topics WHERE slug = 'arrays-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '3399e62b1986edce94cfeaccb4733af825353778e692095bb3703521ced855ec' FROM algorithms WHERE slug = 'delete-at-index'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -117,9 +356,94 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'delete-at-index'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '6cad71765f3630cbfb57f0a2eb90d1a00771b7eb503096b362f931775029c2f9';
 
+-- dutch-national-flag
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'dutch-national-flag', 'dutch-national-flag', 'Dutch National Flag (Sort 0s, 1s and 2s)', 'array', 'INTERMEDIATE', 'Sort an array of 0s, 1s and 2s in one pass with three pointers: low, mid and high.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 180 FROM topics WHERE slug = 'two-pointer-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '08b1ac002a04e30fead34ed761d8044b3b61b9ffce121ede7c0ece2059c14c2e' FROM algorithms WHERE slug = 'dutch-national-flag'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'b68c46f37b663d7bc0ed76fa2cbdc556e217bb75cb7b0dd163484468730c7025' FROM algorithms WHERE slug = 'dutch-national-flag'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'c306f4ceebdb435381fa30b1d2499756aae44b97cffa2ac08b3a887f266c4d92' FROM algorithms WHERE slug = 'dutch-national-flag'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'c0fbf6ec00851edbcc6011e237607fadbba79eb6ba76c15db9507d12fd6b75fe' FROM algorithms WHERE slug = 'dutch-national-flag'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '4f5c1c72d0d16554b39f03c294c812a8f670f3e86123312fe68a62ffb1f47212', 'content sync'
+FROM algorithms a WHERE a.slug = 'dutch-national-flag'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '4f5c1c72d0d16554b39f03c294c812a8f670f3e86123312fe68a62ffb1f47212';
+
+-- evaluate-postfix
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'evaluate-postfix', 'evaluate-postfix', 'Evaluate a Postfix Expression', 'stack', 'INTERMEDIATE', 'Evaluate an expression written with the operator after its operands: numbers go on a stack and each operator combines the top two.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 190 FROM topics WHERE slug = 'stack-and-queue-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '68d632997c2567c00b668ef2fe8f6cdf6e740e9026fa6645b3f1ceeba31488ee' FROM algorithms WHERE slug = 'evaluate-postfix'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'd8842178a7c701286cc11ca9b787977149035099df8399222ad9a660d2e2b916' FROM algorithms WHERE slug = 'evaluate-postfix'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '233f63bd6b01e8150023d1f59913037b50102469086f7f5cef800fdb3acf0977' FROM algorithms WHERE slug = 'evaluate-postfix'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '9ea36b2d35dfced4f91f50ddb06e32380ab909fa8be24a24b58358671eb83164' FROM algorithms WHERE slug = 'evaluate-postfix'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'e98deefe3f0fcd7c92096ff066dcc4bed459c6027db429b6d0f6d8824d44f657', 'content sync'
+FROM algorithms a WHERE a.slug = 'evaluate-postfix'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'e98deefe3f0fcd7c92096ff066dcc4bed459c6027db429b6d0f6d8824d44f657';
+
+-- factorial
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'factorial', 'factorial', 'Factorial (Recursion)', 'stack', 'BEGINNER', 'Compute n! by letting each call wait for the call on n - 1. The call stack grows to depth n + 1, then unwinds.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 200 FROM topics WHERE slug = 'recursion-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '04c52ef13ad83aef434ef073817595e78daf8b6d014748cb09bba347508df4bf' FROM algorithms WHERE slug = 'factorial'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '8c7e08fe89d764048480264962625f10ab6f74c1cd6cda65395f3622b6dc2078' FROM algorithms WHERE slug = 'factorial'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'ad09acd0d4dcc6710c20d7a2b22fa0134356d783d34280de53bba0227e3bd7d0' FROM algorithms WHERE slug = 'factorial'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'ad09acd0d4dcc6710c20d7a2b22fa0134356d783d34280de53bba0227e3bd7d0' FROM algorithms WHERE slug = 'factorial'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'f193640daf57ce827adf989d80d226b1bc7f5f2a43c0cf343e41206f0ad3b0f9', 'content sync'
+FROM algorithms a WHERE a.slug = 'factorial'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'f193640daf57ce827adf989d80d226b1bc7f5f2a43c0cf343e41206f0ad3b0f9';
+
+-- fibonacci-dp
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'fibonacci-dp', 'fibonacci-dp', 'Fibonacci with Dynamic Programming', 'array', 'BEGINNER', 'Compute Fibonacci numbers bottom-up with a table: each entry is the sum of the two before it, so nothing is computed twice.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 210 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '6dfd6125ad64a51b161d5287c29f5c644b2f1ca48bc2b6e702e70547710b7c82' FROM algorithms WHERE slug = 'fibonacci-dp'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '50dc79bf47343c8dfaa517e8ec49c2449d22a3d4cbb7a8cf9d158957f95cebc5' FROM algorithms WHERE slug = 'fibonacci-dp'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '291c69258c4bda2b1faaf495aceda633f89dd4603781c71996bf6339782749ed' FROM algorithms WHERE slug = 'fibonacci-dp'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '291c69258c4bda2b1faaf495aceda633f89dd4603781c71996bf6339782749ed' FROM algorithms WHERE slug = 'fibonacci-dp'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'c0f5ccf7f4e5baf8ec0bd99456c1348ef4b53d9d0bff32961209c9e34631df02', 'content sync'
+FROM algorithms a WHERE a.slug = 'fibonacci-dp'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c0f5ccf7f4e5baf8ec0bd99456c1348ef4b53d9d0bff32961209c9e34631df02';
+
+-- fibonacci-recursive
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'fibonacci-recursive', 'fibonacci-recursive', 'Fibonacci (Plain Recursion)', 'stack', 'INTERMEDIATE', 'Compute the nth Fibonacci number straight from its definition. The call stack shows how the same small values are recomputed again and again.', 'O(2^n)', 'O(n)', 7, 'PUBLISHED', 220 FROM topics WHERE slug = 'recursion-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'a1b686d4a1cf3bfbf1605c4e0f6b253d3a435f2a010c7b422867c2aee8e53c82' FROM algorithms WHERE slug = 'fibonacci-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '8fed2933d472d35280177a55d75f0d25c525442132d148e1c4672c6550c1b4e4' FROM algorithms WHERE slug = 'fibonacci-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '467d062979e72480a9193810d02ab7f292c0f463e41abc97fdb345ac5c96a498' FROM algorithms WHERE slug = 'fibonacci-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '467d062979e72480a9193810d02ab7f292c0f463e41abc97fdb345ac5c96a498' FROM algorithms WHERE slug = 'fibonacci-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'eba237c4173f0d3c42636a60a8d688c4a2a9d2d3eea8da24685536fb16454ced', 'content sync'
+FROM algorithms a WHERE a.slug = 'fibonacci-recursive'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'eba237c4173f0d3c42636a60a8d688c4a2a9d2d3eea8da24685536fb16454ced';
+
 -- find-maximum
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'find-maximum', 'find-maximum', 'Find the Maximum', 'array', 'BEGINNER', 'Scan an array once, remembering the largest value seen so far. The simplest array traversal.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 50 FROM topics WHERE slug = 'arrays-basics'
+SELECT id, 'find-maximum', 'find-maximum', 'Find the Maximum', 'array', 'BEGINNER', 'Scan an array once, remembering the largest value seen so far. The simplest array traversal.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 230 FROM topics WHERE slug = 'arrays-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '78aacc4f6b26470ba3d9182a555bccb8084be2ed536aaaafc29ee198e52be234' FROM algorithms WHERE slug = 'find-maximum'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -134,9 +458,94 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'find-maximum'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '28caa88748fcc5231ecc88bdde46ac927b2c87b21ef2f9a18f3044d72ad67294';
 
+-- first-repeating-element
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'first-repeating-element', 'first-repeating-element', 'First Repeating Element (Hash Set)', 'array', 'BEGINNER', 'Find the first value that has already appeared earlier. A hash set answers "have I seen this?" in constant time as we scan left to right.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 240 FROM topics WHERE slug = 'hash-tables'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '19425c8e9efa30c8fb1d2868e12dd9bd6d5b5480d2621215447301d38a2c3329' FROM algorithms WHERE slug = 'first-repeating-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'd7cb0eaadfae59c74ac6de6089b9852710a577b801977da76443a8f071cee8f7' FROM algorithms WHERE slug = 'first-repeating-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '63739f3eaf353c26c6b597e30b6102b6b392808d6aa24d56f38a3fbbe37b9332' FROM algorithms WHERE slug = 'first-repeating-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '5bf70530195be40f49d43c874127657aecf1bb4f59c7ac470e03d0adda267fce' FROM algorithms WHERE slug = 'first-repeating-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '8572f845f052ac00c11716efc35cf2a2882b8ce25d445520017a86f083f517c2', 'content sync'
+FROM algorithms a WHERE a.slug = 'first-repeating-element'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '8572f845f052ac00c11716efc35cf2a2882b8ce25d445520017a86f083f517c2';
+
+-- hash-table-insert-linear-probing
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'hash-table-insert-linear-probing', 'hash-table-insert-linear-probing', 'Hash Table: Insert with Linear Probing', 'array', 'INTERMEDIATE', 'Store keys in a fixed-size table at slot key % size; when the slot is taken, probe the next slots (wrapping around) until a free one is found.', 'O(1) average', 'O(m)', 7, 'PUBLISHED', 250 FROM topics WHERE slug = 'hash-tables'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '8528bdb348e4805fcb1bb84998b799305bacc9937535dfbb61658d83c00fc722' FROM algorithms WHERE slug = 'hash-table-insert-linear-probing'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '08e581b878c97177515ae0d783953b6343e7b7fe0b7ae864f4f1f411cf43d2ed' FROM algorithms WHERE slug = 'hash-table-insert-linear-probing'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'f65460c32dbc786e94fb7e9d983f0a5418e90de032fd37b081331d0c52d68d99' FROM algorithms WHERE slug = 'hash-table-insert-linear-probing'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '57e8eb10c94d3b426a078f08899c5bc89fca821b9486d0f13b4891af8eded240' FROM algorithms WHERE slug = 'hash-table-insert-linear-probing'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'c9bd7c79420131688eb75d580bc6e44172a44515ef524d5a4d67e12c945a6e32', 'content sync'
+FROM algorithms a WHERE a.slug = 'hash-table-insert-linear-probing'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c9bd7c79420131688eb75d580bc6e44172a44515ef524d5a4d67e12c945a6e32';
+
+-- hash-table-search
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'hash-table-search', 'hash-table-search', 'Hash Table: Search with Linear Probing', 'array', 'INTERMEDIATE', 'Look up a key in a linear-probing table: start at its home slot and walk forward until the key is found or an empty slot proves it is absent.', 'O(1) average', 'O(1)', 7, 'PUBLISHED', 260 FROM topics WHERE slug = 'hash-tables'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c202e7b85c3fecb5b554191cbddf25e446614b15f802c92b1d28c691b0d38fec' FROM algorithms WHERE slug = 'hash-table-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'e01719d1638b3aa585abe06ad5ed57c0b39838023e1be49a0af3e3322e866b13' FROM algorithms WHERE slug = 'hash-table-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'dc477c38c1a04508b5b095c725b519be19d64b3a2f5c5a3abd19416d89fdd095' FROM algorithms WHERE slug = 'hash-table-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'dc477c38c1a04508b5b095c725b519be19d64b3a2f5c5a3abd19416d89fdd095' FROM algorithms WHERE slug = 'hash-table-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '5e41a76fc345bc49a682e7d1d33289b1bb570ba141405e6f1d63d0e7477e0751', 'content sync'
+FROM algorithms a WHERE a.slug = 'hash-table-search'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '5e41a76fc345bc49a682e7d1d33289b1bb570ba141405e6f1d63d0e7477e0751';
+
+-- heap-sort
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'heap-sort', 'heap-sort', 'Heap Sort', 'array', 'ADVANCED', 'Turn the array into a max-heap, then repeatedly swap the largest value to the end and repair the heap.', 'O(n log n)', 'O(1)', 7, 'PUBLISHED', 270 FROM topics WHERE slug = 'elementary-sorting'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '5a471a75a75693820c66fa260c90fd863095a24384c926463ec0496a67d3fa7b' FROM algorithms WHERE slug = 'heap-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '7ceefe2d9b6058160cb75794ddf37ac0587c7cf2dafa9df69b7a02e6eb744180' FROM algorithms WHERE slug = 'heap-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '7b7badd1ee2a45a14e7ec656f27068e84aca29d849638e326e263b2d766ed6d2' FROM algorithms WHERE slug = 'heap-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '3be832ca3f9faa93710697b0a4ed33ff80d8716d7e7b1d0dc3d5c16450316b3f' FROM algorithms WHERE slug = 'heap-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '3d2825386bdbd3ef99847aefefd5c7ce05ee56884108146259c7451e4dadf4e7', 'content sync'
+FROM algorithms a WHERE a.slug = 'heap-sort'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '3d2825386bdbd3ef99847aefefd5c7ce05ee56884108146259c7451e4dadf4e7';
+
+-- house-robber
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'house-robber', 'house-robber', 'House Robber', 'array', 'INTERMEDIATE', 'Rob the most money from a row of houses without robbing two neighbours: for each house choose the better of robbing it or skipping it.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 280 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '75bd41bfd49abc137c75a050592e92957eaaed073d237cb27c2d57faaa6587fa' FROM algorithms WHERE slug = 'house-robber'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '4ab725a23bf55130c934a46a7487e8ad98e69da8b91c9055e07bfa76fb8a9b80' FROM algorithms WHERE slug = 'house-robber'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'f57ae7f813d9970c0fc66954e86a1311f5f56065053e2275c0fb63c75a6e30ce' FROM algorithms WHERE slug = 'house-robber'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '064d89f963b1db84a82443c260ced30514b13fa9284496b7d7e78195257d5f64' FROM algorithms WHERE slug = 'house-robber'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '321d41726cccf13b3bf5d557e38a6745c8bbdc0ae2ba0522c19d1485c1b1f0ca', 'content sync'
+FROM algorithms a WHERE a.slug = 'house-robber'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '321d41726cccf13b3bf5d557e38a6745c8bbdc0ae2ba0522c19d1485c1b1f0ca';
+
 -- insert-at-index
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'insert-at-index', 'insert-at-index', 'Insert at an Index', 'array', 'BEGINNER', 'Insert a value into an array by shifting everything from that index one place to the right.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 60 FROM topics WHERE slug = 'arrays-basics'
+SELECT id, 'insert-at-index', 'insert-at-index', 'Insert at an Index', 'array', 'BEGINNER', 'Insert a value into an array by shifting everything from that index one place to the right.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 290 FROM topics WHERE slug = 'arrays-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '463c49f000c1c76da3137ac7bb131dc93effe9fd64d5e2ed71710f650aaf3b14' FROM algorithms WHERE slug = 'insert-at-index'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -153,7 +562,7 @@ AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_
 
 -- insertion-sort
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'insertion-sort', 'insertion-sort', 'Insertion Sort', 'array', 'BEGINNER', 'Sort an array by growing a sorted prefix: take the next value and slide it left into its place, like sorting cards in your hand.', 'O(n²)', 'O(1)', 3, 'PUBLISHED', 70 FROM topics WHERE slug = 'elementary-sorting'
+SELECT id, 'insertion-sort', 'insertion-sort', 'Insertion Sort', 'array', 'BEGINNER', 'Sort an array by growing a sorted prefix: take the next value and slide it left into its place, like sorting cards in your hand.', 'O(n²)', 'O(1)', 3, 'PUBLISHED', 300 FROM topics WHERE slug = 'elementary-sorting'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c47567dff5ba2e7a210ad45b609f953303bc5920bd09af1120cfeb1588d58b00' FROM algorithms WHERE slug = 'insertion-sort'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -168,9 +577,77 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'insertion-sort'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '6722528c3ad62e446985d0881b7ea3a9fd734870246fd292ad07286d175e117b';
 
+-- jump-search
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'jump-search', 'jump-search', 'Jump Search', 'array', 'INTERMEDIATE', 'On a sorted array, jump ahead in blocks of about √n to find the block that could hold the target, then scan inside it.', 'O(√n)', 'O(1)', 7, 'PUBLISHED', 310 FROM topics WHERE slug = 'searching-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'd47613c75e40ccc40195b846567ac9a6205e6c8a6caacdb6e69b34719a4c05b1' FROM algorithms WHERE slug = 'jump-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'f30a654fae18a84911465adec46aced7824bc5d5c50f1edd1e7d2355344790b8' FROM algorithms WHERE slug = 'jump-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'eb6d966029f633abadc796d784873a8a4ef999533bc1b994fe4830376f2c023e' FROM algorithms WHERE slug = 'jump-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '6b8314c67b16f9a3abf924d9efdd351079a9177c7e98c42d026f059cc938922c' FROM algorithms WHERE slug = 'jump-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'e1380544a23073d3caff547f606ce91900962c0bb3ed108c31ef9128e8c2fff9', 'content sync'
+FROM algorithms a WHERE a.slug = 'jump-search'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'e1380544a23073d3caff547f606ce91900962c0bb3ed108c31ef9128e8c2fff9';
+
+-- kadane-max-subarray
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'kadane-max-subarray', 'kadane-max-subarray', 'Maximum Subarray (Kadane''s Algorithm)', 'array', 'INTERMEDIATE', 'Find the contiguous run with the largest sum in one pass: at every value, either extend the current run or start a new one.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 320 FROM topics WHERE slug = 'arrays-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'e58d0991e94fea99ce58b7119ef6ea0fdbd2ad48d40c755162ef0636064f56e2' FROM algorithms WHERE slug = 'kadane-max-subarray'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '9768789eb8b25e25bb226ca62ae0b06fc3be7e723d26e09f99a94cdba9d99bd7' FROM algorithms WHERE slug = 'kadane-max-subarray'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'b5c1c1c85640ca0029f41d268fcfc57b13c4666d5baf1055f1caa7575ba030ea' FROM algorithms WHERE slug = 'kadane-max-subarray'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'b5c1c1c85640ca0029f41d268fcfc57b13c4666d5baf1055f1caa7575ba030ea' FROM algorithms WHERE slug = 'kadane-max-subarray'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '659911a23718926ee534b3276a52190dd4e1fc1aa4fe35a84828dbf4bb890052', 'content sync'
+FROM algorithms a WHERE a.slug = 'kadane-max-subarray'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '659911a23718926ee534b3276a52190dd4e1fc1aa4fe35a84828dbf4bb890052';
+
+-- knapsack-01-1d
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'knapsack-01-1d', 'knapsack-01-1d', '0/1 Knapsack (One-Dimensional Table)', 'array', 'ADVANCED', 'Choose items to maximise value within a weight limit, using each item at most once. One table over capacities is updated from high to low so an item is never counted twice.', 'O(items * capacity)', 'O(capacity)', 7, 'PUBLISHED', 330 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '8a4b073f99d90b8663830e985d63835887443ae0389c5cc8201be0e2decf1490' FROM algorithms WHERE slug = 'knapsack-01-1d'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '26039163cc0470054ecf16b148520a644e61becec65e667fc5424490b947d326' FROM algorithms WHERE slug = 'knapsack-01-1d'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '947b7e44a32141c13ec113d79d827adfd9fe73b986bc38151ea86546050fd2cb' FROM algorithms WHERE slug = 'knapsack-01-1d'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '55990ed7563a80f0525d005c71a6d23f5c9bd3d2af3de17dc6410a22cccc74ea' FROM algorithms WHERE slug = 'knapsack-01-1d'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'a46051a5bb2aeb836c1a6f908854d7286e8c0c93943e19dd6f841645c39035a4', 'content sync'
+FROM algorithms a WHERE a.slug = 'knapsack-01-1d'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'a46051a5bb2aeb836c1a6f908854d7286e8c0c93943e19dd6f841645c39035a4';
+
+-- level-order-traversal
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'level-order-traversal', 'level-order-traversal', 'Binary Tree: Level-order Traversal (BFS)', 'tree', 'INTERMEDIATE', 'Visit a binary search tree level by level with a queue: take a node from the front, visit it, then add its children to the back.', 'O(n)', 'O(w)', 7, 'PUBLISHED', 340 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '3d4520912dd84e70b5747eb5b81778fe4f89b7c0e4a9d56e76626b0cfb5d7a5c' FROM algorithms WHERE slug = 'level-order-traversal'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '8727963e5881d541d44b0a24683341c6e95b80347e7ac74b3828b80cc49a73fd' FROM algorithms WHERE slug = 'level-order-traversal'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'fbf839da5c681c4fcd0c5cc7244c26899216a1d5d66c319b77bb2c9e218b00d0' FROM algorithms WHERE slug = 'level-order-traversal'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '675c292d6960447e3f56f4d6a0a397144ca54763576c72bc02ac4e34d708922d' FROM algorithms WHERE slug = 'level-order-traversal'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '31c98ecb271697a115757b9a8ac6efc61b0ec51638b7835eb133184b39042130', 'content sync'
+FROM algorithms a WHERE a.slug = 'level-order-traversal'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '31c98ecb271697a115757b9a8ac6efc61b0ec51638b7835eb133184b39042130';
+
 -- linear-search
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'linear-search', 'linear-search', 'Linear Search', 'array', 'BEGINNER', 'Find a value by checking each cell from left to right until it is found or the array ends.', 'O(n)', 'O(1)', 1, 'PUBLISHED', 80 FROM topics WHERE slug = 'searching-basics'
+SELECT id, 'linear-search', 'linear-search', 'Linear Search', 'array', 'BEGINNER', 'Find a value by checking each cell from left to right until it is found or the array ends.', 'O(n)', 'O(1)', 1, 'PUBLISHED', 350 FROM topics WHERE slug = 'searching-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '27b3bc1f88b8991a5186aafc77c004420e07dac3a960e39af039ad163e86bc7e' FROM algorithms WHERE slug = 'linear-search'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -185,9 +662,60 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'linear-search'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c81a441cfaf4fbe46f0b868b6b38c788e54b5fdd1e9ebd6bdd0d55ce1770f285';
 
+-- linked-list-delete-value
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-delete-value', 'linked-list-delete-value', 'Linked List: Delete a Value', 'linkedList', 'INTERMEDIATE', 'Remove the first node holding a value: walk to the node before it, then make that node''s next skip over it.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 360 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'ba65ddb2a81c59362ea36a580c460c05177923f3df6da9b4bbe107253ca0275c' FROM algorithms WHERE slug = 'linked-list-delete-value'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'd6a9b3910904530e6ca7017030dd7fea1fdbdc68b4ba6afed3d62aa9cd9a76f9' FROM algorithms WHERE slug = 'linked-list-delete-value'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '9d2af771f7351c2129c5d2ad64927dc51d943d1ed53370d161f26e7c76bf64f8' FROM algorithms WHERE slug = 'linked-list-delete-value'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '8260e290b693d7d53d9d0d9218855caf5925f7a9c4baf4b6a260435ca25bcb83' FROM algorithms WHERE slug = 'linked-list-delete-value'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '55ab5a7002eed51ad8a347c0bdc4649e8773b1fd9469cb05f9f95a5ab7980b80', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-delete-value'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '55ab5a7002eed51ad8a347c0bdc4649e8773b1fd9469cb05f9f95a5ab7980b80';
+
+-- linked-list-find-middle
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-find-middle', 'linked-list-find-middle', 'Linked List: Find the Middle', 'linkedList', 'INTERMEDIATE', 'Find the middle node in one pass with two pointers: slow moves one node at a time and fast moves two.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 370 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '1c19c910659f10aed86a3b9e18f51e5a35e7aa004705e97bf9c6db0044fc7049' FROM algorithms WHERE slug = 'linked-list-find-middle'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '2a38d5fe4a08f80b1982568e6aa32ea6c20ad8279a05108cba06db7903efd4f5' FROM algorithms WHERE slug = 'linked-list-find-middle'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '656e5568ede86567d2a220fd4c7b7d48d854c177ced647d97c8dee49a4695072' FROM algorithms WHERE slug = 'linked-list-find-middle'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'fc51a93272621a4710690b844012938ba1d0ef5b2048c676edfdd0aaf5ccc0be' FROM algorithms WHERE slug = 'linked-list-find-middle'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'f811a311df8616855fcb3ea67676278daa7f7061598448fbc672e48f65ded5c0', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-find-middle'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'f811a311df8616855fcb3ea67676278daa7f7061598448fbc672e48f65ded5c0';
+
+-- linked-list-insert-at-position
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-insert-at-position', 'linked-list-insert-at-position', 'Linked List: Insert at a Position', 'linkedList', 'INTERMEDIATE', 'Insert a node at any position: walk to the node before it, point the new node at what follows, then point the earlier node at the new one.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 380 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '2e7da04d7350b961b77e1ed1bb8e03433ca5b1dc196aff2eaf0aecd4255e4e94' FROM algorithms WHERE slug = 'linked-list-insert-at-position'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '716fdff7fb29f08882484ef9ce88464ccc762d293eb99f2a6cf560d6f2bb34fa' FROM algorithms WHERE slug = 'linked-list-insert-at-position'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'fd97d611ea3119c52a7f10a9f6e884b4d55f87d7cf5174d314ab84348f76c31b' FROM algorithms WHERE slug = 'linked-list-insert-at-position'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '4ac5eb99d7c4c0706b0d5c5bb6a7e79d68c46bcf190fc06cfc7ae6f47566a762' FROM algorithms WHERE slug = 'linked-list-insert-at-position'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'dc37bb27e47732eb7595a77cf7968a863655d3ae0880c4ce80b96cf8f19e90ce', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-insert-at-position'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'dc37bb27e47732eb7595a77cf7968a863655d3ae0880c4ce80b96cf8f19e90ce';
+
 -- linked-list-insert-head
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'linked-list-insert-head', 'linked-list-insert-head', 'Linked List: Insert at Beginning', 'linkedList', 'BEGINNER', 'Add a new node at the front of a singly linked list in constant time by re-pointing the head.', 'O(1)', 'O(1)', 0, 'PUBLISHED', 90 FROM topics WHERE slug = 'linked-list-basics'
+SELECT id, 'linked-list-insert-head', 'linked-list-insert-head', 'Linked List: Insert at Beginning', 'linkedList', 'BEGINNER', 'Add a new node at the front of a singly linked list in constant time by re-pointing the head.', 'O(1)', 'O(1)', 0, 'PUBLISHED', 390 FROM topics WHERE slug = 'linked-list-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '81021f1fc1babd926cff939179c2a1d101d5168ee6674689b32d8c05b7ffc4ca' FROM algorithms WHERE slug = 'linked-list-insert-head'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -204,7 +732,7 @@ AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_
 
 -- linked-list-insert-tail
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'linked-list-insert-tail', 'linked-list-insert-tail', 'Linked List: Insert at End', 'linkedList', 'BEGINNER', 'Add a new node at the end of a singly linked list by walking from the head to the last node.', 'O(n)', 'O(1)', 3, 'PUBLISHED', 100 FROM topics WHERE slug = 'linked-list-basics'
+SELECT id, 'linked-list-insert-tail', 'linked-list-insert-tail', 'Linked List: Insert at End', 'linkedList', 'BEGINNER', 'Add a new node at the end of a singly linked list by walking from the head to the last node.', 'O(n)', 'O(1)', 3, 'PUBLISHED', 400 FROM topics WHERE slug = 'linked-list-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'f1326e48c721a724313dfaef37e918e78fbdecfead8beabdb9264e9ce96bbc77' FROM algorithms WHERE slug = 'linked-list-insert-tail'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -219,9 +747,111 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'linked-list-insert-tail'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '1100862b423f60b3d4e64db4999d3d47362ce11a9a55282e4d5de7cfa521cb2b';
 
+-- linked-list-remove-nth-from-end
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-remove-nth-from-end', 'linked-list-remove-nth-from-end', 'Linked List: Remove the Nth Node From the End', 'linkedList', 'INTERMEDIATE', 'Remove the nth node from the end in one pass: give a fast pointer an n-node head start, then walk both pointers together.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 410 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '7e869dba68276c81206c19b457f5e0d41a08b95ad1e2d0beed7c3db09b165134' FROM algorithms WHERE slug = 'linked-list-remove-nth-from-end'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '6433cbf28b540f45fef822fce9da0e0565c0f947b53d65efc58afdec8e5443d6' FROM algorithms WHERE slug = 'linked-list-remove-nth-from-end'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '34f7f58314880eef26373585dd37a0b8c02a5e7258b707a5ebd5c1915ed03505' FROM algorithms WHERE slug = 'linked-list-remove-nth-from-end'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'cb84a2d92a182adb60136f87f25cb4ef4d9f0661d91ef410b1ca2263b5013811' FROM algorithms WHERE slug = 'linked-list-remove-nth-from-end'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '3823962509acf4cbbbc5d3b52460c0568a79b4c9db02f8da726259316848dd38', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-remove-nth-from-end'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '3823962509acf4cbbbc5d3b52460c0568a79b4c9db02f8da726259316848dd38';
+
+-- linked-list-reverse
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-reverse', 'linked-list-reverse', 'Linked List: Reverse', 'linkedList', 'INTERMEDIATE', 'Reverse a singly linked list in place by turning each node''s next pointer around, using prev, current and next pointers.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 420 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '79db0ebe048fa9935aa04112def9a432f1efc8fa300beb4dc514fee80ff8a75e' FROM algorithms WHERE slug = 'linked-list-reverse'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'a583f6e98ef865e5a2206a0a925049ac56a5950f8064048e8147ec79bc6b8dbe' FROM algorithms WHERE slug = 'linked-list-reverse'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '2bbd48712fa9276446799513d3f4d764d6c2e665ec5bec646d94db60c4ab6414' FROM algorithms WHERE slug = 'linked-list-reverse'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'd907ccdf0983975f727795f3e6ac2b4e6a918cd72e0165af684f81952882207a' FROM algorithms WHERE slug = 'linked-list-reverse'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'fdbdf26dade49255f2b9a49cc43d0aa18af3f018f1c5954b436d7ad34a4f5516', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-reverse'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'fdbdf26dade49255f2b9a49cc43d0aa18af3f018f1c5954b436d7ad34a4f5516';
+
+-- linked-list-search
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'linked-list-search', 'linked-list-search', 'Linked List: Search for a Value', 'linkedList', 'BEGINNER', 'Walk a singly linked list from the head and report the index of the first node holding a value, or -1.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 430 FROM topics WHERE slug = 'linked-list-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '5645329aceda9039e3ba20eec6f0a78ab3ecdef04899a0daf9f4aafad1c80f0b' FROM algorithms WHERE slug = 'linked-list-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '513cd7d0d9e70eda1f05e9a8015d05cc77bdd35f69b4238a9a1ca238b99b593c' FROM algorithms WHERE slug = 'linked-list-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '372084cc19502241d9b9f2fdd6dc20f29dd4fc9653ab3e228479a866d52ff40f' FROM algorithms WHERE slug = 'linked-list-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '5b74ebc04c6294c47fbeebfec3335ebc3ba1dff7cfeffe503cd553376dd2515a' FROM algorithms WHERE slug = 'linked-list-search'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '6a309dcfa0c83beca077147399023e47689636386bb21d178ed2de76b3c6b936', 'content sync'
+FROM algorithms a WHERE a.slug = 'linked-list-search'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '6a309dcfa0c83beca077147399023e47689636386bb21d178ed2de76b3c6b936';
+
+-- longest-increasing-subsequence
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'longest-increasing-subsequence', 'longest-increasing-subsequence', 'Longest Increasing Subsequence', 'array', 'INTERMEDIATE', 'Find the length of the longest strictly increasing subsequence: dp[i] is the longest one ending at position i, built from every smaller earlier value.', 'O(n^2)', 'O(n)', 7, 'PUBLISHED', 440 FROM topics WHERE slug = 'dp-one-dimensional'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c17fecf4b525e47a863aa4996552ab65ec2ad385f68572a712030f5b4ee249b5' FROM algorithms WHERE slug = 'longest-increasing-subsequence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '988a635dddf7c11bc544c40a67f403b87478c596db03104e794c40bde6806db1' FROM algorithms WHERE slug = 'longest-increasing-subsequence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '03f3afedccb31f3b486a7478079026b593d34b3b81cb364122b08bcb88d3a08b' FROM algorithms WHERE slug = 'longest-increasing-subsequence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'c9934092b44f55e77ad91e353dccb47348b0bc34b3063f6d8228530b4ae5041a' FROM algorithms WHERE slug = 'longest-increasing-subsequence'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '5931623fa7cf58e0ae12c87d49337b486aebaf84bc7608f8ad0cce340718b12c', 'content sync'
+FROM algorithms a WHERE a.slug = 'longest-increasing-subsequence'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '5931623fa7cf58e0ae12c87d49337b486aebaf84bc7608f8ad0cce340718b12c';
+
+-- longest-ones-k-flips
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'longest-ones-k-flips', 'longest-ones-k-flips', 'Longest Run of 1s With k Flips', 'array', 'INTERMEDIATE', 'Find the longest run of 1s if you may flip up to k zeros: the longest window that holds at most k zeros.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 450 FROM topics WHERE slug = 'sliding-window-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'd4764f401f3ebf7422d0c704b020dfc76274da49c8c71f1317cc02c3cff265a5' FROM algorithms WHERE slug = 'longest-ones-k-flips'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'b7ad8b99ff78856f3ab61a9342e3839455355fb7a3dbf056dd53c279b9805ee4' FROM algorithms WHERE slug = 'longest-ones-k-flips'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'd5948884209aca5db8c6180a52e63d662453e4026690bdd50456ce72f8b3f5d6' FROM algorithms WHERE slug = 'longest-ones-k-flips'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '5d3d1b7d23ece7397f38427ab378232ca4efa1a308e3d886051cb00f5feb1810' FROM algorithms WHERE slug = 'longest-ones-k-flips'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '52bc2c99d04dcfbb814ae6d356c19b5e51f46e06926f6969d2c5e60fbd4aba21', 'content sync'
+FROM algorithms a WHERE a.slug = 'longest-ones-k-flips'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '52bc2c99d04dcfbb814ae6d356c19b5e51f46e06926f6969d2c5e60fbd4aba21';
+
+-- longest-subarray-sum-at-most
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'longest-subarray-sum-at-most', 'longest-subarray-sum-at-most', 'Longest Subarray With Sum at Most S', 'array', 'INTERMEDIATE', 'Find the longest run of consecutive positive numbers whose sum does not exceed a limit, by growing and shrinking a window.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 460 FROM topics WHERE slug = 'sliding-window-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '360439ce5c83929635db052f97aed2cb621bd219aeecb1f965c022eb93fe3ff5' FROM algorithms WHERE slug = 'longest-subarray-sum-at-most'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '652c89b98fd89470e50b309e10db6943e6c853ce9717c95297e5c6fa59475a07' FROM algorithms WHERE slug = 'longest-subarray-sum-at-most'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'b5603c624cc086615a4b9021967e6f574ff4ba7f47af159001a465f1a42848a9' FROM algorithms WHERE slug = 'longest-subarray-sum-at-most'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '47a530ad11d64729c8e9d49ac64a77debc5d27d85ba67f4f512473875d2d58f7' FROM algorithms WHERE slug = 'longest-subarray-sum-at-most'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'fe4557ec622ad997d7396803e7cf7cdde720604d0355844e4416be9252c21a00', 'content sync'
+FROM algorithms a WHERE a.slug = 'longest-subarray-sum-at-most'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'fe4557ec622ad997d7396803e7cf7cdde720604d0355844e4416be9252c21a00';
+
 -- max-sum-subarray-k
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'max-sum-subarray-k', 'max-sum-subarray-k', 'Maximum Sum of a Window of Size k', 'array', 'INTERMEDIATE', 'Find the largest sum of k consecutive values by sliding a fixed-size window and adjusting the sum instead of re-adding.', 'O(n)', 'O(1)', 6, 'PUBLISHED', 110 FROM topics WHERE slug = 'sliding-window-technique'
+SELECT id, 'max-sum-subarray-k', 'max-sum-subarray-k', 'Maximum Sum of a Window of Size k', 'array', 'INTERMEDIATE', 'Find the largest sum of k consecutive values by sliding a fixed-size window and adjusting the sum instead of re-adding.', 'O(n)', 'O(1)', 6, 'PUBLISHED', 470 FROM topics WHERE slug = 'sliding-window-technique'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'b7454c3f151c86a6d46c630ebab2095b7b3df968d56884b87c3bb09a343228ab' FROM algorithms WHERE slug = 'max-sum-subarray-k'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -236,9 +866,77 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'max-sum-subarray-k'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'd268fd8efdc06ad85b9f63a66a016d847ec657bf85c24c550442a348a6ffe328';
 
+-- merge-sort
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'merge-sort', 'merge-sort', 'Merge Sort', 'array', 'INTERMEDIATE', 'Split the array in halves, sort each half recursively, then merge the two sorted halves. Always O(n log n).', 'O(n log n)', 'O(n)', 7, 'PUBLISHED', 480 FROM topics WHERE slug = 'elementary-sorting'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '71b0110332f2ebc401625e0926c51242d20b59fa3a5c6d0209d392b775c0bbcc' FROM algorithms WHERE slug = 'merge-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '6cead39f27b1c8cdd60f793d0dd084e41eeb177e3514266b1aa13cd40e71f799' FROM algorithms WHERE slug = 'merge-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '420b950e1b978efb751434b43549fe42b219f219ada3a892f03557b647cac36f' FROM algorithms WHERE slug = 'merge-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '48a0511c061e3d9f7a4a586da288d642cb3038d4f192fece61b90b5290af148a' FROM algorithms WHERE slug = 'merge-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'dc828c95b7e5ef51896ca2cdd4b539c4760f149f378eeeadaf54cbcada64278d', 'content sync'
+FROM algorithms a WHERE a.slug = 'merge-sort'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'dc828c95b7e5ef51896ca2cdd4b539c4760f149f378eeeadaf54cbcada64278d';
+
+-- move-zeroes
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'move-zeroes', 'move-zeroes', 'Move Zeroes', 'array', 'BEGINNER', 'Push every zero to the end while keeping the other values in order, using a read pointer and a write pointer.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 490 FROM topics WHERE slug = 'two-pointer-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c03cd4c91eff90f0a7670fbcfc18a549f9271d0fb77c17141d1defc615b9d798' FROM algorithms WHERE slug = 'move-zeroes'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'd98d7cf98299083ce9dc0aac58a3ac2189674b9c475a905ed67c6dc545d1c1f5' FROM algorithms WHERE slug = 'move-zeroes'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '8d2dc20e45f78227f08a5c5bf38f5ecff17f0c31ad06959a3010b6805415fac9' FROM algorithms WHERE slug = 'move-zeroes'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'db96e9f1da35a18b4ce58bca83e85e9dd7828aa5a7b625ad7a0e48b9918a6295' FROM algorithms WHERE slug = 'move-zeroes'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '3e8801bd711077fdbfdd029f0054258feb68cf09bd155e3e9c205e04676420d4', 'content sync'
+FROM algorithms a WHERE a.slug = 'move-zeroes'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '3e8801bd711077fdbfdd029f0054258feb68cf09bd155e3e9c205e04676420d4';
+
+-- next-greater-element
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'next-greater-element', 'next-greater-element', 'Next Greater Element (Monotonic Stack)', 'stack', 'INTERMEDIATE', 'For every value find the first larger value to its right, using a stack of positions that are still waiting for a larger value.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 500 FROM topics WHERE slug = 'stack-and-queue-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '25ecb9678cbe1b3590961f784b773f3e34e2b38639e8752de498c383666f7388' FROM algorithms WHERE slug = 'next-greater-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'b34ecb1e440cb2fa11e1b696886a8fa2d46b1555177891c13b3f6ea0061fe2b2' FROM algorithms WHERE slug = 'next-greater-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '9bef9833c15d470572c62db293e5cda4612081ba44ecb2512e085342f0eb37c1' FROM algorithms WHERE slug = 'next-greater-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'a442f0a6bcfb5f18fe172692f58fd065502b79a68c5a4f3870c871c4d0f5390a' FROM algorithms WHERE slug = 'next-greater-element'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'b62c7bbc04d75d611431f4510ba7e0f84dc5ad02ada651b10445face1a9cde1d', 'content sync'
+FROM algorithms a WHERE a.slug = 'next-greater-element'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'b62c7bbc04d75d611431f4510ba7e0f84dc5ad02ada651b10445face1a9cde1d';
+
+-- power-fast-exponentiation
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'power-fast-exponentiation', 'power-fast-exponentiation', 'Fast Exponentiation (Recursive Power)', 'stack', 'INTERMEDIATE', 'Compute base^exp by squaring the answer for half the exponent, so only about log2(exp) calls are needed instead of exp.', 'O(log n)', 'O(log n)', 7, 'PUBLISHED', 510 FROM topics WHERE slug = 'recursion-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '4a9e89d7964385acfc2de6bd2e7231d3a28ea67386966e34b1ba5da25804f199' FROM algorithms WHERE slug = 'power-fast-exponentiation'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '86d9e9578cf04a9140395a24101b5b54c5913cfb991cb3ce11a5251ba4bc8110' FROM algorithms WHERE slug = 'power-fast-exponentiation'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '5aae4e01aa504d86ceec804286deeac66b5ee9e31e9f79f69d884b702d66cea8' FROM algorithms WHERE slug = 'power-fast-exponentiation'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '5aae4e01aa504d86ceec804286deeac66b5ee9e31e9f79f69d884b702d66cea8' FROM algorithms WHERE slug = 'power-fast-exponentiation'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '72083242972df632122b84cc2442d1f2b0ba884b187652bdb5dae3144184dd27', 'content sync'
+FROM algorithms a WHERE a.slug = 'power-fast-exponentiation'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '72083242972df632122b84cc2442d1f2b0ba884b187652bdb5dae3144184dd27';
+
 -- prefix-sum
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'prefix-sum', 'prefix-sum', 'Prefix Sum', 'array', 'BEGINNER', 'Turn an array into running totals so that the sum of any range can be answered with one subtraction.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 120 FROM topics WHERE slug = 'arrays-basics'
+SELECT id, 'prefix-sum', 'prefix-sum', 'Prefix Sum', 'array', 'BEGINNER', 'Turn an array into running totals so that the sum of any range can be answered with one subtraction.', 'O(n)', 'O(1)', 4, 'PUBLISHED', 520 FROM topics WHERE slug = 'arrays-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '6d10d9d6ccbae5ecb69b5ed714f16489d038eb44e581ed560f092626ff1479c9' FROM algorithms WHERE slug = 'prefix-sum'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -255,7 +953,7 @@ AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_
 
 -- queue-enqueue-dequeue
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'queue-enqueue-dequeue', 'queue-enqueue-dequeue', 'Queue: Enqueue and Dequeue', 'queue', 'BEGINNER', 'Add values at the rear of a queue, then remove from the front. The first value in is the first one out.', 'O(n)', 'O(n)', 2, 'PUBLISHED', 130 FROM topics WHERE slug = 'stack-and-queue-basics'
+SELECT id, 'queue-enqueue-dequeue', 'queue-enqueue-dequeue', 'Queue: Enqueue and Dequeue', 'queue', 'BEGINNER', 'Add values at the rear of a queue, then remove from the front. The first value in is the first one out.', 'O(n)', 'O(n)', 2, 'PUBLISHED', 530 FROM topics WHERE slug = 'stack-and-queue-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '4fec8b44df8882d05c948a3c0e191e323a7fb5074753c59134a4e22717820f3b' FROM algorithms WHERE slug = 'queue-enqueue-dequeue'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -270,9 +968,26 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'queue-enqueue-dequeue'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'ab62f3bfa4063c352449d7e7e1c2ca62cb3494843faa6114f6ac729079a30950';
 
+-- quick-sort
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'quick-sort', 'quick-sort', 'Quick Sort', 'array', 'INTERMEDIATE', 'Pick a pivot, move smaller values to its left and the rest to its right, then sort each side the same way. Fast on average.', 'O(n log n) average, O(n²) worst', 'O(log n)', 7, 'PUBLISHED', 540 FROM topics WHERE slug = 'elementary-sorting'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '8a618a0cff6566d3118d805e7215017b4dd34bc200884d5be7f0502e183fc55f' FROM algorithms WHERE slug = 'quick-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '4e2b8611692bf167561b9ec8018b2dba147a9a5da29bac058c5207e08e5483ed' FROM algorithms WHERE slug = 'quick-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'e67a7dad0c2da4d41eb9fa8c61fc529445979b4eee045c33b3d315b0df5bbf70' FROM algorithms WHERE slug = 'quick-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'ac463bda48348c83c55848d54fe53392c00f6412a0c368968939b7e45c2f064a' FROM algorithms WHERE slug = 'quick-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '66bc429ff6e5a2e8644ffc79b4492cd9773d98c176756618bca1923d2df75af7', 'content sync'
+FROM algorithms a WHERE a.slug = 'quick-sort'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '66bc429ff6e5a2e8644ffc79b4492cd9773d98c176756618bca1923d2df75af7';
+
 -- remove-duplicates-sorted
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'remove-duplicates-sorted', 'remove-duplicates-sorted', 'Remove Duplicates from a Sorted Array', 'array', 'INTERMEDIATE', 'Compact the unique values to the front of a sorted array using a slow pointer that writes and a fast pointer that reads.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 140 FROM topics WHERE slug = 'two-pointer-technique'
+SELECT id, 'remove-duplicates-sorted', 'remove-duplicates-sorted', 'Remove Duplicates from a Sorted Array', 'array', 'INTERMEDIATE', 'Compact the unique values to the front of a sorted array using a slow pointer that writes and a fast pointer that reads.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 550 FROM topics WHERE slug = 'two-pointer-technique'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'b4e3182dac5a3a847ddcac9c534f26ef752b077473adcadfe00744e2e0d4086a' FROM algorithms WHERE slug = 'remove-duplicates-sorted'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -289,7 +1004,7 @@ AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_
 
 -- reverse-in-place
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'reverse-in-place', 'reverse-in-place', 'Reverse an Array in Place', 'array', 'BEGINNER', 'Reverse an array without extra memory by swapping the values at two pointers that move toward the middle.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 150 FROM topics WHERE slug = 'two-pointer-technique'
+SELECT id, 'reverse-in-place', 'reverse-in-place', 'Reverse an Array in Place', 'array', 'BEGINNER', 'Reverse an array without extra memory by swapping the values at two pointers that move toward the middle.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 560 FROM topics WHERE slug = 'two-pointer-technique'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'f0112215d71c03691155b63647e8c14ab732453e4596c72aa5f9f93043dbe506' FROM algorithms WHERE slug = 'reverse-in-place'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -304,9 +1019,26 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'reverse-in-place'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'e9d90afb512ed8d49d508cb92a665f534a084827f910e5bba87f9b62b7ccb2b8';
 
+-- rotate-array
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'rotate-array', 'rotate-array', 'Rotate an Array (Three Reversals)', 'array', 'INTERMEDIATE', 'Rotate an array left by k places in place with three reversals: the first k values, the rest, then the whole array.', 'O(n)', 'O(1)', 7, 'PUBLISHED', 570 FROM topics WHERE slug = 'arrays-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c379b4feb650efa6e173c319c84c2b298fc8f51d75ec6a5b337a58caaac381cd' FROM algorithms WHERE slug = 'rotate-array'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '0981f46701c48b2772a05b4d1f6fa27e06711f40813df920588b3d9b9430f227' FROM algorithms WHERE slug = 'rotate-array'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '54736dcfbd36ca67b7561bb16478dc14d2c44546648669a6e884681b83d9dc5d' FROM algorithms WHERE slug = 'rotate-array'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '54736dcfbd36ca67b7561bb16478dc14d2c44546648669a6e884681b83d9dc5d' FROM algorithms WHERE slug = 'rotate-array'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'bc255eb0ba3bc54392a313a244fc7d5329b2425acd831bdc58fb9bcd309147d3', 'content sync'
+FROM algorithms a WHERE a.slug = 'rotate-array'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'bc255eb0ba3bc54392a313a244fc7d5329b2425acd831bdc58fb9bcd309147d3';
+
 -- selection-sort
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'selection-sort', 'selection-sort', 'Selection Sort', 'array', 'BEGINNER', 'Sort an array by repeatedly selecting the smallest remaining value and swapping it into the next position from the left.', 'O(n²)', 'O(1)', 3, 'PUBLISHED', 160 FROM topics WHERE slug = 'elementary-sorting'
+SELECT id, 'selection-sort', 'selection-sort', 'Selection Sort', 'array', 'BEGINNER', 'Sort an array by repeatedly selecting the smallest remaining value and swapping it into the next position from the left.', 'O(n²)', 'O(1)', 3, 'PUBLISHED', 580 FROM topics WHERE slug = 'elementary-sorting'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '8e57318e42697d9baa2dd2235a95379bc20d1cbd15d6e9dd99f9c6ab3fcc9d5a' FROM algorithms WHERE slug = 'selection-sort'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -321,9 +1053,43 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'selection-sort'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '5183f64e0bb285d6e5f4a5a9cdd3756c6c9b5502df9e45e8ec55883946d21144';
 
+-- shell-sort
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'shell-sort', 'shell-sort', 'Shell Sort', 'array', 'INTERMEDIATE', 'Insertion sort on values a gap apart, with the gap shrinking to 1. Far-apart values move into place early.', 'O(n²) worst', 'O(1)', 7, 'PUBLISHED', 590 FROM topics WHERE slug = 'elementary-sorting'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '2f55e143b87ffe2bfb1405d5cff5ad557115d55a357a838de5cecd1ad5e51b67' FROM algorithms WHERE slug = 'shell-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '489fa05d3c294b12b46f1f517b7896f466f531bcd7dae10e95db952f4178dd3e' FROM algorithms WHERE slug = 'shell-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '555adf983fe6b3a748e56f4feae8b06d10aee742565483b3fddf1dcc64cbd13a' FROM algorithms WHERE slug = 'shell-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'cb4b5a2ed451943de1f3955aa6782d52d5aec2148d65583d39312e1038799026' FROM algorithms WHERE slug = 'shell-sort'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '3cc4b3876e6e7821bbbb1750288cc63675083ab37083125c7a3facdd16f0ac6e', 'content sync'
+FROM algorithms a WHERE a.slug = 'shell-sort'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '3cc4b3876e6e7821bbbb1750288cc63675083ab37083125c7a3facdd16f0ac6e';
+
+-- sliding-window-maximum
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'sliding-window-maximum', 'sliding-window-maximum', 'Sliding Window Maximum (Monotonic Deque)', 'queue', 'ADVANCED', 'Find the maximum of every window of size k in linear time with a deque that keeps candidates in decreasing order.', 'O(n)', 'O(k)', 7, 'PUBLISHED', 600 FROM topics WHERE slug = 'stack-and-queue-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '9afa0c9a369ebd3f119c9f0010c477a72e4da58755af26d6f5e885f3296ba5bd' FROM algorithms WHERE slug = 'sliding-window-maximum'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '956a4f6039391dc9aa3ffbd796da72475d96a410507cde3e32db3e9790e944c5' FROM algorithms WHERE slug = 'sliding-window-maximum'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '77e5ea51006cb856476f9d881573d23409041a4947d0dce7410baf83b93aaf91' FROM algorithms WHERE slug = 'sliding-window-maximum'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '5f9bdfa70f0ed4c7c64da1701542954bd9fbe324b24403b3a0ee16b109d2d1bc' FROM algorithms WHERE slug = 'sliding-window-maximum'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '582ea26d4ffffbabff89fb9967581944248cf530c93d88538ffc92f166d17177', 'content sync'
+FROM algorithms a WHERE a.slug = 'sliding-window-maximum'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '582ea26d4ffffbabff89fb9967581944248cf530c93d88538ffc92f166d17177';
+
 -- smallest-subarray-sum
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'smallest-subarray-sum', 'smallest-subarray-sum', 'Smallest Subarray with Sum at Least S', 'array', 'INTERMEDIATE', 'Find the shortest run of consecutive positive numbers whose sum reaches a target, by growing and shrinking a window.', 'O(n)', 'O(1)', 6, 'PUBLISHED', 170 FROM topics WHERE slug = 'sliding-window-technique'
+SELECT id, 'smallest-subarray-sum', 'smallest-subarray-sum', 'Smallest Subarray with Sum at Least S', 'array', 'INTERMEDIATE', 'Find the shortest run of consecutive positive numbers whose sum reaches a target, by growing and shrinking a window.', 'O(n)', 'O(1)', 6, 'PUBLISHED', 610 FROM topics WHERE slug = 'sliding-window-technique'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'f17b20d2825c7ef983443267af3510ad7b36f79c788d7748f5130085ec235bf2' FROM algorithms WHERE slug = 'smallest-subarray-sum'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -340,7 +1106,7 @@ AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_
 
 -- stack-push-pop
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'stack-push-pop', 'stack-push-pop', 'Stack: Push and Pop', 'stack', 'BEGINNER', 'Push values onto a stack one by one, then pop from the top. The last value in is the first one out.', 'O(n)', 'O(n)', 2, 'PUBLISHED', 180 FROM topics WHERE slug = 'stack-and-queue-basics'
+SELECT id, 'stack-push-pop', 'stack-push-pop', 'Stack: Push and Pop', 'stack', 'BEGINNER', 'Push values onto a stack one by one, then pop from the top. The last value in is the first one out.', 'O(n)', 'O(n)', 2, 'PUBLISHED', 620 FROM topics WHERE slug = 'stack-and-queue-basics'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'e2b3e20ef89b940fe7286982a80945d993fcff126fc33afb79bed5441ada4076' FROM algorithms WHERE slug = 'stack-push-pop'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -355,9 +1121,94 @@ SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.a
 FROM algorithms a WHERE a.slug = 'stack-push-pop'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '3faae1917b2cc881b37c39a115249de586264bed35a92b085aa956709b976b67';
 
+-- sum-of-digits-recursive
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'sum-of-digits-recursive', 'sum-of-digits-recursive', 'Sum of Digits (Recursion)', 'stack', 'BEGINNER', 'Add the digits of a number by splitting off the last digit and recursing on the rest.', 'O(log n)', 'O(log n)', 7, 'PUBLISHED', 630 FROM topics WHERE slug = 'recursion-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '60e8dd077dd915dfb981e8203ed8503c654fc9eb690217a018fe0a43c2541be8' FROM algorithms WHERE slug = 'sum-of-digits-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '48ffe9cdca5a7ce3dea93974a3cce89d2b4341c3e7a5c02a2d7c7e75dbf3cfe6' FROM algorithms WHERE slug = 'sum-of-digits-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '7ac0fd4da6331c56bde7cfaa36fc76c2e81d69f5e0add702486707b3e098dff9' FROM algorithms WHERE slug = 'sum-of-digits-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '7ac0fd4da6331c56bde7cfaa36fc76c2e81d69f5e0add702486707b3e098dff9' FROM algorithms WHERE slug = 'sum-of-digits-recursive'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '6cc25b5d8ca170c6dc3f7624af102de5f6b8471f7885b7e271e4c05936d3e836', 'content sync'
+FROM algorithms a WHERE a.slug = 'sum-of-digits-recursive'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '6cc25b5d8ca170c6dc3f7624af102de5f6b8471f7885b7e271e4c05936d3e836';
+
+-- three-sum-count
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'three-sum-count', 'three-sum-count', 'Three Sum: Count Triplets', 'array', 'ADVANCED', 'Count the distinct triplets in a sorted array that add up to 0: fix one value, then walk two pointers inward over the rest.', 'O(n²)', 'O(1)', 7, 'PUBLISHED', 640 FROM topics WHERE slug = 'two-pointer-technique'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '0ef6956315a285ac12a03d3029335a6bd0297393c37f6f134c143954334c55a1' FROM algorithms WHERE slug = 'three-sum-count'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '5ac18279a0e05b9b3d831145faaacd5af5b1b9451c3437efd68b76723684ec68' FROM algorithms WHERE slug = 'three-sum-count'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '1d6a95aa43251afe4266bae4694d1a9fbebcf9744e6491b3f826477863af9ec4' FROM algorithms WHERE slug = 'three-sum-count'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '736f20ba53ee0f016376729d44c0032cd9077dddf8f0d5efe2ea77b3420d5c19' FROM algorithms WHERE slug = 'three-sum-count'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '22ab95dd249d8245bc6aa0f6d34f4ffb0966345c9f14f0fad997133ee8e8c5a1', 'content sync'
+FROM algorithms a WHERE a.slug = 'three-sum-count'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '22ab95dd249d8245bc6aa0f6d34f4ffb0966345c9f14f0fad997133ee8e8c5a1';
+
+-- tower-of-hanoi-moves
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'tower-of-hanoi-moves', 'tower-of-hanoi-moves', 'Tower of Hanoi (Move Count)', 'stack', 'INTERMEDIATE', 'Count the moves needed to shift n disks: move n - 1 disks aside, move the biggest disk once, then move the n - 1 disks back on top.', 'O(2^n)', 'O(n)', 7, 'PUBLISHED', 650 FROM topics WHERE slug = 'recursion-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c0bb36319998d0b3258f7ce631be0082bd68501be1b1685124d6796fade61f9e' FROM algorithms WHERE slug = 'tower-of-hanoi-moves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', 'f2decacf2a39aed57ed6c1373dc8a6a59a76e0529addf5ec3ea4c045cf304a4e' FROM algorithms WHERE slug = 'tower-of-hanoi-moves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '98dbb0c9293255796fac659121c131dec87fc63f86d87a7633b132611ef537e4' FROM algorithms WHERE slug = 'tower-of-hanoi-moves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '98dbb0c9293255796fac659121c131dec87fc63f86d87a7633b132611ef537e4' FROM algorithms WHERE slug = 'tower-of-hanoi-moves'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '04ed423045008fd80f2ec44be967f7f8f36eeae9433f7669bc647922992b890b', 'content sync'
+FROM algorithms a WHERE a.slug = 'tower-of-hanoi-moves'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '04ed423045008fd80f2ec44be967f7f8f36eeae9433f7669bc647922992b890b';
+
+-- tree-height
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'tree-height', 'tree-height', 'Binary Tree: Height', 'tree', 'INTERMEDIATE', 'Compute the height of a binary tree recursively: an empty tree has height 0, otherwise it is 1 plus the taller of its two subtrees.', 'O(n)', 'O(h)', 7, 'PUBLISHED', 660 FROM topics WHERE slug = 'binary-tree-traversal'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', 'c8a4f64f608c6e3c673dc0932b0660ba8f32f7a29651153141d285911e450a0d' FROM algorithms WHERE slug = 'tree-height'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '30ae947fda9829d65d4884915332731b069a61f8c7137468b603d5e8b2faaad3' FROM algorithms WHERE slug = 'tree-height'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '6db50596750a921b39d7412862552d5c7c02ea36cc8af49a428ad51933586082' FROM algorithms WHERE slug = 'tree-height'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', '25bf2727de0802ec678e8273ac799eb302366914c0f4e475856b29c8b175ca40' FROM algorithms WHERE slug = 'tree-height'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'bd7c875883265ecb76284419b67a865452248faca87fb07e3b43d2f39c7ea28c', 'content sync'
+FROM algorithms a WHERE a.slug = 'tree-height'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'bd7c875883265ecb76284419b67a865452248faca87fb07e3b43d2f39c7ea28c';
+
+-- two-sum-hash
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'two-sum-hash', 'two-sum-hash', 'Two Sum with a Hash Map', 'array', 'INTERMEDIATE', 'Find two positions whose values add up to a target in one pass: a hash map remembers every value seen so far, so the partner is looked up instead of searched for.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 670 FROM topics WHERE slug = 'hash-tables'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '2d43032ab7157a34f34b6c8f4b0d694d914d535de580d692dacc564dcde3494e' FROM algorithms WHERE slug = 'two-sum-hash'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '510ce2a6b8ac36a21985c003181ffef69a8e01aacea4def931ba6af2f733491c' FROM algorithms WHERE slug = 'two-sum-hash'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', '6923627350c017f5bde0e7151aa3ddfa5c07fcb0af129f61ed6a5495e739b591' FROM algorithms WHERE slug = 'two-sum-hash'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'af4e03c8c1368e6cd8c6197956c44b613ee742c6ab40731528cf4d33f1700d4d' FROM algorithms WHERE slug = 'two-sum-hash'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '2a0dcd13cf5d8c4a0ed902653b246a42dfc448bc22a6ff98ac1698341a50e88e', 'content sync'
+FROM algorithms a WHERE a.slug = 'two-sum-hash'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '2a0dcd13cf5d8c4a0ed902653b246a42dfc448bc22a6ff98ac1698341a50e88e';
+
 -- two-sum-sorted
 INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
-SELECT id, 'two-sum-sorted', 'two-sum-sorted', 'Two Sum (Sorted Array)', 'array', 'BEGINNER', 'Find two values in a sorted array that add up to a target by moving one pointer in from each end.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 190 FROM topics WHERE slug = 'two-pointer-technique'
+SELECT id, 'two-sum-sorted', 'two-sum-sorted', 'Two Sum (Sorted Array)', 'array', 'BEGINNER', 'Find two values in a sorted array that add up to a target by moving one pointer in from each end.', 'O(n)', 'O(1)', 5, 'PUBLISHED', 680 FROM topics WHERE slug = 'two-pointer-technique'
 ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
 INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '11cdc0f8c633c1f37540e3a692a8335bf1ee1b68aaeff15dff0179e8b988ecd0' FROM algorithms WHERE slug = 'two-sum-sorted'
 ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
@@ -371,3 +1222,20 @@ INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
 SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, '05f412afb884fc577fc577aaa82dc9f8d1b86b61a4b00e78588bbeaa1d28b816', 'content sync'
 FROM algorithms a WHERE a.slug = 'two-sum-sorted'
 AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> '05f412afb884fc577fc577aaa82dc9f8d1b86b61a4b00e78588bbeaa1d28b816';
+
+-- valid-parentheses
+INSERT INTO algorithms (topic_id, slug, content_key, name, state_kind, difficulty, summary, time_complexity, space_complexity, wave, status, sort_order)
+SELECT id, 'valid-parentheses', 'valid-parentheses', 'Valid Parentheses (Balanced Brackets)', 'stack', 'BEGINNER', 'Check that every bracket is closed by the right kind in the right order, using a stack of openers still waiting for their closer.', 'O(n)', 'O(n)', 7, 'PUBLISHED', 690 FROM topics WHERE slug = 'stack-and-queue-basics'
+ON CONFLICT (slug) DO UPDATE SET topic_id = EXCLUDED.topic_id, name = EXCLUDED.name, state_kind = EXCLUDED.state_kind, difficulty = EXCLUDED.difficulty, summary = EXCLUDED.summary, time_complexity = EXCLUDED.time_complexity, space_complexity = EXCLUDED.space_complexity, wave = EXCLUDED.wave, status = 'PUBLISHED', sort_order = EXCLUDED.sort_order;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'java', '671ca1883f5a55ecbed4458a40370d06f06fd04b61b366c65949f164d61b7f05' FROM algorithms WHERE slug = 'valid-parentheses'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'python', '9b8f5889ad9596ea29002ad7417e457c520ab8ae21b64f3efac3b5b3de1cbf8e' FROM algorithms WHERE slug = 'valid-parentheses'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'cpp', 'a424a680caf2ce1beb74467230172f7f2e0b1bcef5b61b7e2e1a20dbbcda30b9' FROM algorithms WHERE slug = 'valid-parentheses'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_languages (algorithm_id, language_code, content_hash) SELECT id, 'c', 'c887420bd6c255805cc917507234ef02521fb75060344554e2e1105fefd54fce' FROM algorithms WHERE slug = 'valid-parentheses'
+ON CONFLICT (algorithm_id, language_code) DO UPDATE SET content_hash = EXCLUDED.content_hash;
+INSERT INTO algorithm_versions (algorithm_id, version, content_hash, notes)
+SELECT a.id, COALESCE((SELECT max(v.version) FROM algorithm_versions v WHERE v.algorithm_id = a.id), 0) + 1, 'c720bbb77f5762662b828e93ce9a899e9df8f9de33eef19717b5aa46b5e63e02', 'content sync'
+FROM algorithms a WHERE a.slug = 'valid-parentheses'
+AND COALESCE((SELECT v.content_hash FROM algorithm_versions v WHERE v.algorithm_id = a.id ORDER BY v.version DESC LIMIT 1), '') <> 'c720bbb77f5762662b828e93ce9a899e9df8f9de33eef19717b5aa46b5e63e02';

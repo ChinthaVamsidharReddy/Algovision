@@ -1,0 +1,75 @@
+{
+  "id": "bst-search",
+  "title": "Binary Search Tree: Search",
+  "category": "trees",
+  "wave": 7,
+  "stateKind": "tree",
+  "difficulty": "beginner",
+  "summary": "Find a value in a binary search tree by going left when it is smaller than the current node and right when it is larger.",
+  "complexity": {
+    "time": "O(h)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4,
+      7,
+      9
+    ],
+    "value": 4
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "Value to find"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "value"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start at the root"
+    },
+    {
+      "id": "loop",
+      "label": "While there is a node"
+    },
+    {
+      "id": "found",
+      "label": "Return 1 when equal"
+    },
+    {
+      "id": "go-left",
+      "label": "Smaller: go left"
+    },
+    {
+      "id": "go-right",
+      "label": "Larger: go right"
+    },
+    {
+      "id": "not-found",
+      "label": "Return 0"
+    }
+  ]
+}
