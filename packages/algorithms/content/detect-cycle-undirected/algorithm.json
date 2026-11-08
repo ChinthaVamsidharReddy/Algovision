@@ -1,0 +1,103 @@
+{
+  "id": "detect-cycle-undirected",
+  "title": "Detect a Cycle (Undirected Graph)",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "intermediate",
+  "summary": "Decide whether an undirected graph contains a cycle. A breadth-first search remembers each vertex's parent; meeting a seen vertex that is not the parent proves a second route exists.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3,
+      1,
+      3,
+      4
+    ],
+    "vertices": 5
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Edges",
+      "hint": "Edges as pairs of vertex numbers, for example 0, 1, 1, 2 means the edges 0\u20131 and 1\u20132. Vertex numbers start at 0."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the edges in an adjacency matrix"
+    },
+    {
+      "id": "init-visited",
+      "label": "No vertex seen, no parents yet"
+    },
+    {
+      "id": "outer-loop",
+      "label": "Next vertex: start a search if unseen"
+    },
+    {
+      "id": "enqueue-start",
+      "label": "Queue the start of this search"
+    },
+    {
+      "id": "loop",
+      "label": "Queue not empty?"
+    },
+    {
+      "id": "dequeue",
+      "label": "Take the front vertex"
+    },
+    {
+      "id": "neighbors-loop",
+      "label": "Look at each neighbor"
+    },
+    {
+      "id": "check-neighbor",
+      "label": "Is the neighbor new?"
+    },
+    {
+      "id": "enqueue",
+      "label": "Record its parent and queue it"
+    },
+    {
+      "id": "cycle-check",
+      "label": "Seen before and not the parent?"
+    },
+    {
+      "id": "cycle-found",
+      "label": "Two routes to one vertex: a cycle"
+    },
+    {
+      "id": "finish",
+      "label": "No cycle found"
+    }
+  ]
+}

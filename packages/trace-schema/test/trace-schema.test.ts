@@ -62,7 +62,7 @@ describe("schema version", () => {
   });
 
   it("rejects a newer minor, another major and garbage", () => {
-    expect(isSupportedSchemaVersion("1.2.0")).toBe(false);
+    expect(isSupportedSchemaVersion("1.3.0")).toBe(false);
     expect(isSupportedSchemaVersion("2.0.0")).toBe(false);
     expect(isSupportedSchemaVersion("1.0")).toBe(false);
     expect(isSupportedSchemaVersion("")).toBe(false);

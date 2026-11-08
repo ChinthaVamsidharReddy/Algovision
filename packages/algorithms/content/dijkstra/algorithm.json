@@ -1,0 +1,108 @@
+{
+  "id": "dijkstra",
+  "title": "Dijkstra's Shortest Paths",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "advanced",
+  "summary": "Find the cheapest total weight from a start vertex to every other vertex in a graph with positive edge weights. Each round settles the closest unsettled vertex and relaxes its edges.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      4,
+      0,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      3,
+      5,
+      2,
+      3,
+      8
+    ],
+    "vertices": 5,
+    "start": 0
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Weighted edges",
+      "hint": "Edges as triples: vertex, vertex, weight. For example 0, 1, 4, 1, 2, 3 means 0\u20131 (weight 4) and 1\u20132 (weight 3)."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    },
+    {
+      "name": "start",
+      "kind": "int",
+      "label": "Start vertex",
+      "hint": "Where the search begins: a vertex number from 0 up to vertices \u2212 1."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices",
+      "start"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the weighted edges in a matrix"
+    },
+    {
+      "id": "init-dist",
+      "label": "Distances start at infinity; the start is 0"
+    },
+    {
+      "id": "loop",
+      "label": "Next round"
+    },
+    {
+      "id": "select-min",
+      "label": "Pick the closest unsettled vertex"
+    },
+    {
+      "id": "unreachable-stop",
+      "label": "Nothing reachable is left: stop"
+    },
+    {
+      "id": "settle",
+      "label": "Settle it: its distance is final"
+    },
+    {
+      "id": "neighbors-loop",
+      "label": "Look at each neighbor"
+    },
+    {
+      "id": "check-neighbor",
+      "label": "Is going through it cheaper?"
+    },
+    {
+      "id": "relax",
+      "label": "Record the shorter distance"
+    },
+    {
+      "id": "finish",
+      "label": "Return the distances"
+    }
+  ]
+}

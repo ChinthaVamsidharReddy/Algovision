@@ -1,5 +1,5 @@
 import type { ElementRef } from "./refs";
-import type { ArrayState, LinkedListState, QueueState, StackState, TreeState } from "./state";
+import type { ArrayState, GraphState, LinkedListState, QueueState, StackState, TreeState } from "./state";
 import {
   ExecutionTraceSchema,
   type ExecutionStep,
@@ -103,6 +103,9 @@ export function validateTraceSemantics(
         break;
       case "tree":
         validateTreeStep(step as ExecutionStep<"tree">, position, add);
+        break;
+      case "graph":
+        validateGraphStep(step as ExecutionStep<"graph">, position, add);
         break;
     }
   });
@@ -365,4 +368,73 @@ function hasCycle(state: LinkedListState): boolean {
     }
   }
   return false;
+}
+
+const GRAPH_EVENTS = ["init", "compare", "assign", "visit", "enqueue", "dequeue", "push", "pop", "call", "return", "found", "notFound", "done"] as const;
+
+function validateGraphStep(step: ExecutionStep<"graph">, position: number, add: AddIssue): void {
+  const state: GraphState = step.state;
+  const base = `steps.${position}`;
+  const ids = new Set<string>();
+  for (const node of state.nodes) {
+    if (ids.has(node.id)) add(position, `${base}.state.nodes`, `duplicate node id "${node.id}"`);
+    ids.add(node.id);
+  }
+  const known = (id: string | null, path: string) => {
+    if (id !== null && !ids.has(id)) add(position, path, `references missing node "${id}"`);
+  };
+  const seenEdges = new Set<string>();
+  state.edges.forEach((edge, i) => {
+    known(edge.from, `${base}.state.edges.${i}.from`);
+    known(edge.to, `${base}.state.edges.${i}.to`);
+    if (edge.from === edge.to) add(position, `${base}.state.edges.${i}`, "self-loops are not drawn");
+    const key = state.directed || edge.from < edge.to ? `${edge.from}>${edge.to}` : `${edge.to}>${edge.from}`;
+    if (seenEdges.has(key)) add(position, `${base}.state.edges.${i}`, "duplicate edge");
+    seenEdges.add(key);
+  });
+  known(state.current, `${base}.state.current`);
+  if (state.activeEdge) {
+    known(state.activeEdge.from, `${base}.state.activeEdge.from`);
+    known(state.activeEdge.to, `${base}.state.activeEdge.to`);
+    const exists = state.edges.some((e) => (e.from === state.activeEdge!.from && e.to === state.activeEdge!.to) || (!state.directed && e.from === state.activeEdge!.to && e.to === state.activeEdge!.from));
+    if (!exists) add(position, `${base}.state.activeEdge`, "the active edge is not an edge of the graph");
+  }
+  state.frontier.forEach((id, i) => known(id, `${base}.state.frontier.${i}`));
+  state.visited.forEach((id, i) => known(id, `${base}.state.visited.${i}`));
+  for (const id of Object.keys(state.marks)) known(id, `${base}.state.marks.${id}`);
+
+  const checkRef = (ref: ElementRef, path: string) => {
+    if (ref.kind !== "node") add(position, path, "graph traces may only reference vertices by id");
+    else known(ref.id, path);
+  };
+  step.changed.forEach((ref, i) => checkRef(ref, `${base}.changed.${i}`));
+  step.highlights.forEach((h, i) => checkRef(h.target, `${base}.highlights.${i}.target`));
+
+  const event = step.event;
+  if (!(GRAPH_EVENTS as readonly string[]).includes(event.type)) {
+    add(position, `${base}.event.type`, `a graph trace cannot use the "${event.type}" event`);
+  }
+  switch (event.type) {
+    case "compare":
+      checkRef(event.a, `${base}.event.a`);
+      checkRef(event.b, `${base}.event.b`);
+      break;
+    case "assign":
+      checkRef(event.target, `${base}.event.target`);
+      break;
+    case "visit":
+    case "enqueue":
+    case "dequeue":
+    case "push":
+    case "pop":
+    case "found":
+      checkRef(event.element, `${base}.event.element`);
+      break;
+    case "call":
+    case "return":
+      known(event.node, `${base}.event.node`);
+      break;
+    default:
+      break;
+  }
 }

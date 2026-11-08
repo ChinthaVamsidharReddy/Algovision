@@ -1,0 +1,109 @@
+{
+  "id": "topological-sort-kahn",
+  "title": "Topological Sort (Kahn's Algorithm)",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "advanced",
+  "summary": "Order the vertices of a directed graph so every edge points forward. Vertices with no incoming edges go first; removing them frees the next ones. If some vertices are never freed, the graph has a cycle.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      2,
+      5,
+      0,
+      4,
+      0,
+      4,
+      1,
+      2,
+      3,
+      3,
+      1
+    ],
+    "vertices": 6
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Directed edges",
+      "hint": "Directed edges as pairs: from, to. For example 0, 1, 1, 2 means 0\u21921 and 1\u21922. Do not list both directions between the same two vertices."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the directed edges in a matrix"
+    },
+    {
+      "id": "compute-indegree",
+      "label": "Count the incoming edges of every vertex"
+    },
+    {
+      "id": "enqueue-zero",
+      "label": "Queue every vertex with no incoming edges"
+    },
+    {
+      "id": "loop",
+      "label": "Queue not empty?"
+    },
+    {
+      "id": "dequeue",
+      "label": "Take the front vertex"
+    },
+    {
+      "id": "emit",
+      "label": "Place it next in the order"
+    },
+    {
+      "id": "neighbors-loop",
+      "label": "Look at each vertex it points to"
+    },
+    {
+      "id": "check-neighbor",
+      "label": "Remove the edge"
+    },
+    {
+      "id": "decrement",
+      "label": "One prerequisite fewer"
+    },
+    {
+      "id": "enqueue",
+      "label": "No prerequisites left: queue it"
+    },
+    {
+      "id": "cycle-check",
+      "label": "Were all vertices placed?"
+    },
+    {
+      "id": "cycle-found",
+      "label": "A cycle blocks the rest: no order"
+    },
+    {
+      "id": "finish",
+      "label": "Return the order"
+    }
+  ]
+}

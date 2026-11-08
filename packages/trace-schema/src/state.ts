@@ -69,7 +69,44 @@ export const TreeStateSchema = z.strictObject({
 });
 export type TreeState = z.infer<typeof TreeStateSchema>;
 
-export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree"] as const;
+export const GraphNodeSchema = z.strictObject({
+  id: z.string().min(1),
+  /** The vertex number shown inside the circle. */
+  value: z.number().int(),
+});
+export type GraphNode = z.infer<typeof GraphNodeSchema>;
+
+export const GraphEdgeSchema = z.strictObject({
+  from: z.string().min(1),
+  to: z.string().min(1),
+  /** Present for weighted graphs. */
+  weight: z.number().int().nullable(),
+});
+export type GraphEdge = z.infer<typeof GraphEdgeSchema>;
+
+/**
+ * Graph snapshot (schema 1.2). `frontier` is the work list the algorithm is using (a queue, a
+ * stack or the recursion call stack) and `frontierName` says which; `marks` is one number per
+ * vertex (distance, parent, component or in-degree) named by `markName`; null means "not set yet".
+ * `activeEdge` is the edge being examined right now.
+ */
+export const GraphStateSchema = z.strictObject({
+  kind: z.literal("graph"),
+  directed: z.boolean(),
+  nodes: z.array(GraphNodeSchema),
+  edges: z.array(GraphEdgeSchema),
+  current: z.string().min(1).nullable(),
+  activeEdge: z.strictObject({ from: z.string().min(1), to: z.string().min(1) }).nullable(),
+  frontier: z.array(z.string().min(1)),
+  frontierName: z.string(),
+  visited: z.array(z.string().min(1)),
+  marks: z.record(z.string().min(1), z.number().int().nullable()),
+  markName: z.string(),
+  output: z.array(z.number().int()),
+});
+export type GraphState = z.infer<typeof GraphStateSchema>;
+
+export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree", "graph"] as const;
 export type StateKind = (typeof STATE_KINDS)[number];
 
 export const stateSchemas = {
@@ -78,6 +115,7 @@ export const stateSchemas = {
   stack: StackStateSchema,
   queue: QueueStateSchema,
   tree: TreeStateSchema,
+  graph: GraphStateSchema,
 } as const;
 
 export interface StateMap {
@@ -86,5 +124,6 @@ export interface StateMap {
   stack: StackState;
   queue: QueueState;
   tree: TreeState;
+  graph: GraphState;
 }
 export type StateOf<K extends StateKind> = StateMap[K];

@@ -43,7 +43,7 @@ export interface AlgorithmMeta {
   readonly title: string;
   readonly category: string;
   readonly wave: number;
-  readonly stateKind: "linkedList" | "array" | "stack" | "queue" | "tree";
+  readonly stateKind: "linkedList" | "array" | "stack" | "queue" | "tree" | "graph";
   readonly difficulty: "beginner" | "intermediate" | "advanced";
   readonly summary: string;
   readonly complexity: { readonly time: string; readonly space: string };

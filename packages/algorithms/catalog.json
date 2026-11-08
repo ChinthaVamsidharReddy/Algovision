@@ -284,6 +284,36 @@
           "Recognize overlapping subproblems"
         ]
       }
+    },
+    {
+      "id": "graphs",
+      "slug": "graphs",
+      "name": "Graphs",
+      "description": "Vertices joined by edges: traversal, shortest paths, components and ordering.",
+      "sort": 100,
+      "keywords": [
+        "graph",
+        "vertex",
+        "edge",
+        "bfs",
+        "dfs",
+        "dijkstra",
+        "shortest path",
+        "topological",
+        "union find",
+        "network"
+      ],
+      "topic": {
+        "slug": "graph-algorithms",
+        "name": "Graph Algorithms",
+        "difficulty": "ADVANCED",
+        "summary": "Explore and analyse networks of vertices and edges.",
+        "objectives": [
+          "Traverse a graph breadth-first and depth-first",
+          "Find shortest paths and connected components",
+          "Detect cycles and order a directed acyclic graph"
+        ]
+      }
     }
   ]
 }

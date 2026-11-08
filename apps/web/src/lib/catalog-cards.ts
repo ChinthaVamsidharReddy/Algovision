@@ -22,6 +22,7 @@ const STRUCTURE_WORDS: Record<string, string[]> = {
   stack: ["stack", "data structure", "lifo"],
   queue: ["queue", "data structure", "fifo"],
   tree: ["tree", "binary tree", "data structure", "recursion"],
+  graph: ["graph", "vertex", "edge", "network", "data structure"],
 };
 
 export function catalogCards(): CatalogCard[] {

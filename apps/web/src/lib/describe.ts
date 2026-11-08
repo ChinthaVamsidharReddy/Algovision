@@ -1,4 +1,4 @@
-import type { ArrayState, LinkedListState, QueueState, StackState, TreeState } from "@algovision/trace-schema";
+import type { ArrayState, GraphState, LinkedListState, QueueState, StackState, TreeState } from "@algovision/trace-schema";
 
 /**
  * Text rendering of a snapshot for screen readers and the "as text" panel. It is derived from the
@@ -70,4 +70,24 @@ export function describeTree(state: TreeState): string {
     `call stack: ${stack.length === 0 ? "empty" : stack.join(" → ")}`,
     `output: [${state.output.join(", ")}]`,
   ].join("; ");
+}
+
+/** Edge list, work list, marks and output of a graph snapshot, in vertex numbers. */
+export function describeGraph(state: GraphState): string {
+  if (state.nodes.length === 0) return "empty graph";
+  const num = new Map(state.nodes.map((n) => [n.id, n.value]));
+  const v = (id: string) => String(num.get(id) ?? "?");
+  const arrow = state.directed ? "→" : "–";
+  const edges = state.edges.map((e) => `${v(e.from)}${arrow}${v(e.to)}${e.weight === null ? "" : ` (${e.weight})`}`);
+  const parts = [`${state.directed ? "directed" : "undirected"} graph with ${state.nodes.length} vertices; edges: ${edges.length === 0 ? "none" : edges.join(", ")}`];
+  parts.push(`current: ${state.current === null ? "none" : v(state.current)}`);
+  if (state.activeEdge) parts.push(`examining edge ${v(state.activeEdge.from)}${arrow}${v(state.activeEdge.to)}`);
+  if (state.frontierName) parts.push(`${state.frontierName.toLowerCase()}: ${state.frontier.length === 0 ? "empty" : state.frontier.map(v).join(", ")}`);
+  parts.push(`visited: ${state.visited.length === 0 ? "none" : state.visited.map(v).join(", ")}`);
+  if (state.markName) {
+    const marks = state.nodes.map((n) => `${n.value}=${state.marks[n.id] === null || state.marks[n.id] === undefined ? "–" : state.marks[n.id]}`);
+    parts.push(`${state.markName}: ${marks.join(", ")}`);
+  }
+  parts.push(`output: [${state.output.join(", ")}]`);
+  return parts.join("; ");
 }

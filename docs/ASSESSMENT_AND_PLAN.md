@@ -25,7 +25,7 @@ The backend has authentication, catalog, progress, bookmark and preference endpo
 | Algorithms page | One flat list. No grouping by category/topic, no filters. |
 | Local dev setup | `AUTH_TOKEN_SECRET` has no default and Maven does not read `.env`, so `mvn spring-boot:run` fails unless variables are exported by hand. Cookie `Secure` defaults to true. |
 | Docs | README still says "milestone 1" and one algorithm. |
-| Content breadth | 10 algorithms, 5 categories at audit time. **Resolved:** 19 algorithms in 8 categories in pass 1, then 69 algorithms in 11 categories in pass 2 (section 9). The window view uses the existing `window` highlight role, so no trace-schema change was needed. |
+| Content breadth | 10 algorithms, 5 categories at audit time. **Resolved:** 19 algorithms in 8 categories in pass 1, then 69 algorithms in 11 categories in pass 2, then 77 algorithms in 12 categories with the graph milestone (section 10). The window view uses the existing `window` highlight role, so no trace-schema change was needed. |
 
 ## 3. Missing entirely
 Login/register/forgot/reset screens; session handling (in-memory token + silent refresh); user menu and route protection; progress bar and "mark complete"; bookmark toggle and bookmarks page; learning dashboard; search; Arrays, Two Pointers and Sliding Window content; a window highlight for array views.
@@ -91,4 +91,23 @@ Design notes:
 - Limits adapt to the profile where a recursion would otherwise exceed the step budget (Fibonacci and Hanoi lower their maximum n on the lite profile).
 - C has no hash map or set; its hashing solutions use a value-indexed array and say so in a comment. Java, Python and C++ use their standard hash collections.
 
-Deliberately not built: graph algorithms (BFS, DFS, shortest path, topological sort, union-find). They need a graph state kind, which is a trace-schema change (1.3). This is a decision for you, see the final report.
+Graph algorithms were left out of pass 2 because they need a new state kind; they are section 10.
+
+## 10. Graph milestone (77 algorithms, trace schema 1.2.0)
+A new `graph` state kind was added to the trace schema as a backward-compatible minor version (1.1.0 to 1.2.0). Existing traces and the other five state kinds are unchanged. Full description: `docs/EXECUTION_TRACE_SCHEMA.md`, graph section.
+
+| Algorithm | Notes |
+| --- | --- |
+| BFS traversal, DFS traversal (recursive) | Visit order; BFS shows the queue, DFS shows the call stack |
+| Shortest path, unweighted (BFS) | Distance under every vertex, -1 for unreachable |
+| Connected components | Stack flood fill; component number under every vertex |
+| Detect a cycle (undirected) | BFS with parents; stops at the first cycle |
+| Topological sort (Kahn) | Directed; in-degree under every vertex; empty result on a cycle |
+| Dijkstra | Undirected, positive weights 1 to 99, O(V²); candidates shown as the work list |
+| Union-Find | Path halving; shows the parent array and the falling group count |
+
+Design notes:
+- The input kinds stay `intList` and `int`: `values` is a flat edge list (`from, to` pairs, or `from, to, weight` triples for Dijkstra), plus `vertices` (1 to 8) and, where it matters, `start`.
+- Limits: at most 8 vertices, and the edge list may be twice as long as an array input (30 numbers standard, 16 lite). Vertices are drawn on a circle, so the picture never moves while the algorithm runs.
+- Solutions in all four languages build an adjacency matrix from the edge list first (the `build-graph` anchor). C and C++ share one source because they use fixed `[8][8]` arrays and plain functions.
+- Directed graphs reject an edge listed in both directions between the same two vertices (the drawing would overlap).

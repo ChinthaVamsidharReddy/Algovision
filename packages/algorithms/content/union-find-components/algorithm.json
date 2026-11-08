@@ -1,0 +1,97 @@
+{
+  "id": "union-find-components",
+  "title": "Union-Find (Disjoint Sets)",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "advanced",
+  "summary": "Count connected groups by merging them edge by edge. Each vertex points to a parent; following parents leads to a root that names the group, and path halving keeps the paths short.",
+  "complexity": {
+    "time": "O(E\u00b7\u03b1(V))",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      2,
+      3,
+      1,
+      2,
+      4,
+      5
+    ],
+    "vertices": 7
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Edges",
+      "hint": "Edges as pairs of vertex numbers, for example 0, 1, 1, 2 means the edges 0\u20131 and 1\u20132. Vertex numbers start at 0."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-parents",
+      "label": "Every vertex is its own group"
+    },
+    {
+      "id": "edge-loop",
+      "label": "Next edge"
+    },
+    {
+      "id": "find-a",
+      "label": "Find the root of one end"
+    },
+    {
+      "id": "find-b",
+      "label": "Find the root of the other end"
+    },
+    {
+      "id": "find-loop",
+      "label": "Climb while not at the root"
+    },
+    {
+      "id": "compress",
+      "label": "Path halving: skip to the grandparent"
+    },
+    {
+      "id": "climb",
+      "label": "Move up"
+    },
+    {
+      "id": "found-root",
+      "label": "Reached the root"
+    },
+    {
+      "id": "check-roots",
+      "label": "Are the roots different?"
+    },
+    {
+      "id": "union",
+      "label": "Merge the two groups"
+    },
+    {
+      "id": "finish",
+      "label": "Return the group count"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "bfs-traversal",
+  "title": "Breadth-First Search (Traversal)",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "intermediate",
+  "summary": "Visit the vertices of a graph level by level, using a queue: first the start, then everything one edge away, then everything two edges away.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      0,
+      2,
+      1,
+      3,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5
+    ],
+    "vertices": 6,
+    "start": 0
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Edges",
+      "hint": "Edges as pairs of vertex numbers, for example 0, 1, 1, 2 means the edges 0\u20131 and 1\u20132. Vertex numbers start at 0."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    },
+    {
+      "name": "start",
+      "kind": "int",
+      "label": "Start vertex",
+      "hint": "Where the search begins: a vertex number from 0 up to vertices \u2212 1."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices",
+      "start"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the edges in an adjacency matrix"
+    },
+    {
+      "id": "init-visited",
+      "label": "Create the queue and seen flags"
+    },
+    {
+      "id": "enqueue-start",
+      "label": "Queue the start vertex"
+    },
+    {
+      "id": "loop",
+      "label": "Queue not empty?"
+    },
+    {
+      "id": "dequeue",
+      "label": "Take the front vertex"
+    },
+    {
+      "id": "visit",
+      "label": "Visit it"
+    },
+    {
+      "id": "neighbors-loop",
+      "label": "Look at each neighbor"
+    },
+    {
+      "id": "check-neighbor",
+      "label": "Is the neighbor new?"
+    },
+    {
+      "id": "enqueue",
+      "label": "Mark it seen and queue it"
+    },
+    {
+      "id": "finish",
+      "label": "Return the visit order"
+    }
+  ]
+}

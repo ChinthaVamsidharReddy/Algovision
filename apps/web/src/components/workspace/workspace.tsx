@@ -14,6 +14,7 @@ import { LanguageTabs, PANEL_ID, tabId } from "./language-tabs";
 import { ArrayView } from "./array-view";
 import { LinkedListView } from "./linked-list-view";
 import { QueueView, StackView } from "./sequence-view";
+import { GraphView } from "./graph-view";
 import { TreeView } from "./tree-view";
 import { ExplanationPanel, VariablesPanel } from "./panels";
 import { usePlayback } from "./use-playback";
@@ -180,7 +181,7 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
         </div>
       )}
 
-      <InputForm specs={content.meta.inputs} texts={texts} limits={limits} maxItems={content.meta.stateKind === "linkedList" ? limits.maxListNodes : limits.maxArrayLength} externalErrors={boot.errors} onApply={apply} onReset={reset} />
+      <InputForm specs={content.meta.inputs} texts={texts} limits={limits} maxItems={content.meta.stateKind === "linkedList" ? limits.maxListNodes : content.meta.stateKind === "graph" ? limits.maxArrayLength * 2 : limits.maxArrayLength} externalErrors={boot.errors} onApply={apply} onReset={reset} />
 
       {step && trace && (
         <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
@@ -190,6 +191,7 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
             {trace.stateKind === "stack" && <StackView step={step as ExecutionStep<"stack">} />}
             {trace.stateKind === "queue" && <QueueView step={step as ExecutionStep<"queue">} />}
             {trace.stateKind === "tree" && <TreeView step={step as ExecutionStep<"tree">} />}
+            {trace.stateKind === "graph" && <GraphView step={step as ExecutionStep<"graph">} />}
             <Controls state={playback} dispatch={dispatch} />
             <ExplanationPanel step={step} playback={playback} />
             <VariablesPanel step={step} />

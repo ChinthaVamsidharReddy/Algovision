@@ -1,0 +1,91 @@
+{
+  "id": "connected-components",
+  "title": "Connected Components",
+  "category": "graphs",
+  "wave": 8,
+  "stateKind": "graph",
+  "difficulty": "intermediate",
+  "summary": "Count the separate groups of vertices in an undirected graph. Starting from a vertex with no group, a flood fill with a stack labels everything it can reach.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      1,
+      2,
+      3,
+      4
+    ],
+    "vertices": 6
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Edges",
+      "hint": "Edges as pairs of vertex numbers, for example 0, 1, 1, 2 means the edges 0\u20131 and 1\u20132. Vertex numbers start at 0."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the edges in an adjacency matrix"
+    },
+    {
+      "id": "init-labels",
+      "label": "No vertex has a component yet"
+    },
+    {
+      "id": "outer-loop",
+      "label": "Next vertex: does it need a new component?"
+    },
+    {
+      "id": "new-component",
+      "label": "Label it and push it on the stack"
+    },
+    {
+      "id": "pop",
+      "label": "Pop a vertex from the stack"
+    },
+    {
+      "id": "neighbors-loop",
+      "label": "Look at each neighbor"
+    },
+    {
+      "id": "check-neighbor",
+      "label": "Is the neighbor unlabeled?"
+    },
+    {
+      "id": "label",
+      "label": "Give it the same component and push it"
+    },
+    {
+      "id": "next-component",
+      "label": "Component complete"
+    },
+    {
+      "id": "finish",
+      "label": "Return the component count"
+    }
+  ]
+}
