@@ -1,4 +1,5 @@
 import { ApiError, apiJson, type JsonOptions } from "./api";
+import { wakeBackend } from "./wake";
 
 export interface User {
   readonly id: string;
@@ -30,6 +31,8 @@ export interface AuthClientDeps {
   /** Serialises refreshes across tabs: the refresh token rotates, so two tabs refreshing at once look like theft. */
   readonly locks?: Pick<LockManager, "request"> | null;
   readonly storage?: Pick<Storage, "getItem" | "setItem" | "removeItem"> | null;
+  /** Waits for a sleeping server before a request that must not be retried. Defaults to the real wake-up; off when a fake fetch is injected. */
+  readonly wake?: (() => Promise<boolean>) | null;
 }
 
 type Listener = () => void;
@@ -48,9 +51,11 @@ export class AuthClient {
   private readonly now: () => number;
   private readonly locks: Pick<LockManager, "request"> | null;
   private readonly storage: Pick<Storage, "getItem" | "setItem" | "removeItem"> | null;
+  private readonly wake: (() => Promise<boolean>) | null;
 
   constructor(deps: AuthClientDeps = {}) {
     this.fetchImpl = deps.fetchImpl;
+    this.wake = deps.wake !== undefined ? deps.wake : deps.fetchImpl ? null : wakeBackend;
     this.now = deps.now ?? Date.now;
     this.locks = deps.locks !== undefined ? deps.locks : typeof navigator !== "undefined" && "locks" in navigator ? navigator.locks : null;
     this.storage = deps.storage !== undefined ? deps.storage : safeLocalStorage();
@@ -106,12 +111,14 @@ export class AuthClient {
       this.set({ status: "anonymous" });
       return;
     }
+    await this.awake();
     await this.refresh(true);
   }
 
   /** Retry after a failed restore (server asleep or offline). */
   async retryRestore(): Promise<void> {
     this.set({ status: "loading" });
+    await this.awake();
     await this.refresh(true);
   }
 
@@ -165,11 +172,18 @@ export class AuthClient {
     }
   }
 
+  /** Free hosting sleeps when idle and a write must not be retried, so wait for the server first. */
+  private async awake(): Promise<void> {
+    if (this.wake) await this.wake();
+  }
+
   async login(email: string, password: string): Promise<void> {
+    await this.awake();
     this.accept(await apiJson<SessionResponse>("/api/v1/auth/login", this.opts({ method: "POST", body: { email, password } })));
   }
 
   async register(email: string, password: string, fullName: string): Promise<void> {
+    await this.awake();
     this.accept(await apiJson<SessionResponse>("/api/v1/auth/register", this.opts({ method: "POST", body: { email, password, fullName } })));
   }
 
@@ -185,12 +199,14 @@ export class AuthClient {
   }
 
   async forgotPassword(email: string): Promise<string> {
+    await this.awake();
     const out = await apiJson<{ message: string }>("/api/v1/auth/forgot-password", this.opts({ method: "POST", body: { email } }));
     return out.message;
   }
 
   /** Resets the password; the server revokes every session, so the local one ends too. */
   async resetPassword(token: string, password: string): Promise<void> {
+    await this.awake();
     await apiJson("/api/v1/auth/reset-password", this.opts({ method: "POST", body: { token, password } }));
     this.clear();
   }

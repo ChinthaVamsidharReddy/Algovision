@@ -181,3 +181,21 @@ describe("safeNext", () => {
     expect(safeNext("//x", "/home")).toBe("/home");
   });
 });
+
+describe("AuthClient waits for a sleeping server before writes", () => {
+  it("calls the wake-up before login and register, and before the first session restore", async () => {
+    const order: string[] = [];
+    const f = vi.fn(async (url: string) => { order.push(`fetch ${url}`); return new Response(JSON.stringify({ user: { id: "u", email: "a@b.c", fullName: "A", roles: [] }, accessToken: "t", accessTokenExpiresAt: new Date(Date.now() + 900_000).toISOString() }), { status: 200 }); });
+    const wake = vi.fn(async () => { order.push("wake"); return true; });
+    const store = { getItem: () => "1", setItem: () => {}, removeItem: () => {} };
+    const c = new AuthClient({ fetchImpl: f as never, wake, storage: store, locks: null });
+    await c.init();
+    expect(order.slice(0, 2)).toEqual(["wake", "fetch /api/v1/auth/refresh"]);
+    order.length = 0;
+    await c.login("a@b.c", "pw");
+    expect(order).toEqual(["wake", "fetch /api/v1/auth/login"]);
+    order.length = 0;
+    await c.register("a@b.c", "pw", "A");
+    expect(order).toEqual(["wake", "fetch /api/v1/auth/register"]);
+  });
+});

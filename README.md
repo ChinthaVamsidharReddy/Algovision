@@ -55,3 +55,12 @@ More: `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT_GUIDE.md`, `docs/EXECUTION_TRACE
 | 3 | Linked List: Insert at End | linked list |
 
 Each one ships verified Java, Python, C++ and C code. `pnpm test` compiles and runs all four languages against shared vectors; set `REQUIRE_TOOLCHAINS=1` to make a missing compiler a failure.
+
+
+## Free hosting: the API sleeping on Render
+
+Render's free web services sleep after about 15 minutes without traffic; the next request waits 30 to 60 seconds. AlgoVision handles this in three ways:
+
+- **The site wakes the server as soon as it opens** (`apps/web/src/lib/wake.ts`) and shows a banner if the wait is longer than a couple of seconds. Visualizations never need the server, so they work during the wait.
+- **Sign-in, sign-up and password reset wait for the server** before sending, instead of failing with a timeout. These calls are never retried automatically, so an account is never created twice.
+- **A keep-alive ping** (`.github/workflows/keep-alive.yml`) calls `/api/v1/health` every 10 minutes. Set the repository variable `API_BASE_URL` (Settings, Secrets and variables, Actions, Variables) to your Render URL, for example `https://your-service.onrender.com`. GitHub can delay scheduled runs and pauses them after 60 days without repository activity, so a free uptime monitor (UptimeRobot, cron-job.org) pointed at the same URL is steadier. Render's free tier allows about 750 instance hours a month, enough for one service to stay awake all month.

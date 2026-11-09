@@ -90,6 +90,9 @@ check("the access token is never written to browser storage", !/av1\./.test(stor
 
 // ---- search ----
 await page.goto(`${base}/algorithms`);
+await page.waitForLoadState("load");
+await page.getByRole("combobox", { name: "Search algorithms" }).waitFor();
+await page.waitForTimeout(800); // let the page hydrate: the "/" shortcut is attached by script
 await page.keyboard.press("/");
 check("the / key focuses the header search", await page.getByRole("combobox", { name: "Search algorithms" }).evaluate((el) => el === document.activeElement));
 await page.keyboard.type("buble");
@@ -160,6 +163,34 @@ for (const path of ["/login", "/register", "/forgot-password", "/algorithms", "/
 await p2.goto(`${base}/algorithms`);
 await p2.screenshot({ path: `${out}/phone-algorithms.png`, fullPage: true });
 await phone.close();
+
+// ---- phone header: collapsed menu, signed out and signed in (the header used to push the page sideways) ----
+const small = await browser.newContext({ viewport: { width: 360, height: 640 } });
+const p3 = await small.newPage();
+const menu = () => p3.getByRole("navigation", { name: "Main menu" });
+const overflowOf = () => p3.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+await p3.goto(`${base}/algorithms`);
+await p3.waitForLoadState("load");
+check("360px signed out: header fits and desktop links are hidden", (await overflowOf()) <= 0 && !(await p3.getByRole("navigation", { name: "Main", exact: true }).isVisible()));
+await p3.getByRole("button", { name: /Menu/ }).click();
+check("360px signed out: menu lists Algorithms, Sign in, Sign up, theme", (await menu().getByRole("link", { name: "Sign in" }).isVisible()) && (await menu().getByRole("link", { name: "Sign up" }).isVisible()) && (await menu().getByRole("button", { name: /theme/ }).isVisible()));
+await menu().getByRole("link", { name: "Sign up" }).click();
+await p3.waitForURL("**/register");
+await p3.getByLabel("Name").fill("Grace Hopper");
+await p3.getByLabel("Email").fill("grace@example.com");
+await p3.getByLabel("Password").fill("tr1cky-Passphrase!");
+await p3.getByRole("button", { name: "Create account" }).click();
+await p3.waitForURL("**/dashboard");
+check("360px signed in: no sideways scroll on the dashboard", (await overflowOf()) <= 0, `overflow ${await overflowOf()}px`);
+await p3.getByRole("button", { name: /Menu/ }).click();
+const panel = await p3.getByRole("navigation", { name: "Main menu" }).boundingBox();
+check("360px signed in: menu shows My learning, Bookmarks, name and Sign out inside the screen", (await menu().getByRole("link", { name: "My learning" }).isVisible()) && (await menu().getByRole("link", { name: "Bookmarks" }).isVisible()) && (await menu().getByText("Hi, Grace").isVisible()) && (await menu().getByRole("button", { name: "Sign out" }).isVisible()) && !!panel && panel.x >= 0 && panel.x + panel.width <= 360, JSON.stringify(panel));
+await p3.screenshot({ path: `${out}/phone-menu-signed-in.png` });
+await menu().getByRole("link", { name: "Bookmarks" }).click();
+await p3.waitForURL("**/bookmarks");
+await p3.waitForTimeout(400);
+check("360px: choosing a menu link closes the menu", (await p3.getByRole("button", { name: /Menu/ }).getAttribute("aria-expanded")) === "false");
+await small.close();
 
 check("no page errors or unexpected console errors", problems.length === 0, problems.join(" | "));
 await browser.close();

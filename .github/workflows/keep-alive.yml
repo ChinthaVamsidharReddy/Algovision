@@ -1,0 +1,27 @@
+name: Keep API awake
+
+# Render's free web services sleep after about 15 minutes without traffic, and the next visitor then waits
+# 30 to 60 seconds. This pings the health endpoint every 10 minutes so that happens much less often.
+#
+# Setup: repository Settings > Secrets and variables > Actions > Variables > New repository variable
+#   API_BASE_URL = https://your-service.onrender.com      (no trailing slash)
+#
+# Notes: GitHub may delay scheduled runs by several minutes, and pauses them after 60 days without repository
+# activity. For something steadier, point a free uptime monitor (UptimeRobot, cron-job.org) at the same URL.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    if: ${{ vars.API_BASE_URL != '' }}
+    steps:
+      - name: Call /api/v1/health
+        env:
+          URL: ${{ vars.API_BASE_URL }}/api/v1/health
+        run: curl --fail --silent --show-error --max-time 90 --retry 2 --retry-delay 10 "$URL"

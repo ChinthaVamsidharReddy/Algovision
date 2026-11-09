@@ -6,6 +6,7 @@ import { LearningProvider } from "@/components/learning/learning-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { catalogCards } from "@/lib/catalog-cards";
 import { SiteHeader } from "@/components/site-header";
+import { WakeBanner } from "@/components/wake-banner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AuthProvider>
           <LearningProvider>
           <SiteHeader cards={catalogCards()} />
+          <WakeBanner />
           <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
             {children}
           </main>
