@@ -84,3 +84,46 @@ describe("tokenize", () => {
     expect(tokenize("n1 = 2", "python").filter((t) => t.kind === "number").map((t) => t.text)).toEqual(["2"]);
   });
 });
+
+describe("layoutLinkedList: no two things share a spot", () => {
+  const chain = (ids: number[], next: (string | null)[]) => ids.map((v, i) => ({ id: `n${v}`, value: v, next: next[i] ?? null }));
+  const key = (n: { x: number; y: number }) => `${n.x},${n.y}`;
+
+  it("puts several detached chains in separate rows instead of on top of each other (reverse, mid-way)", () => {
+    // 1 -> null (head), 2 -> 1, and the unprocessed 3 -> 4 -> 5.
+    const s = {
+      kind: "linkedList" as const, head: "n1", pointers: { prev: "n2", current: "n3", next: "n3" },
+      nodes: chain([1, 2, 3, 4, 5], [null, "n1", "n4", "n5", null]),
+    };
+    const l = layoutLinkedList(s as never);
+    expect(new Set(l.nodes.map(key)).size).toBe(l.nodes.length);
+    const rows = new Map(l.nodes.map((n) => [n.id, n.row]));
+    expect(rows.get("n1")).toBe(0);
+    expect(rows.get("n2")).toBe(1);
+    expect(rows.get("n3")).toBeGreaterThan(0);
+    const n2 = l.nodes.find((n) => n.id === "n2")!;
+    const n1 = l.nodes.find((n) => n.id === "n1")!;
+    expect(n2.x).toBe(n1.x); // a single node linking into n1 sits directly above it
+  });
+
+  it("stacks every name that points at one node on separate lines", () => {
+    const l = layoutLinkedList(list([1, 2], { pointers: { prev: "n1", current: "n1", next: "n1" } }), new Map([["n1", "scanning"]]));
+    const st = l.stacks.find((x) => x.lines.length > 1)!;
+    expect(st.lines.map((x) => x.text).sort()).toEqual(["current", "next", "prev", "scanning"]);
+    expect(new Set(st.lines.map((x) => x.text)).size).toBe(4);
+    expect(l.mainY).toBeGreaterThanOrEqual(4 * 16 + 14);
+  });
+
+  it("does not repeat a highlight label that is already a pointer name", () => {
+    const l = layoutLinkedList(list([1], { pointers: { current: "n1" } }), new Map([["n1", "current"]]));
+    expect(l.stacks.flatMap((s) => s.lines.map((x) => x.text))).toEqual(["current"]);
+  });
+
+  it("draws null pointers as one stacked group over the first node", () => {
+    const l = layoutLinkedList(list([1, 2], { pointers: { prev: null, next: null } }));
+    const st = l.stacks[0]!;
+    expect(st.lines.map((x) => x.text).sort()).toEqual(["next → ∅", "prev → ∅"]);
+    const first = l.nodes.find((n) => n.id === "n1")!;
+    expect(st.y).toBe(first.y);
+  });
+});

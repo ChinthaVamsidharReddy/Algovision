@@ -78,7 +78,7 @@ export function QueueView({ step }: { step: ExecutionStep<"queue"> }) {
   const items = step.state.items;
   const description = describeQueue(step.state);
   const changed = changedIndexes(step);
-  const width = Math.max(items.length, 1) * (CELL_W + GAP) + 2 * PAD;
+  const width = Math.max(Math.max(items.length, 1) * (CELL_W + GAP) + 2 * PAD, 360);
   const height = CELL_H + 2 * PAD + 34;
   const y = PAD + 18;
 

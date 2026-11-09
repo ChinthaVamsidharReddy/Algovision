@@ -1,6 +1,6 @@
 import type { ExecutionStep, Highlight, HighlightRole } from "@algovision/trace-schema";
 import { describeLinkedList } from "@/lib/describe";
-import { layoutLinkedList, NODE_H, NODE_W, PTR_W, ROLE_PRIORITY } from "@/lib/linked-list-layout";
+import { LABEL_LINE, layoutLinkedList, NODE_H, NODE_W, PTR_W, ROLE_PRIORITY } from "@/lib/linked-list-layout";
 
 type LinkedListStep = ExecutionStep<"linkedList">;
 
@@ -13,7 +13,12 @@ function roleFor(highlights: readonly Highlight[], id: string): { role: Highligh
 }
 
 export function LinkedListView({ step }: { step: LinkedListStep }) {
-  const layout = layoutLinkedList(step.state);
+  const nodeLabels = new Map<string, string>();
+  for (const n of step.state.nodes) {
+    const l = roleFor(step.highlights, n.id)?.label;
+    if (l) nodeLabels.set(n.id, l);
+  }
+  const layout = layoutLinkedList(step.state, nodeLabels);
   const description = describeLinkedList(step.state);
   const changed = new Set(step.changed.flatMap((c) => (c.kind === "node" ? [c.id] : [])));
 
@@ -75,11 +80,6 @@ export function LinkedListView({ step }: { step: LinkedListStep }) {
                     ∅
                   </text>
                 )}
-                {r?.label && (
-                  <text x={NODE_W / 2} y={-8} textAnchor="middle" fontSize={12} fontWeight={600} fill="var(--text)">
-                    {r.label}
-                  </text>
-                )}
               </g>
             );
           })}
@@ -92,14 +92,29 @@ export function LinkedListView({ step }: { step: LinkedListStep }) {
                   {p.nullTarget ? "head → null" : "head"}
                 </text>
               </g>
-            ) : (
-              <g key={p.name} className="viz-pointer" style={{ transform: `translate(${p.x}px, ${p.y}px)` }} data-pointer={p.name}>
-                <text x={0} y={-26} textAnchor="middle" fontSize={12} fill="var(--muted)">
-                  {p.nullTarget ? `${p.name} → null` : `${p.name} ▼`}
-                </text>
-              </g>
-            ),
+            ) : null,
           )}
+
+          {layout.stacks.map((st) => (
+            <g key={`${st.x}-${st.y}`} data-label-stack={`${st.x},${st.y}`}>
+              {st.lines.map((l, k) => (
+                <text
+                  key={l.text}
+                  x={st.x}
+                  y={st.y - 10 - k * LABEL_LINE}
+                  textAnchor="start"
+                  fontSize={12}
+                  fontWeight={l.pointer === null ? 600 : 700}
+                  fill={l.nullTarget ? "var(--muted)" : "var(--text)"}
+                  data-pointer={l.pointer ?? undefined}
+                  data-line={k}
+                >
+                  {l.text}
+                </text>
+              ))}
+            </g>
+          ))}
+
 
           {layout.nodes.length === 0 && (
             <text x={layout.width / 2} y={layout.mainY + NODE_H / 2} textAnchor="middle" fontSize={15} fill="var(--muted)">

@@ -6,6 +6,8 @@ export const SLOT_W = 108;
 export const ROW_GAP = 78;
 export const PAD_X = 28;
 export const PAD_TOP = 40;
+/** Height of one line of pointer text stacked above a node. */
+export const LABEL_LINE = 16;
 export const PAD_BOTTOM = 64;
 /** The right-hand "next" cell of a node. */
 export const PTR_W = 26;
@@ -15,8 +17,8 @@ export interface LaidOutNode {
   readonly value: number;
   readonly x: number;
   readonly y: number;
-  /** 0 = main row (reachable from head), 1 = detached row above it. */
-  readonly row: 0 | 1;
+  /** 0 = main row (reachable from head); 1, 2, ... = detached chains stacked above it. */
+  readonly row: number;
   readonly isNull: boolean;
 }
 
@@ -39,7 +41,18 @@ export interface LaidOutPointer {
   readonly nullTarget: boolean;
 }
 
+/** Every name that points at (or is highlighted on) one spot, stacked so no two texts share a line. */
+export interface LabelStack {
+  /** Left edge of the text: the stack is left-aligned so it stays clear of the vertical link into the node's pointer cell. */
+  readonly x: number;
+  /** Top of the node the stack sits on. */
+  readonly y: number;
+  /** Nearest the node first. */
+  readonly lines: readonly { readonly text: string; readonly pointer: string | null; readonly nullTarget: boolean }[];
+}
+
 export interface LinkedListLayout {
+  readonly stacks: readonly LabelStack[];
   readonly nodes: readonly LaidOutNode[];
   readonly edges: readonly LaidOutEdge[];
   readonly pointers: readonly LaidOutPointer[];
@@ -53,38 +66,82 @@ export interface LinkedListLayout {
  * order; nodes not reachable (e.g. a freshly created node) sit in a row above. The `head` pointer
  * is drawn under the main row, any other named pointer above its node.
  */
-export function layoutLinkedList(state: LinkedListState): LinkedListLayout {
+export function layoutLinkedList(state: LinkedListState, nodeLabels: ReadonlyMap<string, string> = new Map()): LinkedListLayout {
   const byId = new Map(state.nodes.map((n) => [n.id, n]));
-  const placed = new Map<string, { slot: number; row: 0 | 1 }>();
+  const placed = new Map<string, { slot: number; row: number }>();
+  const taken = new Set<string>();
+  const put = (id: string, slot: number, row: number) => {
+    placed.set(id, { slot, row });
+    taken.add(`${row}:${slot}`);
+  };
 
-  const walk = (startId: string | null, row: 0 | 1) => {
-    let id = startId;
+  // The chain reachable from head is the main row.
+  {
+    let id = state.head;
     let slot = 0;
-    const seen = new Set<string>();
-    while (id !== null && !seen.has(id)) {
-      seen.add(id);
-      if (placed.has(id)) break; // chain joins an already placed node
-      placed.set(id, { slot, row });
+    while (id !== null && !placed.has(id)) {
+      put(id, slot, 0);
       slot += 1;
       id = byId.get(id)?.next ?? null;
     }
-  };
+  }
 
-  walk(state.head, 0);
-  // Detached chains keep their given order; each starts above slot 0 so a link to the head is a short drop.
-  for (const node of state.nodes) if (!placed.has(node.id)) walk(node.id, 1);
+  // Every other chain gets a row of its own above the main row, so two chains never share a spot. A chain
+  // that links into a placed node goes one row above it, directly over it when it is a single node,
+  // which keeps that link a short vertical drop. Chains that end at an already placed node go first.
+  const chainOf = (startId: string): { ids: string[]; endsAt: string | null } => {
+    const ids: string[] = [];
+    let id: string | null = startId;
+    while (id !== null && !placed.has(id) && !ids.includes(id)) {
+      ids.push(id);
+      id = byId.get(id)?.next ?? null;
+    }
+    return { ids, endsAt: id !== null && placed.has(id) ? id : null };
+  };
+  for (;;) {
+    const unplaced = state.nodes.filter((n) => !placed.has(n.id));
+    if (unplaced.length === 0) break;
+    const pointedAt = new Set(unplaced.flatMap((n) => (n.next !== null && !placed.has(n.next) ? [n.next] : [])));
+    const starts = unplaced.filter((n) => !pointedAt.has(n.id)).map((n) => chainOf(n.id));
+    const chain = starts.find((c) => c.endsAt !== null) ?? starts[0] ?? chainOf(unplaced[0]!.id);
+    const target = chain.endsAt ? placed.get(chain.endsAt)! : null;
+    const first = chain.ids.length === 1 && target ? target.slot : 0;
+    let row = (target?.row ?? 0) + 1;
+    const free = (r: number) => chain.ids.every((_, k) => !taken.has(`${r}:${first + k}`));
+    while (!free(row)) row += 1;
+    chain.ids.forEach((id, k) => put(id, first + k, row));
+  }
+
+  // Names stacked on one node: its highlight label (if it adds information) and every pointer aimed at it.
+  // Pointers that are null are drawn over the first slot of the main row.
+  const firstMain = state.nodes.find((n) => placed.get(n.id)?.slot === 0 && placed.get(n.id)?.row === 0)?.id ?? null;
+  const groups = new Map<string | null, { pointer: string | null; nullTarget: boolean; text: string }[]>();
+  const add = (key: string | null, line: { pointer: string | null; nullTarget: boolean; text: string }) => groups.set(key, [...(groups.get(key) ?? []), line]);
+  for (const [name, target] of Object.entries(state.pointers)) {
+    if (target === null) add(firstMain, { pointer: name, nullTarget: true, text: `${name} → ∅` });
+    else add(target, { pointer: name, nullTarget: false, text: name });
+  }
+  for (const [id, label] of nodeLabels) {
+    const lines = groups.get(id) ?? [];
+    if (lines.some((l) => l.pointer === label || l.text === label)) continue;
+    groups.set(id, [{ pointer: null, nullTarget: false, text: label }, ...lines]);
+  }
+  const maxLines = Math.max(1, ...[...groups.values()].map((g) => g.length));
+  const need = maxLines * LABEL_LINE + 14;
+  const padTop = Math.max(PAD_TOP, need + 8);
+  const rowGap = Math.max(ROW_GAP, NODE_H + need);
 
   const slots = Math.max(1, ...[...placed.values()].map((p) => p.slot + 1));
-  const hasDetached = [...placed.values()].some((p) => p.row === 1);
-  const mainY = PAD_TOP + (hasDetached ? ROW_GAP : 0);
+  const topRow = Math.max(0, ...[...placed.values()].map((p) => p.row));
+  const mainY = padTop + topRow * rowGap;
 
   const nodes: LaidOutNode[] = state.nodes.map((n) => {
-    const p = placed.get(n.id) ?? { slot: 0, row: 1 as const };
+    const p = placed.get(n.id) ?? { slot: 0, row: 1 };
     return {
       id: n.id,
       value: n.value,
       x: PAD_X + p.slot * SLOT_W,
-      y: p.row === 0 ? mainY : mainY - ROW_GAP,
+      y: mainY - p.row * rowGap,
       row: p.row,
       isNull: n.next === null,
     };
@@ -99,7 +156,9 @@ export function layoutLinkedList(state: LinkedListState): LinkedListLayout {
     if (!a || !b) continue;
     const startX = a.x + NODE_W - PTR_W / 2;
     if (b.y > a.y) {
-      edges.push({ from: n.id, to: n.next, x1: startX, y1: a.y + NODE_H, x2: startX, y2: b.y });
+      edges.push({ from: n.id, to: n.next, x1: startX, y1: a.y + NODE_H, x2: b.x + NODE_W - PTR_W / 2, y2: b.y });
+    } else if (b.y < a.y) {
+      edges.push({ from: n.id, to: n.next, x1: startX, y1: a.y, x2: b.x + NODE_W - PTR_W / 2, y2: b.y + NODE_H });
     } else if (b.x > a.x) {
       edges.push({ from: n.id, to: n.next, x1: startX, y1: a.y + NODE_H / 2, x2: b.x, y2: b.y + NODE_H / 2 });
     } else {
@@ -130,7 +189,13 @@ export function layoutLinkedList(state: LinkedListState): LinkedListLayout {
     });
   }
 
+  const stacks: LabelStack[] = [...groups.entries()].map(([id, lines]) => {
+    const at = id ? pos.get(id) : undefined;
+    return { x: (at?.x ?? PAD_X) + 6, y: at?.y ?? mainY, lines: [...lines].sort((a, b) => Number(a.pointer === null) - Number(b.pointer === null) || (a.pointer ?? "").localeCompare(b.pointer ?? "")).reverse() };
+  });
+
   return {
+    stacks,
     nodes,
     edges,
     pointers,
