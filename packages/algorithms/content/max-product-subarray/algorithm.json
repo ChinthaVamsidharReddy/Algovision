@@ -1,0 +1,61 @@
+{
+  "id": "max-product-subarray",
+  "title": "Maximum Product Subarray",
+  "category": "dynamic-programming",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the largest product of a run of neighbouring values. A negative value can turn the smallest product into the largest, so track both the biggest and the smallest product ending at each position.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      3,
+      -2,
+      4
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Whole numbers from -4 to 4 (keeps the product within 32 bits)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start from the first value"
+    },
+    {
+      "id": "loop",
+      "label": "Next value"
+    },
+    {
+      "id": "update",
+      "label": "Biggest and smallest product ending here"
+    },
+    {
+      "id": "best",
+      "label": "Keep the best so far"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best product"
+    }
+  ]
+}

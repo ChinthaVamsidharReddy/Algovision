@@ -1,0 +1,54 @@
+{
+  "id": "single-number-xor",
+  "title": "Single Number (XOR)",
+  "category": "bit-manipulation",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Every value appears in pairs except one. XOR cancels equal values, so XOR-ing the whole array leaves the single one with no extra memory.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      1,
+      2,
+      1,
+      2
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Exactly one value appears an odd number of times; all others appear in pairs."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start with 0"
+    },
+    {
+      "id": "xor",
+      "label": "XOR in the next value"
+    },
+    {
+      "id": "finish",
+      "label": "Return the survivor"
+    }
+  ]
+}

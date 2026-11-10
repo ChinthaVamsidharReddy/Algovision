@@ -1,0 +1,66 @@
+{
+  "id": "trapping-rain-water",
+  "title": "Trapping Rain Water",
+  "category": "two-pointers",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Count the water trapped between walls of given heights: two pointers move inward, always from the shorter side, because that side's tallest wall decides its water.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      0,
+      2,
+      0,
+      4
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Wall heights",
+      "note": "Whole numbers from 0 to 99."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Pointers at the ends; no tallest walls yet"
+    },
+    {
+      "id": "loop",
+      "label": "While the pointers have not met"
+    },
+    {
+      "id": "compare",
+      "label": "Which side is shorter?"
+    },
+    {
+      "id": "left-side",
+      "label": "Handle the left wall"
+    },
+    {
+      "id": "right-side",
+      "label": "Handle the right wall"
+    },
+    {
+      "id": "finish",
+      "label": "Return the water"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "prime-factorization",
+  "title": "Prime Factorization (Trial Division)",
+  "category": "math",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Split a number into prime factors by dividing out the smallest divisor again and again; trying divisors only up to the square root is enough.",
+  "complexity": {
+    "time": "O(\u221an)",
+    "space": "O(log n)"
+  },
+  "defaultInput": {
+    "n": 60
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "The number",
+      "note": "From 2 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start at divisor 2"
+    },
+    {
+      "id": "loop",
+      "label": "While d \u00d7 d is at most n"
+    },
+    {
+      "id": "check",
+      "label": "Does d divide n?"
+    },
+    {
+      "id": "divide",
+      "label": "Record d and divide it out"
+    },
+    {
+      "id": "next",
+      "label": "Try the next divisor"
+    },
+    {
+      "id": "remainder",
+      "label": "What is left is prime"
+    },
+    {
+      "id": "finish",
+      "label": "Return the factors"
+    }
+  ]
+}

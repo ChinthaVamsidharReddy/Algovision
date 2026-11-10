@@ -1,0 +1,52 @@
+{
+  "id": "min-cost-climbing-stairs",
+  "title": "Min Cost Climbing Stairs",
+  "category": "dynamic-programming",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Each stair has a price to step on; start on stair 0 or 1 and climb one or two stairs at a time. The cheapest cost to stand on each stair is its price plus the cheaper of the two stairs below.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      15,
+      20
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Cost of each stair",
+      "note": "Whole numbers from 0 to 99, at least 2 stairs. The top is just past the last stair."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Copy the prices: stairs 0 and 1 cost only themselves"
+    },
+    {
+      "id": "fill",
+      "label": "Cheapest cost to stand on this stair"
+    },
+    {
+      "id": "finish",
+      "label": "Reach the top from either of the last two stairs"
+    }
+  ]
+}

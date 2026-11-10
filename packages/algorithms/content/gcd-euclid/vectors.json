@@ -1,0 +1,138 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "a": 48,
+   "b": 18
+  },
+  "expected": 6
+ },
+ {
+  "name": "coprime",
+  "input": {
+   "a": 17,
+   "b": 5
+  },
+  "expected": 1
+ },
+ {
+  "name": "smallest",
+  "input": {
+   "a": 1,
+   "b": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "largest",
+  "input": {
+   "a": 999,
+   "b": 999
+  },
+  "expected": 999
+ },
+ {
+  "name": "fibonacci worst case",
+  "input": {
+   "a": 987,
+   "b": 610
+  },
+  "expected": 1
+ },
+ {
+  "name": "multiple",
+  "input": {
+   "a": 12,
+   "b": 36
+  },
+  "expected": 12
+ },
+ {
+  "name": "b larger",
+  "input": {
+   "a": 6,
+   "b": 40
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "a": 5,
+   "b": 150
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "a": 430,
+   "b": 548
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "a": 379,
+   "b": 625
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "a": 580,
+   "b": 327
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "a": 976,
+   "b": 129
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "a": 708,
+   "b": 880
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "a": 528,
+   "b": 974
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "a": 633,
+   "b": 671
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "a": 693,
+   "b": 758
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "a": 56,
+   "b": 468
+  },
+  "expected": 4
+ }
+]

@@ -1,0 +1,68 @@
+{
+  "id": "find-peak-element",
+  "title": "Find a Peak Element",
+  "category": "searching",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find any index whose value is larger than both neighbours in O(log n): compare the middle with its right neighbour and always move toward the rising side, which must contain a peak.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      5,
+      4,
+      2,
+      6,
+      0
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Neighbouring values must be different. The array does not need to be sorted."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Search the whole array"
+    },
+    {
+      "id": "loop",
+      "label": "While more than one candidate remains"
+    },
+    {
+      "id": "compare",
+      "label": "Does the slope rise to the right?"
+    },
+    {
+      "id": "go-right",
+      "label": "Climb right"
+    },
+    {
+      "id": "go-left",
+      "label": "Keep mid and look left"
+    },
+    {
+      "id": "finish",
+      "label": "Return the peak index"
+    }
+  ]
+}

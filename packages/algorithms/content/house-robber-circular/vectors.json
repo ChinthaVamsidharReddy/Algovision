@@ -1,0 +1,203 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    2,
+    3,
+    2
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    5
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "two houses",
+  "input": {
+   "values": [
+    1,
+    9
+   ]
+  },
+  "expected": 9
+ },
+ {
+  "name": "limit value",
+  "input": {
+   "values": [
+    999,
+    0,
+    999
+   ]
+  },
+  "expected": 999
+ },
+ {
+  "name": "four houses",
+  "input": {
+   "values": [
+    1,
+    2,
+    3,
+    1
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "all zero",
+  "input": {
+   "values": [
+    0,
+    0,
+    0
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    21,
+    38
+   ]
+  },
+  "expected": 38
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    6
+   ]
+  },
+  "expected": 6
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    36
+   ]
+  },
+  "expected": 36
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    34,
+    6,
+    23
+   ]
+  },
+  "expected": 34
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    1,
+    4,
+    13,
+    39,
+    24,
+    9,
+    40,
+    16,
+    22,
+    38
+   ]
+  },
+  "expected": 121
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    30,
+    7,
+    7,
+    31,
+    29,
+    30
+   ]
+  },
+  "expected": 68
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    19,
+    5,
+    9,
+    6,
+    47,
+    21,
+    47,
+    16
+   ]
+  },
+  "expected": 122
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    44,
+    10,
+    33,
+    1,
+    13,
+    33,
+    23,
+    9
+   ]
+  },
+  "expected": 113
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    34,
+    1,
+    48,
+    33,
+    19,
+    41,
+    5,
+    44,
+    16,
+    33,
+    23,
+    10
+   ]
+  },
+  "expected": 200
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "values": [
+    49,
+    14,
+    34,
+    34,
+    49,
+    32
+   ]
+  },
+  "expected": 132
+ }
+]

@@ -1,0 +1,222 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    3,
+    0,
+    1
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "empty",
+  "input": {
+   "values": []
+  },
+  "expected": 0
+ },
+ {
+  "name": "single zero",
+  "input": {
+   "values": [
+    0
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "single one",
+  "input": {
+   "values": [
+    1
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "last missing",
+  "input": {
+   "values": [
+    0,
+    1,
+    2,
+    3
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "first missing",
+  "input": {
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    3,
+    0,
+    2
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    5,
+    1,
+    4,
+    6,
+    2,
+    3
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    10,
+    1,
+    5,
+    3,
+    8,
+    6,
+    0,
+    2,
+    7,
+    9
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    3,
+    0,
+    2,
+    1
+   ]
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    3,
+    8,
+    1,
+    6,
+    11,
+    5,
+    4,
+    7,
+    13,
+    10,
+    14,
+    0,
+    9,
+    2
+   ]
+  },
+  "expected": 12
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    2,
+    3,
+    1
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    3,
+    8,
+    6,
+    1,
+    7,
+    4,
+    5,
+    2
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    1,
+    0,
+    6,
+    4,
+    7,
+    2,
+    5,
+    3,
+    10,
+    8
+   ]
+  },
+  "expected": 9
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    2,
+    4,
+    0,
+    5,
+    1,
+    7,
+    6,
+    3
+   ]
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "values": [
+    9,
+    8,
+    6,
+    2,
+    10,
+    0,
+    13,
+    4,
+    12,
+    14,
+    7,
+    3,
+    11,
+    1
+   ]
+  },
+  "expected": 5
+ }
+]

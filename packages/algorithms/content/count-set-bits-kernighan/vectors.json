@@ -1,0 +1,114 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "n": 13
+  },
+  "expected": 3
+ },
+ {
+  "name": "zero",
+  "input": {
+   "n": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "one",
+  "input": {
+   "n": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "largest",
+  "input": {
+   "n": 999
+  },
+  "expected": 8
+ },
+ {
+  "name": "power of two",
+  "input": {
+   "n": 512
+  },
+  "expected": 1
+ },
+ {
+  "name": "all ones",
+  "input": {
+   "n": 511
+  },
+  "expected": 9
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "n": 408
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "n": 403
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "n": 106
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "n": 493
+  },
+  "expected": 7
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "n": 649
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "n": 410
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "n": 63
+  },
+  "expected": 6
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "n": 195
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "n": 68
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "n": 213
+  },
+  "expected": 5
+ }
+]

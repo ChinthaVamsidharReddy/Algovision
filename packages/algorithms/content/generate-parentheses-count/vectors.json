@@ -1,0 +1,44 @@
+[
+ {
+  "name": "n=1",
+  "input": {
+   "n": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "n=2",
+  "input": {
+   "n": 2
+  },
+  "expected": 2
+ },
+ {
+  "name": "n=3",
+  "input": {
+   "n": 3
+  },
+  "expected": 5
+ },
+ {
+  "name": "n=4",
+  "input": {
+   "n": 4
+  },
+  "expected": 14
+ },
+ {
+  "name": "smallest again",
+  "input": {
+   "n": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "largest again",
+  "input": {
+   "n": 4
+  },
+  "expected": 14
+ }
+]

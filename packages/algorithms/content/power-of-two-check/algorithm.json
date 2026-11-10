@@ -1,0 +1,48 @@
+{
+  "id": "power-of-two-check",
+  "title": "Power of Two Check",
+  "category": "bit-manipulation",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "A positive number is a power of two exactly when it has a single 1 bit, which n AND (n - 1) removes, leaving 0.",
+  "complexity": {
+    "time": "O(1)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "n": 64
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "The number",
+      "note": "From 0 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "check-positive",
+      "label": "Zero is never a power of two"
+    },
+    {
+      "id": "clear",
+      "label": "Clear the lowest 1 bit"
+    },
+    {
+      "id": "finish",
+      "label": "Nothing left means a power of two"
+    }
+  ]
+}

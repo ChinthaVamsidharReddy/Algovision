@@ -1,0 +1,68 @@
+{
+  "id": "next-permutation",
+  "title": "Next Permutation",
+  "category": "arrays",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Rearrange the array into the next larger arrangement in dictionary order: find the pivot where the descending tail begins, swap it with the next larger value, and reverse the tail.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      2
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "Duplicates are allowed. The array is rearranged in place; the largest arrangement wraps to the smallest."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start the pivot search at the second-to-last value"
+    },
+    {
+      "id": "find-pivot",
+      "label": "Scan left for a value smaller than its right neighbour"
+    },
+    {
+      "id": "find-swap",
+      "label": "Find the smallest larger value to the right"
+    },
+    {
+      "id": "swap",
+      "label": "Swap the pivot with it"
+    },
+    {
+      "id": "reverse-init",
+      "label": "Mark the tail to reverse"
+    },
+    {
+      "id": "reverse",
+      "label": "Reverse the tail"
+    },
+    {
+      "id": "finish",
+      "label": "Done"
+    }
+  ]
+}

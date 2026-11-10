@@ -1,0 +1,73 @@
+{
+  "id": "merge-intervals",
+  "title": "Merge Overlapping Intervals",
+  "category": "arrays",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Merge overlapping intervals given as start, end pairs sorted by start: extend the current interval while the next one starts inside it, otherwise close it and start a new one.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      3,
+      2,
+      6,
+      8,
+      10,
+      9,
+      12
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Intervals as start, end pairs",
+      "note": "Pairs sorted by start, ends from 0 to 99, for example 1, 3, 2, 6."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "empty-check",
+      "label": "Nothing to merge when empty"
+    },
+    {
+      "id": "init",
+      "label": "Start with the first interval"
+    },
+    {
+      "id": "loop",
+      "label": "Next interval"
+    },
+    {
+      "id": "overlap",
+      "label": "Does it start inside the current interval?"
+    },
+    {
+      "id": "merge",
+      "label": "Extend the current end"
+    },
+    {
+      "id": "flush",
+      "label": "Close the current interval and start a new one"
+    },
+    {
+      "id": "finish",
+      "label": "Add the last interval"
+    }
+  ]
+}

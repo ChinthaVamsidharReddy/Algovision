@@ -314,6 +314,110 @@
           "Detect cycles and order a directed acyclic graph"
         ]
       }
+    },
+    {
+      "id": "greedy",
+      "slug": "greedy",
+      "name": "Greedy",
+      "description": "Make the best local choice at every step and never look back.",
+      "sort": 110,
+      "keywords": [
+        "greedy",
+        "local choice",
+        "jump",
+        "interval",
+        "schedule"
+      ],
+      "topic": {
+        "slug": "greedy-choices",
+        "name": "Greedy Choices",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Problems where a locally best choice leads to a globally best answer.",
+        "objectives": [
+          "Recognise when a greedy choice is safe",
+          "Track the farthest reachable position",
+          "Pick non-overlapping intervals by earliest finish"
+        ]
+      }
+    },
+    {
+      "id": "math",
+      "slug": "math",
+      "name": "Math",
+      "description": "Number theory building blocks: divisors, primes and factors.",
+      "sort": 120,
+      "keywords": [
+        "math",
+        "gcd",
+        "prime",
+        "sieve",
+        "factor",
+        "number theory"
+      ],
+      "topic": {
+        "slug": "number-theory-basics",
+        "name": "Number Theory Basics",
+        "difficulty": "BEGINNER",
+        "summary": "Euclid's algorithm, primes and factorisation, step by step.",
+        "objectives": [
+          "Compute a greatest common divisor with remainders",
+          "Mark composites with a sieve",
+          "Split a number into prime factors"
+        ]
+      }
+    },
+    {
+      "id": "bit-manipulation",
+      "slug": "bit-manipulation",
+      "name": "Bit Manipulation",
+      "description": "Work directly on the binary digits of a number.",
+      "sort": 130,
+      "keywords": [
+        "bit",
+        "binary",
+        "xor",
+        "and",
+        "shift",
+        "popcount"
+      ],
+      "topic": {
+        "slug": "bit-tricks",
+        "name": "Bit Tricks",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Small bitwise identities that replace loops and extra memory.",
+        "objectives": [
+          "Clear the lowest set bit",
+          "Test for a power of two",
+          "Cancel pairs with XOR"
+        ]
+      }
+    },
+    {
+      "id": "backtracking",
+      "slug": "backtracking",
+      "name": "Backtracking",
+      "description": "Build an answer one choice at a time and undo the choice when it leads nowhere.",
+      "sort": 105,
+      "keywords": [
+        "backtracking",
+        "recursion",
+        "choose",
+        "undo",
+        "n-queens",
+        "subset",
+        "parentheses"
+      ],
+      "topic": {
+        "slug": "backtracking-search",
+        "name": "Backtracking Search",
+        "difficulty": "ADVANCED",
+        "summary": "Explore every choice, prune dead ends and undo moves.",
+        "objectives": [
+          "Choose, explore, then undo a choice",
+          "Prune branches that cannot succeed",
+          "Count solutions of a constraint problem"
+        ]
+      }
     }
   ]
 }

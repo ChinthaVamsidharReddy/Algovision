@@ -1,0 +1,68 @@
+{
+  "id": "stock-span",
+  "title": "Stock Span (Monotonic Stack)",
+  "category": "stacks-and-queues",
+  "wave": 10,
+  "stateKind": "stack",
+  "difficulty": "intermediate",
+  "summary": "For each day, count the consecutive days up to it with a price not higher than today's. A stack of still-higher days makes it one pass.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      100,
+      80,
+      60,
+      70,
+      60,
+      75,
+      85
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Daily prices",
+      "note": "Whole numbers from 0 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "Next day"
+    },
+    {
+      "id": "while-check",
+      "label": "Is the top day covered by today?"
+    },
+    {
+      "id": "pop",
+      "label": "Pop the covered day"
+    },
+    {
+      "id": "compute",
+      "label": "Span = distance to the nearest higher day"
+    },
+    {
+      "id": "push",
+      "label": "Push today"
+    },
+    {
+      "id": "finish",
+      "label": "Return the spans"
+    }
+  ]
+}

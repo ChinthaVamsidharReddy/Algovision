@@ -1,0 +1,75 @@
+{
+  "id": "upper-bound",
+  "title": "Upper Bound (First Greater)",
+  "category": "searching",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the first index whose value is greater than the target in a sorted array, or n when none is. The same loop as the lower bound with <= in the test.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      1,
+      2,
+      4,
+      4,
+      4,
+      7,
+      9
+    ],
+    "target": 4
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Sorted array values",
+      "note": "Must be in ascending order. Duplicates are allowed."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target value"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "The answer is between 0 and n"
+    },
+    {
+      "id": "loop",
+      "label": "While candidates remain"
+    },
+    {
+      "id": "compare",
+      "label": "Is the middle too small?"
+    },
+    {
+      "id": "go-right",
+      "label": "Discard the left half and mid"
+    },
+    {
+      "id": "go-left",
+      "label": "Keep mid and discard the right half"
+    },
+    {
+      "id": "finish",
+      "label": "Return the boundary"
+    }
+  ]
+}

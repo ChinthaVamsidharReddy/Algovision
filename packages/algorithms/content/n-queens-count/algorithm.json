@@ -1,0 +1,64 @@
+{
+  "id": "n-queens-count",
+  "title": "N-Queens (Count Solutions)",
+  "category": "backtracking",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Count the ways to place n queens on an n \u00d7 n board so none attacks another: fill one row at a time, try every safe column, and undo the queen when a row has no safe column.",
+  "complexity": {
+    "time": "O(n!)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 4
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Board size n",
+      "note": "From 1 to 5 (4 on low-end devices)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "solution",
+      "label": "All rows filled: one solution"
+    },
+    {
+      "id": "row",
+      "label": "Start a row"
+    },
+    {
+      "id": "try",
+      "label": "Is this column safe?"
+    },
+    {
+      "id": "place",
+      "label": "Place the queen"
+    },
+    {
+      "id": "recurse",
+      "label": "Fill the next row"
+    },
+    {
+      "id": "remove",
+      "label": "Take the queen back (backtrack)"
+    },
+    {
+      "id": "finish",
+      "label": "Return this row's total"
+    }
+  ]
+}

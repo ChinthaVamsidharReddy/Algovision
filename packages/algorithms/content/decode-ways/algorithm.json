@@ -1,0 +1,52 @@
+{
+  "id": "decode-ways",
+  "title": "Decode Ways",
+  "category": "dynamic-programming",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Count how many ways a string of digits can be read as letters (1 = A ... 26 = Z). The ways for the first i digits come from taking one digit or two digits at the end.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      2,
+      6
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Digits",
+      "note": "Whole numbers from 0 to 9, written as the digits of the message."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "The empty message and the first digit"
+    },
+    {
+      "id": "fill",
+      "label": "Add the one-digit and two-digit endings"
+    },
+    {
+      "id": "finish",
+      "label": "Return the ways for the whole message"
+    }
+  ]
+}

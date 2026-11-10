@@ -1,0 +1,260 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    2,
+    3,
+    1,
+    1,
+    4
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    0
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "unreachable",
+  "input": {
+   "values": [
+    1,
+    0,
+    1
+   ]
+  },
+  "expected": -1
+ },
+ {
+  "name": "limit value",
+  "input": {
+   "values": [
+    9,
+    0,
+    0,
+    0
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "one each",
+  "input": {
+   "values": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "two values",
+  "input": {
+   "values": [
+    1,
+    5
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    2,
+    2,
+    1,
+    3,
+    2,
+    1,
+    2,
+    1,
+    4,
+    2,
+    1,
+    2,
+    0
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    2,
+    1,
+    0,
+    3,
+    1,
+    2,
+    0
+   ]
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    3,
+    1,
+    4,
+    0
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    4,
+    1,
+    3,
+    3,
+    3,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    3,
+    0,
+    2,
+    2
+   ]
+  },
+  "expected": 6
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    3,
+    4,
+    1
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    3,
+    2,
+    2
+   ]
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    1,
+    2,
+    1,
+    1,
+    1,
+    0,
+    3
+   ]
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    0,
+    1,
+    2,
+    2,
+    2,
+    3
+   ]
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    2
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "values": [
+    2,
+    2,
+    1,
+    2,
+    0,
+    0
+   ]
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 10",
+  "input": {
+   "values": [
+    4,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    4,
+    1,
+    1,
+    4,
+    1,
+    4,
+    2,
+    4
+   ]
+  },
+  "expected": -1
+ },
+ {
+  "name": "random 11",
+  "input": {
+   "values": [
+    3,
+    4,
+    1,
+    2,
+    1,
+    2,
+    2,
+    2,
+    2,
+    3,
+    1,
+    0,
+    1,
+    0,
+    4
+   ]
+  },
+  "expected": -1
+ }
+]

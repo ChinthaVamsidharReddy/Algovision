@@ -1,0 +1,52 @@
+{
+  "id": "count-set-bits-kernighan",
+  "title": "Count Set Bits (Kernighan)",
+  "category": "bit-manipulation",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Count the 1 bits of a number: n AND (n - 1) clears the lowest 1 bit, so the loop runs once per set bit instead of once per bit.",
+  "complexity": {
+    "time": "O(set bits)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "n": 13
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "The number",
+      "note": "From 0 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Count starts at 0"
+    },
+    {
+      "id": "loop",
+      "label": "While any bit is set"
+    },
+    {
+      "id": "clear",
+      "label": "Clear the lowest set bit and count it"
+    },
+    {
+      "id": "finish",
+      "label": "Return the count"
+    }
+  ]
+}

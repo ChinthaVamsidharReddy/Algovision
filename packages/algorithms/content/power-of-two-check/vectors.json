@@ -1,0 +1,100 @@
+[
+ {
+  "name": "power",
+  "input": {
+   "n": 64
+  },
+  "expected": 1
+ },
+ {
+  "name": "zero",
+  "input": {
+   "n": 0
+  },
+  "expected": 0
+ },
+ {
+  "name": "one",
+  "input": {
+   "n": 1
+  },
+  "expected": 1
+ },
+ {
+  "name": "largest",
+  "input": {
+   "n": 999
+  },
+  "expected": 0
+ },
+ {
+  "name": "largest power",
+  "input": {
+   "n": 512
+  },
+  "expected": 1
+ },
+ {
+  "name": "just above",
+  "input": {
+   "n": 65
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "n": 451
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "n": 166
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "n": 112
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "n": 348
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "n": 615
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "n": 53
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "n": 104
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "n": 0
+  },
+  "expected": 0
+ }
+]

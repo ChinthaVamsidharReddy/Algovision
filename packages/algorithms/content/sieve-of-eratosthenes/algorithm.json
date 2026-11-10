@@ -1,0 +1,56 @@
+{
+  "id": "sieve-of-eratosthenes",
+  "title": "Sieve of Eratosthenes",
+  "category": "math",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Count the primes up to n by crossing out the multiples of each prime, starting at its square. What is never crossed out is prime.",
+  "complexity": {
+    "time": "O(n log log n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 7
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Upper limit n",
+      "note": "From 2 up to the array limit minus one (at most 14)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Assume every number from 2 is prime"
+    },
+    {
+      "id": "loop",
+      "label": "Next candidate p up to the square root"
+    },
+    {
+      "id": "check-prime",
+      "label": "Is p still marked prime?"
+    },
+    {
+      "id": "mark",
+      "label": "Cross out a multiple of p"
+    },
+    {
+      "id": "finish",
+      "label": "Count the numbers still marked"
+    }
+  ]
+}

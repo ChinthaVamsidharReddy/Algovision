@@ -1,0 +1,202 @@
+[
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    7,
+    1,
+    5,
+    3,
+    6,
+    4
+   ]
+  },
+  "expected": 5
+ },
+ {
+  "name": "single",
+  "input": {
+   "values": [
+    5
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "falling",
+  "input": {
+   "values": [
+    7,
+    6,
+    4,
+    3,
+    1
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "limit value",
+  "input": {
+   "values": [
+    0,
+    999
+   ]
+  },
+  "expected": 999
+ },
+ {
+  "name": "flat",
+  "input": {
+   "values": [
+    3,
+    3,
+    3
+   ]
+  },
+  "expected": 0
+ },
+ {
+  "name": "late low",
+  "input": {
+   "values": [
+    5,
+    4,
+    3,
+    1,
+    9
+   ]
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    25,
+    31,
+    5,
+    10,
+    28,
+    25,
+    35
+   ]
+  },
+  "expected": 30
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    8,
+    27,
+    35,
+    17,
+    26
+   ]
+  },
+  "expected": 27
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    24,
+    14,
+    9,
+    5,
+    11,
+    9
+   ]
+  },
+  "expected": 6
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    14,
+    0,
+    31,
+    37
+   ]
+  },
+  "expected": 37
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    16,
+    18,
+    0
+   ]
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    26,
+    34,
+    23
+   ]
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    36,
+    20,
+    8,
+    32,
+    39,
+    3,
+    29,
+    35,
+    25,
+    25
+   ]
+  },
+  "expected": 32
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    25,
+    6,
+    30,
+    40,
+    25,
+    3,
+    12
+   ]
+  },
+  "expected": 34
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    13,
+    28
+   ]
+  },
+  "expected": 15
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "values": [
+    7,
+    21,
+    38
+   ]
+  },
+  "expected": 31
+ }
+]

@@ -31,6 +31,9 @@ import { waveE } from "./algorithms/waveE";
 import { waveF } from "./algorithms/waveF";
 import { waveG } from "./algorithms/waveG";
 import { waveH } from "./algorithms/waveH";
+import { waveI } from "./algorithms/waveI";
+import { waveJ } from "./algorithms/waveJ";
+import { waveK } from "./algorithms/waveK";
 import type { ExecutionTrace } from "@algovision/trace-schema";
 
 // Add each new algorithm here; completeness tests fail if content or definition is missing.
@@ -62,6 +65,9 @@ const definitions: readonly AlgorithmDefinition<never>[] = [
   ...waveF,
   ...waveG,
   ...waveH,
+  ...waveI,
+  ...waveJ,
+  ...waveK,
 ];
 
 export interface RegisteredAlgorithm {

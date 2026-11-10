@@ -1,0 +1,79 @@
+{
+  "id": "search-rotated-array",
+  "title": "Search in a Rotated Sorted Array",
+  "category": "searching",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Binary search in a sorted array that was rotated: one half around the middle is always sorted, and checking whether the target lies in that half decides where to go.",
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      4,
+      5,
+      6,
+      7,
+      0,
+      1,
+      2
+    ],
+    "target": 0
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Rotated array values",
+      "note": "Different numbers: a sorted array rotated by some amount, such as 4, 5, 6, 7, 0, 1, 2."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target value"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Search the whole array"
+    },
+    {
+      "id": "loop",
+      "label": "While the range is not empty"
+    },
+    {
+      "id": "found",
+      "label": "Is the middle the target?"
+    },
+    {
+      "id": "which-half",
+      "label": "Which half is sorted?"
+    },
+    {
+      "id": "in-left",
+      "label": "Search the left side"
+    },
+    {
+      "id": "in-right",
+      "label": "Search the right side"
+    },
+    {
+      "id": "finish",
+      "label": "Not found"
+    }
+  ]
+}

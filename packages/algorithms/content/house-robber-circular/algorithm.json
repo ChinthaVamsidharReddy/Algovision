@@ -1,0 +1,60 @@
+{
+  "id": "house-robber-circular",
+  "title": "House Robber II (Circular Street)",
+  "category": "dynamic-programming",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Rob the most money from houses in a circle, where the first and last are neighbours: solve the straight street twice, once without the last house and once without the first.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      3,
+      2
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Money in each house",
+      "note": "Whole numbers from 0 to 999; the last house is next to the first."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "single",
+      "label": "One house: just rob it"
+    },
+    {
+      "id": "rob-first",
+      "label": "Street without the last house"
+    },
+    {
+      "id": "rob-second",
+      "label": "Street without the first house"
+    },
+    {
+      "id": "pick",
+      "label": "Rob this house or skip it"
+    },
+    {
+      "id": "finish",
+      "label": "Return the better street"
+    }
+  ]
+}

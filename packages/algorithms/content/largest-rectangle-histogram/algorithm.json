@@ -1,0 +1,63 @@
+{
+  "id": "largest-rectangle-histogram",
+  "title": "Largest Rectangle in a Histogram",
+  "category": "stacks-and-queues",
+  "wave": 10,
+  "stateKind": "stack",
+  "difficulty": "advanced",
+  "summary": "Find the largest rectangle under a bar chart. A stack of bars in increasing height closes each taller bar's rectangle the moment a shorter bar arrives.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      1,
+      5,
+      6,
+      2,
+      3
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Bar heights",
+      "note": "Whole numbers from 0 to 99."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "Next bar (and a final height 0)"
+    },
+    {
+      "id": "while-check",
+      "label": "Is the top bar taller than this one?"
+    },
+    {
+      "id": "pop-area",
+      "label": "Pop the bar and measure its rectangle"
+    },
+    {
+      "id": "push",
+      "label": "Push this bar"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best area"
+    }
+  ]
+}

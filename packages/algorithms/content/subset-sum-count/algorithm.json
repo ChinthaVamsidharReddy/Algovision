@@ -1,0 +1,69 @@
+{
+  "id": "subset-sum-count",
+  "title": "Count Subsets with a Given Sum",
+  "category": "backtracking",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Count the subsets whose sum equals a target by trying to include and to leave out each number in turn, stopping early when the sum is already too big.",
+  "complexity": {
+    "time": "O(2^n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      4,
+      5,
+      2
+    ],
+    "target": 9
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Numbers",
+      "note": "Up to 6 whole numbers from 0 to 20."
+    },
+    {
+      "name": "target",
+      "kind": "int",
+      "label": "Target sum",
+      "note": "From 0 to 60."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "target"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "prune",
+      "label": "Sum already above the target"
+    },
+    {
+      "id": "base-case",
+      "label": "Every number decided"
+    },
+    {
+      "id": "include",
+      "label": "Try including this number"
+    },
+    {
+      "id": "exclude",
+      "label": "Try leaving it out"
+    },
+    {
+      "id": "finish",
+      "label": "Add the two counts"
+    }
+  ]
+}

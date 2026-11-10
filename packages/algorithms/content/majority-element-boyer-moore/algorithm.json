@@ -1,0 +1,64 @@
+{
+  "id": "majority-element-boyer-moore",
+  "title": "Majority Element (Boyer-Moore Voting)",
+  "category": "arrays",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the value that appears more than half the time by letting different values cancel each other out in pairs; the survivor is the majority.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "One value must appear more than half the time."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "No candidate, count 0"
+    },
+    {
+      "id": "loop",
+      "label": "Next value"
+    },
+    {
+      "id": "new-candidate",
+      "label": "If the count is 0, adopt this value"
+    },
+    {
+      "id": "vote",
+      "label": "Vote for or against the candidate"
+    },
+    {
+      "id": "finish",
+      "label": "Return the candidate"
+    }
+  ]
+}

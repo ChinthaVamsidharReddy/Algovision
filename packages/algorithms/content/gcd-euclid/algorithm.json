@@ -1,0 +1,60 @@
+{
+  "id": "gcd-euclid",
+  "title": "Greatest Common Divisor (Euclid)",
+  "category": "math",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find the largest number that divides both inputs by repeatedly replacing (a, b) with (b, a mod b) until the remainder is 0.",
+  "complexity": {
+    "time": "O(log min(a, b))",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "a": 48,
+    "b": 18
+  },
+  "inputs": [
+    {
+      "name": "a",
+      "kind": "int",
+      "label": "First number",
+      "note": "From 1 to 999."
+    },
+    {
+      "name": "b",
+      "kind": "int",
+      "label": "Second number",
+      "note": "From 1 to 999."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "a",
+      "b"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "loop",
+      "label": "While b is not 0"
+    },
+    {
+      "id": "remainder",
+      "label": "Find a mod b"
+    },
+    {
+      "id": "shift",
+      "label": "Replace (a, b) with (b, remainder)"
+    },
+    {
+      "id": "finish",
+      "label": "Return a"
+    }
+  ]
+}

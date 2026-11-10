@@ -111,3 +111,11 @@ Design notes:
 - Limits: at most 8 vertices, and the edge list may be twice as long as an array input (30 numbers standard, 16 lite). Vertices are drawn on a circle, so the picture never moves while the algorithm runs.
 - Solutions in all four languages build an adjacency matrix from the edge list first (the `build-graph` anchor). C and C++ share one source because they use fixed `[8][8]` arrays and plain functions.
 - Directed graphs reject an edge listed in both directions between the same two vertices (the drawing would overlap).
+
+
+## 11. Interview core I milestone (109 algorithms, 16 categories)
+
+- 32 new algorithms (batches I, J, K): array patterns and binary-search variants, monotonic stacks, math, bit tricks, greedy, backtracking and classic dynamic programming. No new input kind and no trace-schema change (still 1.2.0).
+- New categories: Backtracking, Greedy, Math, Bit Manipulation (shared `catalog.json`, synced to the database by the repeatable migration).
+- Recursion-heavy demos (subset count, N-Queens, parentheses) cap their input by limit profile (for example N-Queens n <= 5 standard, 4 lite) so the worst case stays inside the step budget; the tests assert this per profile.
+- Every algorithm is covered by a reference-implementation property test, lite-profile worst-case test, shared vectors (empty, single, limit) and the real javac/python3/g++/gcc conformance run.

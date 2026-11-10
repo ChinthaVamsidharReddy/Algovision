@@ -1,0 +1,60 @@
+{
+  "id": "unique-paths",
+  "title": "Unique Paths in a Grid",
+  "category": "dynamic-programming",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Count the routes from the top-left to the bottom-right corner moving only right or down. One row of counts is updated in place: each cell is the cell above plus the cell to its left.",
+  "complexity": {
+    "time": "O(rows \u00d7 cols)",
+    "space": "O(cols)"
+  },
+  "defaultInput": {
+    "rows": 3,
+    "cols": 7
+  },
+  "inputs": [
+    {
+      "name": "rows",
+      "kind": "int",
+      "label": "Rows",
+      "note": "From 1 to the array limit (15)."
+    },
+    {
+      "name": "cols",
+      "kind": "int",
+      "label": "Columns",
+      "note": "From 1 to the array limit (15)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "rows",
+      "cols"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "First row: one route to each column"
+    },
+    {
+      "id": "row",
+      "label": "Next row"
+    },
+    {
+      "id": "fill",
+      "label": "Add the cell to the left"
+    },
+    {
+      "id": "finish",
+      "label": "Return the corner"
+    }
+  ]
+}

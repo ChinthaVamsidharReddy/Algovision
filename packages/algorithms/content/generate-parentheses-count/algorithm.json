@@ -1,0 +1,52 @@
+{
+  "id": "generate-parentheses-count",
+  "title": "Generate Parentheses (Count)",
+  "category": "backtracking",
+  "wave": 11,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Count the well-formed strings of n pairs of parentheses by building them one character at a time: add \"(\" while some remain, add \")\" only while an open one is waiting.",
+  "complexity": {
+    "time": "O(4^n / \u221an)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "n": 3
+  },
+  "inputs": [
+    {
+      "name": "n",
+      "kind": "int",
+      "label": "Number of pairs",
+      "note": "From 1 to 4 (3 on low-end devices)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "n"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "complete",
+      "label": "A full valid string"
+    },
+    {
+      "id": "add-open",
+      "label": "Try adding ("
+    },
+    {
+      "id": "add-close",
+      "label": "Try adding )"
+    },
+    {
+      "id": "finish",
+      "label": "Undo and return"
+    }
+  ]
+}

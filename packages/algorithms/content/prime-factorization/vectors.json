@@ -1,0 +1,182 @@
+[
+ {
+  "name": "composite",
+  "input": {
+   "n": 60
+  },
+  "expected": [
+   2,
+   2,
+   3,
+   5
+  ]
+ },
+ {
+  "name": "smallest",
+  "input": {
+   "n": 2
+  },
+  "expected": [
+   2
+  ]
+ },
+ {
+  "name": "largest prime",
+  "input": {
+   "n": 997
+  },
+  "expected": [
+   997
+  ]
+ },
+ {
+  "name": "largest input",
+  "input": {
+   "n": 999
+  },
+  "expected": [
+   3,
+   3,
+   3,
+   37
+  ]
+ },
+ {
+  "name": "power of two",
+  "input": {
+   "n": 512
+  },
+  "expected": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ]
+ },
+ {
+  "name": "square of prime",
+  "input": {
+   "n": 961
+  },
+  "expected": [
+   31,
+   31
+  ]
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "n": 923
+  },
+  "expected": [
+   13,
+   71
+  ]
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "n": 893
+  },
+  "expected": [
+   19,
+   47
+  ]
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "n": 800
+  },
+  "expected": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   5,
+   5
+  ]
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "n": 976
+  },
+  "expected": [
+   2,
+   2,
+   2,
+   2,
+   61
+  ]
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "n": 897
+  },
+  "expected": [
+   3,
+   13,
+   23
+  ]
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "n": 698
+  },
+  "expected": [
+   2,
+   349
+  ]
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "n": 819
+  },
+  "expected": [
+   3,
+   3,
+   7,
+   13
+  ]
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "n": 574
+  },
+  "expected": [
+   2,
+   7,
+   41
+  ]
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "n": 403
+  },
+  "expected": [
+   13,
+   31
+  ]
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "n": 409
+  },
+  "expected": [
+   409
+  ]
+ }
+]

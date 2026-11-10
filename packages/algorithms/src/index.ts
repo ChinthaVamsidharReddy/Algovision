@@ -33,3 +33,6 @@ export * from "./algorithms/waveE";
 export * from "./algorithms/waveF";
 export * from "./algorithms/waveG";
 export * from "./algorithms/waveH";
+export * from "./algorithms/waveI";
+export * from "./algorithms/waveJ";
+export * from "./algorithms/waveK";

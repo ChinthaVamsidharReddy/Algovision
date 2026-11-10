@@ -1,0 +1,63 @@
+{
+  "id": "best-time-to-buy-sell-stock",
+  "title": "Best Time to Buy and Sell Stock",
+  "category": "arrays",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Find the biggest profit from one buy and one later sell by remembering the cheapest price seen so far and comparing it with today's price.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      7,
+      1,
+      5,
+      3,
+      6,
+      4
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Daily prices",
+      "note": "Whole numbers from 0 to 999, one per day."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Cheapest so far is day 0; best profit is 0"
+    },
+    {
+      "id": "loop",
+      "label": "Next day"
+    },
+    {
+      "id": "new-min",
+      "label": "A new cheapest price"
+    },
+    {
+      "id": "profit",
+      "label": "Profit if sold today"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best profit"
+    }
+  ]
+}

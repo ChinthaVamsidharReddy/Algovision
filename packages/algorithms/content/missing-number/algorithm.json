@@ -1,0 +1,52 @@
+{
+  "id": "missing-number",
+  "title": "Missing Number (Sum Formula)",
+  "category": "arrays",
+  "wave": 9,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "An array holds n different numbers taken from 0 to n, so one is missing: subtract the array's sum from the sum 0 + 1 + ... + n.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      0,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "n different whole numbers from 0 to n (n is the array length, at most 15)."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "The sum the array should have, and a running sum"
+    },
+    {
+      "id": "add",
+      "label": "Add the next value"
+    },
+    {
+      "id": "finish",
+      "label": "Return the difference"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "min-jumps-to-end",
+  "title": "Minimum Jumps to the End",
+  "category": "greedy",
+  "wave": 10,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Find the fewest jumps to reach the last index, or -1. Think in rounds: the farthest point seen so far becomes the reach of the next jump.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      3,
+      1,
+      1,
+      4
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Jump lengths",
+      "note": "Whole numbers from 0 to 9: the longest jump allowed from each index."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "single",
+      "label": "A single index needs no jump"
+    },
+    {
+      "id": "init",
+      "label": "No jumps yet"
+    },
+    {
+      "id": "loop",
+      "label": "Visit the next index"
+    },
+    {
+      "id": "extend",
+      "label": "Update the farthest reach"
+    },
+    {
+      "id": "boundary",
+      "label": "End of the current round?"
+    },
+    {
+      "id": "jump",
+      "label": "Take a jump"
+    },
+    {
+      "id": "finish",
+      "label": "The reach covers the last index"
+    },
+    {
+      "id": "unreachable",
+      "label": "The end cannot be reached"
+    }
+  ]
+}
