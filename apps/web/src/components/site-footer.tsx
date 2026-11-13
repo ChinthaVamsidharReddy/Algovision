@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { brand } from "../../brand.config";
 import { BackendStatus } from "./backend-status";
 
@@ -8,6 +9,11 @@ export function SiteFooter() {
         <p>
           {brand.name} &middot; {brand.tagline}
         </p>
+        <nav aria-label="Footer" className="flex gap-4">
+          <Link href="/paths" className="hover:underline">Paths</Link>
+          <Link href="/compare" className="hover:underline">Compare</Link>
+          <Link href="/cheatsheet" className="hover:underline">Cheat sheet</Link>
+        </nav>
         <BackendStatus />
       </div>
     </footer>

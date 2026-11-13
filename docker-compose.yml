@@ -1,6 +1,7 @@
 # Development environment.
 #   docker compose up -d postgres        # database only; run api and web locally (fastest loop)
 #   docker compose --profile full up --build   # everything in containers
+
 name: algovision
 
 services:

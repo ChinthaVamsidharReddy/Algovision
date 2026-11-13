@@ -59,7 +59,7 @@ Platform
 | # | Milestone | Contents | Adds |
 | --- | --- | --- | --- |
 | 9 | Interview core I | Priority-A items that need no new input kind: array patterns, binary-search variants, linked-list (Floyd, merge), monotonic stack, DP (1D and classic), subsets, permutations, N-Queens, greedy, bit tricks, GCD and sieve. New categories: Backtracking, Greedy, Bit Manipulation, Math. | about 45 planned; 32 delivered (see section 3a) |
-| 10 | Learning experience | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
+| 10 | Learning experience (delivered, see section 3b) | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
 | 11 | New input kinds | String and grid kinds, then Strings, grid graphs (islands, rotting oranges), edit distance, LCS, KMP | about 30 |
 | 12 | Heaps, tries and advanced trees | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
 | 13 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
@@ -73,6 +73,12 @@ Result: about 180 algorithms and a full path from first lesson to interview.
 Delivered 32 algorithms in three batches: array and binary-search patterns (11), monotonic stacks, math, bit tricks and greedy (11), backtracking and classic dynamic programming (10). Four categories were added (Backtracking, Greedy, Math, Bit Manipulation).
 
 Deferred from the original M9 list because they need an input the current `intList` / `int` kinds cannot express: linked-list cycle detection (needs a cycle position in the list state), merging two sorted lists (two lists), edit distance and longest common subsequence (strings), permutations and subsets that print every result (list-of-lists output). They move to the milestones that introduce string inputs and multi-list inputs.
+
+### 3b. Milestone 10 delivery notes
+
+Delivered: learning paths with prerequisites, quizzes, practice links, cheat sheet and compare mode. Design choices: everything is static and built at deploy time (no new API or database change); quizzes are generated from the trace, so they exist for every algorithm and follow the learner's own input; practice links are curated LeetCode URLs for 58 well-known problems and are not fetched at build time.
+
+Left for later: stored quiz scores (needs a table and endpoint), per-path completion certificates (Milestone 13), and hand-written conceptual quiz questions.
 
 ## 4. Decisions needed before building (not changed silently)
 - **D1:** add `string` and `grid` input kinds to the trace schema (a minor version, backward compatible)? Needed for Milestone 11.

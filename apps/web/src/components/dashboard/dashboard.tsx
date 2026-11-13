@@ -74,6 +74,10 @@ function Inner({ cards }: { cards: CatalogCard[] }) {
             <Link href="/algorithms" className="font-medium text-accent underline">
               Pick your first algorithm
             </Link>
+            , or follow a{" "}
+            <Link href="/paths" className="font-medium text-accent underline">
+              learning path
+            </Link>
             .
           </p>
         )}

@@ -24,6 +24,12 @@ export function SiteHeader({ cards }: { cards: CatalogCard[] }) {
           <Link href="/algorithms" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
             Algorithms
           </Link>
+          <Link href="/paths" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
+            Paths
+          </Link>
+          <Link href="/compare" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
+            Compare
+          </Link>
           <ThemeToggle />
           <UserMenu />
         </nav>

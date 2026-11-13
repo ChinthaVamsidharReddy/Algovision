@@ -14,6 +14,7 @@ Working end to end in the browser (against the API contract; see "Verification" 
 ## Verification
 
 - `pnpm test:strict`: trace-schema, viz-engine, algorithms (real javac/python3/g++/gcc against shared vectors) and web tests.
+- **Learning experience:** 8 ordered learning paths (`/paths`), prerequisites and practice links on every algorithm page, a "Test yourself" quiz generated from the trace on screen, a side-by-side compare page (`/compare`) and a printable cheat sheet (`/cheatsheet`). All of it is static data in `packages/algorithms/src/learning/` plus build-time pages; it adds no API endpoints and no database tables. Progress ticks use the existing progress API.
 - `apps/web/e2e`: Playwright checks against an in-memory **stub** of the API (`node e2e/stub-api.mjs`); see docs/DEVELOPMENT_GUIDE.md. The Spring Boot layer (controllers, JDBC stores) has **not** been compiled in the authoring environment because Maven Central was unreachable; the framework-free core logic and the SQL are tested separately. Run `mvn test` locally first.
 
 ## Quick start

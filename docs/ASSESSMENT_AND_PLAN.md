@@ -119,3 +119,11 @@ Design notes:
 - New categories: Backtracking, Greedy, Math, Bit Manipulation (shared `catalog.json`, synced to the database by the repeatable migration).
 - Recursion-heavy demos (subset count, N-Queens, parentheses) cap their input by limit profile (for example N-Queens n <= 5 standard, 4 lite) so the worst case stays inside the step budget; the tests assert this per profile.
 - Every algorithm is covered by a reference-implementation property test, lite-profile worst-case test, shared vectors (empty, single, limit) and the real javac/python3/g++/gcc conformance run.
+
+
+## 12. Learning experience milestone
+
+- New module `packages/algorithms/src/learning/`: `paths.ts` (8 paths, prerequisites, next-step logic), `practice.ts` (practice links), `quiz.ts` (deterministic quiz generator over a trace). Tests (`test/learning.test.ts`) assert that every algorithm is on a path, prerequisites exist and are acyclic and ordered, and every generated question is true to the trace for all 109 algorithms.
+- New pages: `/paths`, `/paths/[slug]`, `/compare`, `/cheatsheet`; new panels on the algorithm page (prerequisites, paths, practice, compare link, quiz).
+- No schema, API or database change. Navigation gained Paths and Compare (header), and Cheat sheet (menu and footer).
+- Accessibility: radio-group quiz, tables with captions and row headers, `sr-only` text kept inside `relative` scroll containers (an absolutely positioned screen-reader span had caused page-wide sideways scroll on phones).

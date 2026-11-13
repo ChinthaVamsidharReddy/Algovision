@@ -19,6 +19,7 @@ import { TreeView } from "./tree-view";
 import { ExplanationPanel, VariablesPanel } from "./panels";
 import { usePlayback } from "./use-playback";
 import { LearningActions } from "../learning/learning-actions";
+import { QuizPanel } from "../learning/quiz-panel";
 
 const ENV_PROFILE = process.env.NEXT_PUBLIC_VIZ_LIMIT_PROFILE;
 const LANG_KEY = "av-language";
@@ -153,6 +154,7 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
   const anchorId = step?.source.kind === "anchor" ? step.source.id : null;
   const ranges = anchorId ? (file.anchors[anchorId] ?? []) : [];
   const anchorLabel = content.meta.anchors.find((a) => a.id === anchorId)?.label ?? "";
+  const anchorLabels = useMemo(() => Object.fromEntries(content.meta.anchors.map((a) => [a.id, a.label])), [content]);
 
   return (
     <div className="space-y-5">
@@ -208,6 +210,8 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
           </div>
         </div>
       )}
+
+      {trace && <QuizPanel trace={trace} labels={anchorLabels} onJump={(index) => dispatch({ type: "JUMP", index })} />}
     </div>
   );
 }

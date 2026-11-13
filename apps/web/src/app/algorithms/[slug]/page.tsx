@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getAlgorithm, listAlgorithms } from "@algovision/algorithms";
 import { Workspace, WorkspaceSkeleton } from "@/components/workspace/workspace";
+import { AlgorithmExtras } from "@/components/learning/algorithm-extras";
+import { extrasFor } from "@/lib/learning-data";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,8 +24,11 @@ export default async function AlgorithmPage({ params }: Props) {
   const { slug } = await params;
   if (!getAlgorithm(slug)) notFound();
   return (
-    <Suspense fallback={<WorkspaceSkeleton />}>
-      <Workspace algorithmId={slug} />
-    </Suspense>
+    <>
+      <Suspense fallback={<WorkspaceSkeleton />}>
+        <Workspace algorithmId={slug} />
+      </Suspense>
+      <AlgorithmExtras id={slug} extras={extrasFor(slug)} />
+    </>
   );
 }

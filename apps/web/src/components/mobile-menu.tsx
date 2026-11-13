@@ -50,6 +50,15 @@ export function MobileMenu() {
             <Link href="/algorithms" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
               Algorithms
             </Link>
+            <Link href="/paths" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
+              Paths
+            </Link>
+            <Link href="/compare" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
+              Compare
+            </Link>
+            <Link href="/cheatsheet" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
+              Cheat sheet
+            </Link>
             <UserMenu stacked />
             <div className="mt-2 flex">
               <ThemeToggle />
