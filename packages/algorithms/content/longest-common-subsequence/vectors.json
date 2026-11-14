@@ -1,0 +1,162 @@
+[
+ {
+  "name": "both empty",
+  "input": {
+   "s": "",
+   "t": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "first empty",
+  "input": {
+   "s": "",
+   "t": "abc"
+  },
+  "expected": 0
+ },
+ {
+  "name": "second empty",
+  "input": {
+   "s": "abc",
+   "t": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "single",
+  "input": {
+   "s": "a",
+   "t": "a"
+  },
+  "expected": 1
+ },
+ {
+  "name": "single differ",
+  "input": {
+   "s": "a",
+   "t": "b"
+  },
+  "expected": 0
+ },
+ {
+  "name": "limit length",
+  "input": {
+   "s": "abcabcab",
+   "t": "bcabacba"
+  },
+  "expected": 6
+ },
+ {
+  "name": "identical",
+  "input": {
+   "s": "abcdefgh",
+   "t": "abcdefgh"
+  },
+  "expected": 8
+ },
+ {
+  "name": "disjoint",
+  "input": {
+   "s": "abc",
+   "t": "def"
+  },
+  "expected": 0
+ },
+ {
+  "name": "classic",
+  "input": {
+   "s": "abcde",
+   "t": "ace"
+  },
+  "expected": 3
+ },
+ {
+  "name": "reverse",
+  "input": {
+   "s": "abcd",
+   "t": "dcba"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "s": "fd",
+   "t": "e"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "s": "ccaab",
+   "t": "acaa"
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "s": "d",
+   "t": "bcbadca"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "s": "acccac",
+   "t": "cbc"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "s": "dbe",
+   "t": "ade"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "s": "bb",
+   "t": "a"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "s": "fba",
+   "t": "fafcaded"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "s": "cbcbbcab",
+   "t": "cbbcba"
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "s": "",
+   "t": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "s": "babcbab",
+   "t": "aaabbb"
+  },
+  "expected": 4
+ }
+]

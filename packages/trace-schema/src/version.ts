@@ -5,7 +5,7 @@
  * - Renaming, removing or changing the meaning of a field is a MAJOR change and must
  *   ship with a migration from the previous major (see docs/EXECUTION_TRACE_SCHEMA.md).
  */
-export const TRACE_SCHEMA_VERSION = "1.3.0";
+export const TRACE_SCHEMA_VERSION = "1.4.0";
 
 export interface SemVer {
   major: number;

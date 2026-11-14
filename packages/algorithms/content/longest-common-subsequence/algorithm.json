@@ -1,0 +1,62 @@
+{
+  "id": "longest-common-subsequence",
+  "title": "Longest Common Subsequence (Table)",
+  "category": "dynamic-programming",
+  "wave": 13,
+  "stateKind": "grid",
+  "difficulty": "advanced",
+  "summary": "Fill a table where cell (i, j) holds the longest common subsequence of the first i letters of one text and the first j letters of the other: a match extends the diagonal, otherwise take the better of above and left.",
+  "complexity": {
+    "time": "O(m x n)",
+    "space": "O(m x n)"
+  },
+  "defaultInput": {
+    "s": "abcde",
+    "t": "ace"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "First text"
+    },
+    {
+      "name": "t",
+      "kind": "text",
+      "label": "Second text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s",
+      "t"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Empty prefixes have length 0"
+    },
+    {
+      "id": "compare",
+      "label": "Compare the two letters"
+    },
+    {
+      "id": "match",
+      "label": "Match: extend the diagonal"
+    },
+    {
+      "id": "skip",
+      "label": "No match: take the better neighbour"
+    },
+    {
+      "id": "finish",
+      "label": "Return the bottom-right cell"
+    }
+  ]
+}

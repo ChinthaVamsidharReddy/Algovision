@@ -1,0 +1,89 @@
+{
+  "id": "max-area-of-island",
+  "title": "Max Area of Island",
+  "category": "graphs",
+  "wave": 13,
+  "stateKind": "grid",
+  "difficulty": "intermediate",
+  "summary": "Find the size of the biggest island in a grid of land (1) and water (0) by flooding each island with a depth-first search that adds up the cells it visits.",
+  "complexity": {
+    "time": "O(rows x cols)",
+    "space": "O(rows x cols)"
+  },
+  "defaultInput": {
+    "grid": [
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "inputs": [
+    {
+      "name": "grid",
+      "kind": "grid",
+      "label": "Grid",
+      "note": "1 is land, 0 is water."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "grid"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Best size starts at 0"
+    },
+    {
+      "id": "scan",
+      "label": "Look at the next cell"
+    },
+    {
+      "id": "visit",
+      "label": "Visit a land cell"
+    },
+    {
+      "id": "check",
+      "label": "Look at a neighbour"
+    },
+    {
+      "id": "spread",
+      "label": "Add the neighbour's branch to this size"
+    },
+    {
+      "id": "record",
+      "label": "Compare the island with the best"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best size"
+    }
+  ]
+}

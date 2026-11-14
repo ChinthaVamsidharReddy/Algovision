@@ -1,4 +1,4 @@
-import type { ArrayState, GraphState, LinkedListState, QueueState, StackState, TreeState } from "@algovision/trace-schema";
+import type { ArrayState, GraphState, GridState, LinkedListState, QueueState, StackState, TreeState } from "@algovision/trace-schema";
 
 /**
  * Text rendering of a snapshot for screen readers and the "as text" panel. It is derived from the
@@ -91,4 +91,17 @@ export function describeGraph(state: GraphState): string {
   }
   parts.push(`output: [${state.output.join(", ")}]`);
   return parts.join("; ");
+}
+
+/** Row by row, with the row and column labels when the table is over two strings. Empty cells read as "empty". */
+export function describeGrid(state: GridState): string {
+  if (state.rows === 0 || state.cols === 0) return "empty grid";
+  const rows: string[] = [];
+  for (let r = 0; r < state.rows; r++) {
+    const cells = state.cells.slice(r * state.cols, (r + 1) * state.cols).map((v) => (v === null ? "empty" : String(v)));
+    const name = state.rowLabels ? `row ${r} (${state.rowLabels[r] === "" ? "none" : state.rowLabels[r]})` : `row ${r}`;
+    rows.push(`${name}: ${cells.join(" ")}`);
+  }
+  const cols = state.colLabels ? `; columns: ${state.colLabels.map((l) => (l === "" ? "none" : l)).join(" ")}` : "";
+  return `${state.rows} by ${state.cols} grid${cols}; ${rows.join("; ")}`;
 }

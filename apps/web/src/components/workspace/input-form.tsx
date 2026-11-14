@@ -44,6 +44,7 @@ export function InputForm({
 
   const hint: Record<string, string> = {
     intList: `Whole numbers separated by commas. Up to ${maxItems} values, each between -${limits.maxAbsValue} and ${limits.maxAbsValue}. Leave empty for an empty list.`,
+    grid: `Rows of digits, separated by commas or spaces, for example 110, 011. Up to ${limits.maxGridSide} rows and ${limits.maxGridSide} columns, all rows the same length.`,
     text: `Lowercase letters a to z only, up to ${maxItems} characters. Leave empty for an empty string.`,
     int: `A whole number between -${limits.maxAbsValue} and ${limits.maxAbsValue}.`,
   };

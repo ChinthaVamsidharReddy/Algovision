@@ -108,7 +108,22 @@ export const GraphStateSchema = z.strictObject({
 });
 export type GraphState = z.infer<typeof GraphStateSchema>;
 
-export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree", "graph"] as const;
+/**
+ * Grid snapshot (schema 1.4): a rectangular table stored row-major, so cell (r, c) is `cells[r * cols + c]` and an
+ * `index` reference means the same number. A null cell is empty (not computed yet). Optional labels name the rows and
+ * columns, for example the letters of two strings in a dynamic-programming table.
+ */
+export const GridStateSchema = z.strictObject({
+  kind: z.literal("grid"),
+  rows: z.number().int().min(0),
+  cols: z.number().int().min(0),
+  cells: z.array(z.number().int().nullable()),
+  rowLabels: z.array(z.string()).optional(),
+  colLabels: z.array(z.string()).optional(),
+});
+export type GridState = z.infer<typeof GridStateSchema>;
+
+export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree", "graph", "grid"] as const;
 export type StateKind = (typeof STATE_KINDS)[number];
 
 export const stateSchemas = {
@@ -118,6 +133,7 @@ export const stateSchemas = {
   queue: QueueStateSchema,
   tree: TreeStateSchema,
   graph: GraphStateSchema,
+  grid: GridStateSchema,
 } as const;
 
 export interface StateMap {
@@ -127,5 +143,6 @@ export interface StateMap {
   queue: QueueState;
   tree: TreeState;
   graph: GraphState;
+  grid: GridState;
 }
 export type StateOf<K extends StateKind> = StateMap[K];

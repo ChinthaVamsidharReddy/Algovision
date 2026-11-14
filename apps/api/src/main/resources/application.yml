@@ -1,41 +1,27 @@
-
-
 spring:
   application:
     name: algovision-api
-
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/algovision}
-    username: ${SPRING_DATASOURCE_USERNAME:algovision}
-    password: ${SPRING_DATASOURCE_PASSWORD:algovision}
-
-    hikari:
-      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:5}
-      minimum-idle: ${SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE:0}
-      connection-timeout: ${SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT:30000}
-      idle-timeout: ${SPRING_DATASOURCE_HIKARI_IDLETIMEOUT:600000}
-
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/algovision}
+    username: ${DB_USERNAME:algovision}
+    password: ${DB_PASSWORD:algovision}
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
-
+      ddl-auto: validate   # Flyway owns the schema; Hibernate only checks it matches
   flyway:
     enabled: true
     locations: classpath:db/migration
-
   mvc:
     problemdetails:
       enabled: true
-
   jackson:
     default-property-inclusion: non_null
 
 server:
   port: ${PORT:8080}
   shutdown: graceful
-  forward-headers-strategy: framework
-
+  forward-headers-strategy: framework   # behind Render's proxy
   error:
     include-message: never
     include-stacktrace: never
@@ -46,44 +32,46 @@ management:
     web:
       exposure:
         include: health,info
-
   endpoint:
     health:
       probes:
         enabled: true
 
 app:
-  allowed-origins: ${APP_ALLOWED_ORIGINS:${ALLOWED_ORIGINS:http://localhost:3000}}
-
+  # Exact origins of the web app (scheme://host[:port], no path, no wildcard).
+  # Used by the Origin/Referer check on state-changing requests. CORS is NOT enabled: the browser
+  # only talks to the Next.js origin, which proxies /api/*.
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
   origin-check:
-    enabled: ${APP_ORIGIN_CHECK_ENABLED:true}
-    client-header: ${APP_ORIGIN_CHECK_CLIENT_HEADER:X-AlgoVision-Client}
-    client-header-value: ${APP_ORIGIN_CHECK_CLIENT_HEADER_VALUE:web}
-
+    enabled: ${ORIGIN_CHECK_ENABLED:true}
+    client-header: X-AlgoVision-Client
+    client-header-value: web
   roles:
-    instructor-enabled: ${APP_ROLES_INSTRUCTOR_ENABLED:false}
+    # ROLE_INSTRUCTOR does not exist in the database in MVP 1. Even if this flag is flipped, assigning
+    # the role fails until a migration creates it. See RolePolicy.
+    instructor-enabled: false
 
 auth:
+  # No default on purpose: set AUTH_TOKEN_SECRET to at least 32 random bytes (for example `openssl rand -base64 48`).
   token-secret: ${AUTH_TOKEN_SECRET}
-
   access-ttl: ${AUTH_ACCESS_TTL:15m}
   refresh-ttl: ${AUTH_REFRESH_TTL:14d}
+  # An already-rotated refresh token is still accepted for this long (a reload mid-refresh, two tabs at once).
   refresh-grace: ${AUTH_REFRESH_GRACE:10s}
   password-iterations: ${AUTH_PASSWORD_ITERATIONS:600000}
-
-  login-max-failures: ${AUTH_LOGIN_MAX_FAILURES:5}
-  login-window: ${AUTH_LOGIN_WINDOW:15m}
-
+  login-max-failures: 5
+  login-window: 15m
   refresh-cookie:
-    name: ${AUTH_REFRESH_COOKIE_NAME:av_refresh}
-    secure: ${AUTH_REFRESH_COOKIE_SECURE:true}
-    same-site: ${AUTH_REFRESH_COOKIE_SAME_SITE:Lax}
-    path: ${AUTH_REFRESH_COOKIE_PATH:/api/v1/auth}
-
+    name: av_refresh
+    # Secure cookies need https. Only set false for plain-http local development.
+    secure: ${AUTH_COOKIE_SECURE:true}
+    same-site: Lax
+    path: /api/v1/auth
   reset:
-    ttl: ${AUTH_RESET_TTL:30m}
+    ttl: 30m
+    # Page of the web app that receives ?token=... Must match an allowed origin.
     url: ${APP_PUBLIC_URL:http://localhost:3000}/reset-password
-    max-requests: ${AUTH_RESET_MAX_REQUESTS:3}
-    window: ${AUTH_RESET_WINDOW:1h}
-
+    max-requests: 3
+    window: 1h
+  # console = log the reset link (development only). No real email provider is configured yet.
   mailer: ${AUTH_MAILER:console}

@@ -107,6 +107,9 @@ export function validateTraceSemantics(
       case "graph":
         validateGraphStep(step as ExecutionStep<"graph">, position, add);
         break;
+      case "grid":
+        validateGridStep(step as ExecutionStep<"grid">, position, add);
+        break;
     }
   });
 
@@ -433,6 +436,40 @@ function validateGraphStep(step: ExecutionStep<"graph">, position: number, add: 
     case "call":
     case "return":
       known(event.node, `${base}.event.node`);
+      break;
+    default:
+      break;
+  }
+}
+
+function validateGridStep(step: ExecutionStep<"grid">, position: number, add: AddIssue): void {
+  const state = step.state;
+  const base = `steps.${position}`;
+  if (state.cells.length !== state.rows * state.cols) {
+    add(position, `${base}.state.cells`, `grid has ${state.cells.length} cells but rows x cols is ${state.rows * state.cols}`);
+  }
+  if (state.rowLabels && state.rowLabels.length !== state.rows) add(position, `${base}.state.rowLabels`, `expected ${state.rows} row labels`);
+  if (state.colLabels && state.colLabels.length !== state.cols) add(position, `${base}.state.colLabels`, `expected ${state.cols} column labels`);
+  const size = state.cells.length;
+  const checkRef = (ref: ElementRef, path: string) => {
+    if (ref.kind !== "index") add(position, path, "grid traces may only reference cells by row-major index");
+    else if (ref.index >= size) add(position, path, `index ${ref.index} is outside the grid (size ${size})`);
+  };
+  step.changed.forEach((ref, i) => checkRef(ref, `${base}.changed.${i}`));
+  step.highlights.forEach((h, i) => checkRef(h.target, `${base}.highlights.${i}.target`));
+  const event = step.event;
+  switch (event.type) {
+    case "compare":
+    case "swap":
+      checkRef(event.a, `${base}.event.a`);
+      checkRef(event.b, `${base}.event.b`);
+      break;
+    case "assign":
+      checkRef(event.target, `${base}.event.target`);
+      break;
+    case "visit":
+    case "found":
+      checkRef(event.element, `${base}.event.element`);
       break;
     default:
       break;

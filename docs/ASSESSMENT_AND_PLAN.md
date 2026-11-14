@@ -135,3 +135,12 @@ Design notes:
 - Trace schema 1.3.0 adds an optional array flag `chars` so a string is shown as character cells. Backward compatible; no new state kind.
 - 7 algorithms in a new Strings category (wave L): valid palindrome, first unique character, longest substring without repeats, longest palindromic substring, count palindromic substrings, run-length compression length, longest repeating character replacement. New learning path "Strings".
 - Not done (needs a new grid state and a list-of-lists output): edit distance, LCS, grid problems, linked-list cycle and merge. Listed for a later milestone.
+
+
+## 14. Grid milestone (123 algorithms, trace schema 1.4.0)
+
+- New `grid` input kind: rows of digits written like `110, 011`. Limits per profile: 6 x 6 standard, 4 x 4 lite (`maxGridSide`), and 8 letters standard, 5 lite for the two-string tables (`maxDpText`), so every trace stays inside the step budget.
+- Trace schema 1.4.0 adds the `grid` state with optional row and column labels, a validator, a layout module, an SVG view and a screen-reader description.
+- 7 algorithms: number of islands, max area of island, rotting oranges (BFS by minutes), minimum path sum (in-place DP), spiral order (list output from a grid), longest common subsequence and edit distance (tables labelled with the two texts). All are on learning paths with prerequisites and practice links.
+- Test harnesses for grid inputs send "rows cols v..." and for two texts send two "n codes" groups, so the existing int reader is reused in Java, Python, C++ and C.
+- Still deferred: KMP and string matching tables, linked-list cycle and merge (need a second list input), word search and other grid problems with letters, 2D prefix sums.

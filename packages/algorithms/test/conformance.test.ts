@@ -36,12 +36,19 @@ function sh(cmd: string, args: string[], cwd: string, input?: string) {
 for (const entry of listAlgorithms()) {
   const vectors = readVectors(entry.id);
   const io = entry.content.meta.io;
-  const enc = (x: unknown): string[] =>
-    typeof x === "string" ? [String(x.length), ...[...x].map((ch) => String(ch.charCodeAt(0)))] : (Array.isArray(x) ? [String(x.length), ...x.map(String)] : [String(x)]);
+  const kinds = Object.fromEntries(entry.content.meta.inputs.map((spec) => [spec.name, spec.kind]));
+  const enc = (x: unknown, kind?: string): string[] => {
+    if (typeof x === "string") return [String(x.length), ...[...x].map((ch) => String(ch.charCodeAt(0)))];
+    if (kind === "grid") {
+      const rows = x as number[][];
+      return [String(rows.length), String(rows.length > 0 ? rows[0]!.length : 0), ...rows.flat().map(String)];
+    }
+    return Array.isArray(x) ? [String(x.length), ...x.map(String)] : [String(x)];
+  };
   const stdin =
     `${vectors.length}\n` +
     vectors
-      .map((v) => io.inputs.flatMap((name) => enc((v.input as Record<string, unknown>)[name])).join(" "))
+      .map((v) => io.inputs.flatMap((name) => enc((v.input as Record<string, unknown>)[name], kinds[name])).join(" "))
       .join("\n") +
     "\n";
   const expected = vectors.map((v) => (io.output === "int" ? String(v.expected) : enc(v.expected).join(" ")));

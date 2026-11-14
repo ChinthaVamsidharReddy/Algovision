@@ -6,7 +6,7 @@ Interactive DSA learning: watch an algorithm run step by step, with the matching
 
 Working end to end in the browser (against the API contract; see "Verification" for what has and has not been exercised):
 
-- **116 algorithms** in 17 categories: Arrays (11), Two Pointers (9), Sliding Window (4), Linked Lists (8), Searching (8), Sorting (8), Stacks and Queues (9), Hashing (5), Trees (9), Recursion (5), Dynamic Programming (13), Graphs (8), Backtracking (3), Greedy (3), Math (3), Bit Manipulation (3), Strings (7). Each has an executor, a validated trace, and verified Java, Python, C++ and C code with synchronized line highlighting.
+- **123 algorithms** in 17 categories: Arrays (12), Two Pointers (9), Sliding Window (4), Linked Lists (8), Searching (8), Sorting (8), Stacks and Queues (9), Hashing (5), Trees (9), Recursion (5), Dynamic Programming (16), Graphs (11), Backtracking (3), Greedy (3), Math (3), Bit Manipulation (3), Strings (7). Each has an executor, a validated trace, and verified Java, Python, C++ and C code with synchronized line highlighting.
 - **Accounts**: register, login, logout, forgot/reset password (console mailer in dev), refresh-token rotation with a short grace window.
 - **Learning state**: progress bar per category and overall, completed topics, bookmarks, dashboard, and a bookmarks page (sign in required).
 - **Search**: header search box (`/` shortcut) and a `/search` page with ranking and one-typo tolerance.

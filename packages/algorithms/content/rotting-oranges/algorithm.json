@@ -1,0 +1,72 @@
+{
+  "id": "rotting-oranges",
+  "title": "Rotting Oranges (BFS by Minutes)",
+  "category": "graphs",
+  "wave": 13,
+  "stateKind": "grid",
+  "difficulty": "intermediate",
+  "summary": "Spread rot through a grid one minute at a time with a breadth-first search: every rotten orange rots its fresh neighbours each minute, and the answer is how many minutes it takes (or -1).",
+  "complexity": {
+    "time": "O(rows x cols)",
+    "space": "O(rows x cols)"
+  },
+  "defaultInput": {
+    "grid": [
+      [
+        2,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ]
+  },
+  "inputs": [
+    {
+      "name": "grid",
+      "kind": "grid",
+      "label": "Grid",
+      "note": "0 = empty, 1 = fresh orange, 2 = rotten orange."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "grid"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Queue the rotten oranges, count the fresh ones"
+    },
+    {
+      "id": "round",
+      "label": "Start a minute"
+    },
+    {
+      "id": "check",
+      "label": "Look at a neighbour"
+    },
+    {
+      "id": "rot",
+      "label": "A fresh orange rots"
+    },
+    {
+      "id": "finish",
+      "label": "Return the minutes, or -1"
+    }
+  ]
+}

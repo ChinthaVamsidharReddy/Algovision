@@ -20,3 +20,8 @@ Graph traces may use `init`, `compare`, `assign`, `visit`, `enqueue`, `dequeue`,
 ## Schema 1.3.0 addition (text)
 
 `ArrayState` gains an optional boolean `chars`. When true, `values` are character codes and the renderer draws each cell as the character (`"a"`), and the text description reads `["a", "b"]`. Traces without the field, including every earlier trace, are unchanged and still valid. String algorithms use it, so the existing array renderer, pointers and highlights work for text without a new state kind.
+
+
+## Schema 1.4.0 addition (grid)
+
+A new state kind `grid`: `{ kind: "grid", rows, cols, cells, rowLabels?, colLabels? }`. `cells` is row-major, so cell (r, c) is `cells[r * cols + c]` and an `index` element reference means the same number (the validator rejects node references and out-of-range indexes, and checks that `cells.length === rows * cols` and that label lists match). A `null` cell is empty (not computed yet). Optional labels name rows and columns, for example the letters of two strings in a dynamic-programming table. Existing state kinds are unchanged.

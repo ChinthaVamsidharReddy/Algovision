@@ -75,3 +75,38 @@ describe("character arrays (schema 1.3)", () => {
     expect(issuesOf(arrayTrace({}, { state: { ...withChars, chars: "yes" } })).length).toBeGreaterThan(0);
   });
 });
+
+describe("grid traces (schema 1.4)", () => {
+  const gridTrace = (state: Record<string, unknown>, step: Record<string, unknown> = {}): ExecutionTrace =>
+    ({
+      schemaVersion: TRACE_SCHEMA_VERSION,
+      algorithmId: "number-of-islands",
+      stateKind: "grid",
+      input: { grid: [[1, 0], [0, 1]] },
+      steps: [
+        {
+          index: 0,
+          event: { type: "init" },
+          source: { kind: "anchor", id: "entry" },
+          explanation: "Start.",
+          variables: [],
+          state: { kind: "grid", rows: 2, cols: 2, cells: [1, 0, null, 1], ...state },
+          changed: [],
+          highlights: [{ target: indexRef(3), role: "active" }],
+          ...step,
+        },
+      ],
+      summary: { time: "O(n)", space: "O(n)", result: 2 },
+    }) as ExecutionTrace;
+  it("accepts a well-formed grid, with and without labels and empty cells", () => {
+    expect(validateTrace(gridTrace({})).ok).toBe(true);
+    expect(validateTrace(gridTrace({ rowLabels: ["a", "b"], colLabels: ["", "c"] })).ok).toBe(true);
+  });
+  it("rejects a wrong cell count, wrong label counts and out-of-range or node references", () => {
+    expect(validateTrace(gridTrace({ cells: [1, 0, 1] })).ok).toBe(false);
+    expect(validateTrace(gridTrace({ rowLabels: ["a"] })).ok).toBe(false);
+    expect(validateTrace(gridTrace({ colLabels: ["a", "b", "c"] })).ok).toBe(false);
+    expect(validateTrace(gridTrace({}, { highlights: [{ target: indexRef(4), role: "active" }] })).ok).toBe(false);
+    expect(validateTrace(gridTrace({}, { changed: [nodeRef("n1")] })).ok).toBe(false);
+  });
+});

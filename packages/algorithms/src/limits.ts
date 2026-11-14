@@ -15,11 +15,15 @@ export interface LimitProfile {
   readonly maxArrayLength: number;
   /** Allowed magnitude of any integer input. */
   readonly maxAbsValue: number;
+  /** Longest side of a grid input (rows and columns each), schema 1.4. */
+  readonly maxGridSide: number;
+  /** Longest text for the two-string table algorithms (edit distance, LCS), whose table grows with both lengths. */
+  readonly maxDpText: number;
 }
 
 export const LIMIT_PROFILES: Readonly<Record<LimitProfileId, LimitProfile>> = {
-  standard: { id: "standard", maxSteps: 2000, maxListNodes: 15, maxArrayLength: 15, maxAbsValue: 999 },
-  lite: { id: "lite", maxSteps: 500, maxListNodes: 8, maxArrayLength: 8, maxAbsValue: 999 },
+  standard: { id: "standard", maxSteps: 2000, maxListNodes: 15, maxArrayLength: 15, maxAbsValue: 999, maxGridSide: 6, maxDpText: 8 },
+  lite: { id: "lite", maxSteps: 500, maxListNodes: 8, maxArrayLength: 8, maxAbsValue: 999, maxGridSide: 4, maxDpText: 5 },
 };
 
 export const DEFAULT_LIMIT_PROFILE: LimitProfileId = "standard";

@@ -1,0 +1,162 @@
+[
+ {
+  "name": "both empty",
+  "input": {
+   "s": "",
+   "t": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "first empty",
+  "input": {
+   "s": "",
+   "t": "abc"
+  },
+  "expected": 3
+ },
+ {
+  "name": "second empty",
+  "input": {
+   "s": "abc",
+   "t": ""
+  },
+  "expected": 3
+ },
+ {
+  "name": "single",
+  "input": {
+   "s": "a",
+   "t": "a"
+  },
+  "expected": 0
+ },
+ {
+  "name": "single differ",
+  "input": {
+   "s": "a",
+   "t": "b"
+  },
+  "expected": 1
+ },
+ {
+  "name": "limit length",
+  "input": {
+   "s": "abcabcab",
+   "t": "bcabacba"
+  },
+  "expected": 4
+ },
+ {
+  "name": "identical",
+  "input": {
+   "s": "abcdefgh",
+   "t": "abcdefgh"
+  },
+  "expected": 0
+ },
+ {
+  "name": "disjoint",
+  "input": {
+   "s": "abc",
+   "t": "def"
+  },
+  "expected": 3
+ },
+ {
+  "name": "classic",
+  "input": {
+   "s": "horse",
+   "t": "ros"
+  },
+  "expected": 3
+ },
+ {
+  "name": "kitten",
+  "input": {
+   "s": "kitten",
+   "t": "sittin"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "s": "d",
+   "t": "efaafbaf"
+  },
+  "expected": 8
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "s": "ccaac",
+   "t": "caaacc"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "s": "b",
+   "t": "dc"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "s": "cc",
+   "t": "abc"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "s": "bcec",
+   "t": "bcedbec"
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "s": "abbaaaba",
+   "t": "cbba"
+  },
+  "expected": 5
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "s": "aeaf",
+   "t": "deeef"
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "s": "b",
+   "t": "cbcbbbbc"
+  },
+  "expected": 7
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "s": "cc",
+   "t": "d"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "s": "acc",
+   "t": ""
+  },
+  "expected": 3
+ }
+]

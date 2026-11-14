@@ -40,4 +40,6 @@ export * from "./algorithms/waveI";
 export * from "./algorithms/waveJ";
 export * from "./algorithms/waveK";
 export * from "./algorithms/waveL";
+export * from "./algorithms/waveM";
+export * from "./algorithms/interview-grid";
 export * from "./algorithms/interview-strings";

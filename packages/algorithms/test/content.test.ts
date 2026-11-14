@@ -18,13 +18,13 @@ const MetaSchema = z.strictObject({
   title: z.string().min(1),
   category: z.string().min(1),
   wave: z.number().int().min(0),
-  stateKind: z.enum(["linkedList", "array", "stack", "queue", "tree", "graph"]),
+  stateKind: z.enum(["linkedList", "array", "stack", "queue", "tree", "graph", "grid"]),
   difficulty: z.enum(["beginner", "intermediate", "advanced"]),
   summary: z.string().min(10),
   complexity: z.strictObject({ time: z.string().min(1), space: z.string().min(1) }),
   defaultInput: z.record(z.string(), z.unknown()),
   inputs: z
-    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int", "text"]), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
+    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int", "text", "grid"]), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
     .min(1),
   io: z.strictObject({ inputs: z.array(z.string()).min(1), output: z.enum(["int", "intList"]) }),
   anchors: z.array(z.strictObject({ id: z.string(), label: z.string().min(1) })).min(1),
@@ -62,9 +62,21 @@ describe("completeness: every algorithm ships everything the contract requires",
         // Text algorithms: the empty string, a single character and a string of the maximum length must be covered.
         if (typeof entry.content.meta.defaultInput.s === "string") {
           const lens = vs.map((v) => String((v.input as unknown as Record<string, unknown>).s).length);
+          // The longest accepted text differs per algorithm (15 for most, 8 for the two-string tables).
+          let longest = 0;
+          for (let l = 1; l <= 30; l++) if (entry.definition.parseInput({ ...vs[0]!.input, s: "a".repeat(l) }, LIMIT_PROFILES.standard).ok) longest = l;
           expect(lens).toContain(0);
           expect(lens).toContain(1);
-          expect(lens).toContain(LIMIT_PROFILES.standard.maxArrayLength);
+          expect(lens).toContain(longest);
+          return;
+        }
+        // Grid algorithms: a 1 x 1 grid, a grid of the largest accepted size and (where accepted) the empty grid.
+        if ("grid" in entry.content.meta.defaultInput) {
+          const grids = vs.map((v) => (v.input as unknown as { grid: number[][] }).grid);
+          const side = LIMIT_PROFILES.standard.maxGridSide;
+          expect(grids.some((g) => g.length === 1 && g[0]!.length === 1)).toBe(true);
+          expect(grids.some((g) => g.length === side && g[0]!.length === side)).toBe(true);
+          if (entry.definition.parseInput({ ...vs[0]!.input, grid: [] }, LIMIT_PROFILES.standard).ok) expect(grids.some((g) => g.length === 0)).toBe(true);
           return;
         }
         // Scalar-only algorithms (e.g. factorial) have no array: they must cover their smallest and largest accepted value.

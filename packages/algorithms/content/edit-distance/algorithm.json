@@ -1,0 +1,62 @@
+{
+  "id": "edit-distance",
+  "title": "Edit Distance (Levenshtein)",
+  "category": "dynamic-programming",
+  "wave": 13,
+  "stateKind": "grid",
+  "difficulty": "advanced",
+  "summary": "Find the fewest insertions, deletions and replacements that turn one text into another by filling a table where cell (i, j) is the answer for the first i and j letters.",
+  "complexity": {
+    "time": "O(m x n)",
+    "space": "O(m x n)"
+  },
+  "defaultInput": {
+    "s": "horse",
+    "t": "ros"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "First text"
+    },
+    {
+      "name": "t",
+      "kind": "text",
+      "label": "Second text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s",
+      "t"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Fill the first row and column"
+    },
+    {
+      "id": "compare",
+      "label": "Compare the two letters"
+    },
+    {
+      "id": "match",
+      "label": "Match: copy the diagonal"
+    },
+    {
+      "id": "edit",
+      "label": "Cheapest of delete, insert, replace"
+    },
+    {
+      "id": "finish",
+      "label": "Return the bottom-right cell"
+    }
+  ]
+}

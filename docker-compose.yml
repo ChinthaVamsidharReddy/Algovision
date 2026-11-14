@@ -1,73 +1,50 @@
 # Development environment.
 #   docker compose up -d postgres        # database only; run api and web locally (fastest loop)
 #   docker compose --profile full up --build   # everything in containers
-
 name: algovision
 
 services:
-
   postgres:
     image: postgres:16-alpine
-    container_name: algovision-postgres
-
     environment:
       POSTGRES_DB: algovision
       POSTGRES_USER: ${DB_USERNAME:-algovision}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-algovision}
-
     ports:
       - "127.0.0.1:5432:5432"
-
     volumes:
       - pgdata:/var/lib/postgresql/data
-
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U algovision -d algovision"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-algovision} -d algovision"]
       interval: 5s
       timeout: 3s
       retries: 10
 
   api:
     profiles: ["full"]
-
     build: ./apps/api
-
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/algovision
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME:-algovision}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-algovision}
-
-      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
-      SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT: 30000
-
-      ALLOWED_ORIGINS: http://localhost:3000
-      APP_ORIGIN_CHECK_ENABLED: "true"
-
-      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:?AUTH_TOKEN_SECRET must be configured}
-      AUTH_REFRESH_COOKIE_SECURE: "false"
-
-      SERVER_PORT: 8080
-
+      DB_URL: jdbc:postgresql://postgres:5432/algovision
+      DB_USERNAME: ${DB_USERNAME:-algovision}
+      DB_PASSWORD: ${DB_PASSWORD:-algovision}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:?set AUTH_TOKEN_SECRET in .env (32+ random bytes)}
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-false}
     depends_on:
       postgres:
         condition: service_healthy
-
     ports:
       - "127.0.0.1:8080:8080"
 
   web:
     profiles: ["full"]
-
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-
     environment:
       API_INTERNAL_URL: http://api:8080
-
     depends_on:
       - api
-
     ports:
       - "127.0.0.1:3000:3000"
 

@@ -1,0 +1,80 @@
+{
+  "id": "spiral-order",
+  "title": "Spiral Matrix Traversal",
+  "category": "arrays",
+  "wave": 13,
+  "stateKind": "grid",
+  "difficulty": "intermediate",
+  "summary": "Read a grid in a spiral: along the top, down the right side, back along the bottom and up the left side, then repeat on the inner layer, shrinking four borders as you go.",
+  "complexity": {
+    "time": "O(rows x cols)",
+    "space": "O(rows x cols)"
+  },
+  "defaultInput": {
+    "grid": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ]
+    ]
+  },
+  "inputs": [
+    {
+      "name": "grid",
+      "kind": "grid",
+      "label": "Grid",
+      "note": "Each cell is a digit from 0 to 9."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "grid"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Set the four borders"
+    },
+    {
+      "id": "layer",
+      "label": "Start a layer"
+    },
+    {
+      "id": "top",
+      "label": "Read the top row"
+    },
+    {
+      "id": "right",
+      "label": "Read the right column"
+    },
+    {
+      "id": "bottom",
+      "label": "Read the bottom row"
+    },
+    {
+      "id": "left",
+      "label": "Read the left column"
+    },
+    {
+      "id": "finish",
+      "label": "Return the values in order"
+    }
+  ]
+}
