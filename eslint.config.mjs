@@ -9,6 +9,7 @@ export default tseslint.config(
       "**/dist/**",
       "**/coverage/**",
       "**/generated/**",
+      "apps/web/public/pyodide/**",
       "apps/api/**",
       "packages/algorithms/content/**",
       "apps/web/e2e-output/**",
@@ -31,6 +32,14 @@ export default tseslint.config(
     files: ["**/*.mjs", "**/*.js"],
     languageOptions: {
       globals: { process: "readonly", console: "readonly" },
+    },
+  },
+  {
+    // Browser Web Workers for the practice page: plain scripts with worker globals.
+    files: ["apps/web/public/practice/*.js"],
+    languageOptions: {
+      sourceType: "script",
+      globals: { self: "readonly", importScripts: "readonly", loadPyodide: "readonly", fetch: "readonly", performance: "readonly", console: "writable", setTimeout: "readonly" },
     },
   },
   {

@@ -86,5 +86,10 @@
       "id": "finish",
       "label": "Return the head"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "remove_nth_from_end",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Remove the nth node from the end (1 is the last node) and return the head."
+  }
 }

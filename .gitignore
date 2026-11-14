@@ -20,3 +20,6 @@ apps/api/target/
 .idea/
 .vscode/
 .DS_Store
+
+# Pyodide runtime copied by apps/web/scripts/copy-pyodide.mjs at build time
+apps/web/public/pyodide/

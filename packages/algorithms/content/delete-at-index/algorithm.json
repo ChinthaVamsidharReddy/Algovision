@@ -58,5 +58,9 @@
       "id": "finish",
       "label": "Return"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "delete_at_index",
+    "note": "Return a new list without the value at the given index."
+  }
 }

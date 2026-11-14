@@ -68,5 +68,9 @@
       "id": "finish",
       "label": "Return"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "insert_at_index",
+    "note": "Return a new list with the value inserted at the given index (later values shift right)."
+  }
 }

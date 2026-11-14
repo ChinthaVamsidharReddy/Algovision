@@ -61,10 +61,11 @@ Platform
 | 9 | Interview core I | Priority-A items that need no new input kind: array patterns, binary-search variants, linked-list (Floyd, merge), monotonic stack, DP (1D and classic), subsets, permutations, N-Queens, greedy, bit tricks, GCD and sieve. New categories: Backtracking, Greedy, Bit Manipulation, Math. | about 45 planned; 32 delivered (see section 3a) |
 | 10 | Learning experience (delivered, see section 3b) | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
 | 11 | New input kinds (delivered, see sections 13 and 14 of the assessment) | `text` and `grid` input kinds, grid state in schema 1.4, 14 algorithms (7 strings, 7 grid and table). Left for later: KMP, linked-list cycle and merge, 2D prefix sums, word search | done |
-| 12 | Heaps, tries and advanced trees | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
-| 13 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
-| 14 | AI tutor and run-your-own-code | Tutor, mock interview, code sandbox, more languages | features |
-| 15 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |
+| 12 | In-browser code practice (delivered, see section 15 of the assessment) | Write a solution in JavaScript or Python and run it against each algorithm's test vectors in the browser | features |
+| 13 | Heaps, tries and advanced trees | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
+| 14 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
+| 15 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
+| 16 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |
 
 Result: about 180 algorithms and a full path from first lesson to interview.
 
@@ -83,5 +84,5 @@ Left for later: stored quiz scores (needs a table and endpoint), per-path comple
 ## 4. Decisions needed before building (not changed silently)
 - **D1 (done):** add `string` and `grid` input kinds to the trace schema (a minor version, backward compatible)? Needed for Milestone 11.
 - **D2:** AI tutor provider and cost model (needs an API key and a usage limit per student).
-- **D3:** code sandbox approach (a hosted runner service or in-browser interpreters). Free-tier friendly options are limited.
+- **D3 (decided):** in-browser JavaScript and Python now (milestone 12, free and safe); a separate sandbox service for Java, C++ and C later.
 - **D4:** whether to turn the Instructor role on (adds teacher screens and permissions).

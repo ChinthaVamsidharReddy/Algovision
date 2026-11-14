@@ -7,7 +7,8 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./codepractice-data": "./src/generated/codepractice.ts"
   },
   "scripts": {
     "build:content": "node ../../tools/content-compiler/compile.mjs",

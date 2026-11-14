@@ -88,5 +88,10 @@
       "id": "finish",
       "label": "Return the head"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "insert_at_position",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Return the head after inserting the value so that it ends up at the given position (0 is the front)."
+  }
 }

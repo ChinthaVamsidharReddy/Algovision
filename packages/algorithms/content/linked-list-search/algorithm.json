@@ -73,5 +73,10 @@
       "id": "not-found",
       "label": "Return -1"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "search_value",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Return the index of the first node holding the value, or -1."
+  }
 }

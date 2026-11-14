@@ -69,5 +69,9 @@
       "id": "finish",
       "label": "Return the unique count"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "remove_duplicates",
+    "note": "Return the list without duplicates. Working in place and returning the new length k also works: the first k values are checked."
+  }
 }

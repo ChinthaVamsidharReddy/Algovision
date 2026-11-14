@@ -6,6 +6,7 @@ export * from "./definition";
 export * from "./trace-builder";
 export * from "./registry";
 export * from "./catalog";
+export * from "./codepractice";
 export * from "./learning/paths";
 export * from "./learning/practice";
 export * from "./learning/quiz";

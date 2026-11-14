@@ -11,6 +11,7 @@ export function SiteFooter() {
         </p>
         <nav aria-label="Footer" className="flex gap-4">
           <Link href="/paths" className="hover:underline">Paths</Link>
+          <Link href="/practice" className="hover:underline">Practice</Link>
           <Link href="/compare" className="hover:underline">Compare</Link>
           <Link href="/cheatsheet" className="hover:underline">Cheat sheet</Link>
         </nav>

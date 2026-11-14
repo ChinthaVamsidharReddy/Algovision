@@ -83,5 +83,9 @@
       "id": "finish",
       "label": "Return"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "quick_sort",
+    "note": "Return the values sorted in ascending order."
+  }
 }

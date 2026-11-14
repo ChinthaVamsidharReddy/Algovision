@@ -71,5 +71,10 @@
       "id": "not-found",
       "label": "Return 0"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "bst_search",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return 1 if the value is in the tree, otherwise 0."
+  }
 }

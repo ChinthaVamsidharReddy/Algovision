@@ -60,5 +60,10 @@
       "id": "combine",
       "label": "Add the two counts"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "count_leaves",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return how many nodes have no children."
+  }
 }

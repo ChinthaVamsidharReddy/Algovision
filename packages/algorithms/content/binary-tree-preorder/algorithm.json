@@ -60,5 +60,10 @@
       "id": "finish",
       "label": "Return to the caller"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "preorder_traversal",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return the pre-order traversal as a list: node, left subtree, right subtree."
+  }
 }

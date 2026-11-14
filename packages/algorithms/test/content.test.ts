@@ -28,6 +28,7 @@ const MetaSchema = z.strictObject({
     .min(1),
   io: z.strictObject({ inputs: z.array(z.string()).min(1), output: z.enum(["int", "intList"]) }),
   anchors: z.array(z.strictObject({ id: z.string(), label: z.string().min(1) })).min(1),
+  practice: z.strictObject({ fn: z.string().regex(/^[a-z][a-z0-9_]*$/), note: z.string().optional(), adapter: z.enum(["list", "tree"]).optional() }).optional(),
 });
 
 describe("completeness: every algorithm ships everything the contract requires", () => {

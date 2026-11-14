@@ -77,5 +77,10 @@
       "id": "finish",
       "label": "The tree now holds the value"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "bst_insert",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Insert the value (equal or larger goes right) and return the root. The checker reads the tree in order."
+  }
 }

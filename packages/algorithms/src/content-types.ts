@@ -51,6 +51,11 @@ export interface AlgorithmMeta {
   readonly inputs: readonly InputSpec[];
   readonly io: IoSpec;
   readonly anchors: readonly AnchorInfo[];
+  /**
+   * Only when the reference solution's entry function does not take exactly the `io.inputs` (for example a recursive helper
+   * that also takes the tree root or the bounds): the function name learners define on the practice page and extra rules for it.
+   */
+  readonly practice?: { readonly fn: string; readonly note?: string; readonly adapter?: "list" | "tree" };
 }
 
 export interface AlgorithmContent {

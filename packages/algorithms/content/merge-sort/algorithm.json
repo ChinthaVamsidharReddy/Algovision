@@ -88,5 +88,9 @@
       "id": "finish",
       "label": "Return"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "merge_sort",
+    "note": "Return the values sorted in ascending order."
+  }
 }

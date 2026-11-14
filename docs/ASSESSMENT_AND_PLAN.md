@@ -144,3 +144,18 @@ Design notes:
 - 7 algorithms: number of islands, max area of island, rotting oranges (BFS by minutes), minimum path sum (in-place DP), spiral order (list output from a grid), longest common subsequence and edit distance (tables labelled with the two texts). All are on learning paths with prerequisites and practice links.
 - Test harnesses for grid inputs send "rows cols v..." and for two texts send two "n codes" groups, so the existing int reader is reused in Java, Python, C++ and C.
 - Still deferred: KMP and string matching tables, linked-list cycle and merge (need a second list input), word search and other grid problems with letters, 2D prefix sums.
+
+## 15. Code practice milestone (in the browser, JavaScript and Python)
+
+Decision D3: run learner code **in the browser only**, in JavaScript and Python. A separate sandbox service (for Java, C++ and C) is deferred.
+
+- Routes: `/practice` (index with solved marks) and `/practice/[slug]` for all 123 algorithms, built statically. Each page states the task, inputs, return value, target complexity and an example, then offers an editor, Run tests, a results table and a collapsible console. Drafts and solved marks stay in `localStorage` (guarded, the page works without it). Nav, footer and every algorithm page link to it.
+- Tests come from each algorithm's `vectors.json`, compiled to `src/generated/codepractice.ts` (arguments in `io.inputs` order, expected value). Content compiler `--check` verifies the file is current.
+- Function contract: define the function named in the task (Python `snake_case`, JavaScript `camelCase` of it). Pass means the returned value equals the expected one (booleans count as 0 or 1). In-place style also passes: return nothing and the changed first argument is compared, or return a count `k` and the first `k` values are compared.
+- Algorithms whose reference code is built around helpers (28 of them) have a `practice` override in `algorithm.json`: `fn`, an explanatory `note`, and an optional `adapter`. `list` gives you the head of a linked list (`ListNode(val, next)`), `tree` the root of a binary search tree (`TreeNode(val, left, right)`), built from the first input; returned nodes are read back into values.
+- JavaScript runs in a classic Web Worker (`public/practice/js-worker.js`). Python runs in Pyodide 0.27.7 inside a Web Worker (`py-worker.js`), self-hosted from `public/pyodide` (copied from the npm package by `scripts/copy-pyodide.mjs` at dev and build time, about 14 MB, git-ignored, downloaded only when Python is first run, then cached by the browser).
+- Safety limits: the page terminates a worker whose test runs longer than 2 s (JavaScript) or 5 s (Python), marks the remaining tests "Not run" and starts a fresh worker on the next run. Network APIs are removed inside the workers. **This protects the learner from their own infinite loop; it is not a security boundary.** Learner code only ever runs in the learner's own browser.
+- Loading and failure states: Pyodide has a loading message, a 60 s load limit and a Try again button; a syntax error or missing function is reported before any test runs.
+- Docker image now also copies `apps/web/public`; Vercel needs no change (`pnpm build` runs the copy step).
+- Not changed: API, database, trace schema, the 123 algorithms.
+- Deferred: Java, C++ and C execution (needs the sandbox service), hidden tests, code history, submitting results to the server.

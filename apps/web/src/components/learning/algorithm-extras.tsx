@@ -51,6 +51,11 @@ export function AlgorithmExtras({ id, extras }: { id: string; extras: AlgorithmE
           </ul>
         </section>
       )}
+      <section aria-labelledby="practice-title" className="rounded-xl border border-border bg-surface p-5">
+        <h2 id="practice-title" className="mb-2 text-lg font-semibold">Practice</h2>
+        <p className="mb-2 text-muted">Write it yourself and run it against test cases, right in your browser.</p>
+        <Link href={`/practice/${id}`} className="inline-flex min-h-11 items-center rounded-lg border border-border px-3 text-sm font-medium hover:bg-surface-2">Practice in JavaScript or Python</Link>
+      </section>
       <section aria-labelledby="compare-title" className="rounded-xl border border-border bg-surface p-5">
         <h2 id="compare-title" className="mb-2 text-lg font-semibold">Compare</h2>
         <p className="mb-2 text-muted">See how this algorithm stacks up against another one.</p>

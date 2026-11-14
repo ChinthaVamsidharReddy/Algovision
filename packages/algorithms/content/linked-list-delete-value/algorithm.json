@@ -81,5 +81,10 @@
       "id": "finish",
       "label": "Return the head"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "delete_value",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Remove the first node holding the value and return the head."
+  }
 }

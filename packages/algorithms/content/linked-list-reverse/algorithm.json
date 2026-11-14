@@ -70,5 +70,10 @@
       "id": "finish",
       "label": "Return the new head"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "reverse_list",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Reverse the list and return the new head."
+  }
 }

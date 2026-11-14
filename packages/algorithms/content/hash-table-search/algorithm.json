@@ -77,5 +77,9 @@
       "id": "not-found",
       "label": "Every slot checked"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "hash_table_search",
+    "note": "Build a table with `size` slots (all empty). Insert each key at slot key % size, moving forward one slot at a time (wrapping around) until a free slot is found; skip a key if the table is full. Then return the slot index holding `key`, or -1 if it is absent."
+  }
 }

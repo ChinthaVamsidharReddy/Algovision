@@ -68,5 +68,10 @@
       "id": "finish",
       "label": "Done"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "level_order_traversal",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return the values level by level, left to right, as a list."
+  }
 }

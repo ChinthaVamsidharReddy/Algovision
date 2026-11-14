@@ -56,5 +56,10 @@
       "id": "combine",
       "label": "1 plus the taller side"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "tree_height",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return the height: an empty tree is 0 and a single node is 1."
+  }
 }

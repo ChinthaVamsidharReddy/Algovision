@@ -6,22 +6,78 @@
   "stateKind": "linkedList",
   "difficulty": "beginner",
   "summary": "Add a new node at the end of a singly linked list by walking from the head to the last node.",
-  "complexity": { "time": "O(n)", "space": "O(1)" },
-  "defaultInput": { "values": [3, 5, 8], "value": 1 },
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      5,
+      8
+    ],
+    "value": 1
+  },
   "inputs": [
-    { "name": "values", "kind": "intList", "label": "List values" },
-    { "name": "value", "kind": "int", "label": "Value to insert" }
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "List values"
+    },
+    {
+      "name": "value",
+      "kind": "int",
+      "label": "Value to insert"
+    }
   ],
-  "io": { "inputs": ["values", "value"], "output": "intList" },
+  "io": {
+    "inputs": [
+      "values",
+      "value"
+    ],
+    "output": "intList"
+  },
   "anchors": [
-    { "id": "entry", "label": "Function entry" },
-    { "id": "create-node", "label": "Create the new node" },
-    { "id": "check-empty", "label": "Is the list empty?" },
-    { "id": "set-head", "label": "Make the new node the head" },
-    { "id": "init-current", "label": "Start at the head" },
-    { "id": "loop", "label": "Is there a next node?" },
-    { "id": "advance", "label": "Move to the next node" },
-    { "id": "link-tail", "label": "Link the last node to the new node" },
-    { "id": "finish", "label": "Return" }
-  ]
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "create-node",
+      "label": "Create the new node"
+    },
+    {
+      "id": "check-empty",
+      "label": "Is the list empty?"
+    },
+    {
+      "id": "set-head",
+      "label": "Make the new node the head"
+    },
+    {
+      "id": "init-current",
+      "label": "Start at the head"
+    },
+    {
+      "id": "loop",
+      "label": "Is there a next node?"
+    },
+    {
+      "id": "advance",
+      "label": "Move to the next node"
+    },
+    {
+      "id": "link-tail",
+      "label": "Link the last node to the new node"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ],
+  "practice": {
+    "fn": "insert_at_tail",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Return the head of the list after adding the value at the end."
+  }
 }

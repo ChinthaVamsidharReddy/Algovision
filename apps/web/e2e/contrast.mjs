@@ -9,7 +9,7 @@ const base = process.argv[2] ?? "http://localhost:3100";
 const ids = readdirSync(new URL("../../../packages/algorithms/content", import.meta.url)).filter((d) => !d.startsWith("."));
 // one algorithm per state kind + the main pages
 const sample = ["linked-list-reverse", "bubble-sort", "valid-parentheses", "circular-queue", "binary-tree-preorder", "dijkstra", "climbing-stairs"].filter((i) => ids.includes(i));
-const pages = ["/", "/algorithms", "/login", "/register", "/dashboard", "/bookmarks", "/search?q=sort", "/paths", "/paths/foundations", "/compare", "/compare?a=bubble-sort&b=merge-sort", "/cheatsheet", ...sample.map((i) => `/algorithms/${i}`)];
+const pages = ["/", "/algorithms", "/login", "/register", "/dashboard", "/bookmarks", "/search?q=sort", "/paths", "/paths/foundations", "/compare", "/compare?a=bubble-sort&b=merge-sort", "/cheatsheet", "/practice", "/practice/binary-search", "/practice/linked-list-reverse", ...sample.map((i) => `/algorithms/${i}`)];
 const browser = await chromium.launch();
 const failures = new Map();
 let scans = 0;

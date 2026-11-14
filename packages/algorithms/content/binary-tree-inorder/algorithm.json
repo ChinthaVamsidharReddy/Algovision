@@ -6,18 +6,62 @@
   "stateKind": "tree",
   "difficulty": "intermediate",
   "summary": "Walk a binary search tree recursively: visit the left subtree, then the node, then the right subtree. Watch the call stack grow and shrink.",
-  "complexity": { "time": "O(n)", "space": "O(h)" },
-  "defaultInput": { "values": [5, 3, 8, 1, 4] },
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(h)"
+  },
+  "defaultInput": {
+    "values": [
+      5,
+      3,
+      8,
+      1,
+      4
+    ]
+  },
   "inputs": [
-    { "name": "values", "kind": "intList", "label": "Values to insert (in order)", "note": "They are inserted into a binary search tree first: smaller values go left, others go right." }
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "They are inserted into a binary search tree first: smaller values go left, others go right."
+    }
   ],
-  "io": { "inputs": ["values"], "output": "intList" },
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
   "anchors": [
-    { "id": "entry", "label": "Call visit on the root" },
-    { "id": "base-case", "label": "Empty subtree: return" },
-    { "id": "go-left", "label": "Recurse into the left subtree" },
-    { "id": "visit", "label": "Visit the node" },
-    { "id": "go-right", "label": "Recurse into the right subtree" },
-    { "id": "finish", "label": "Return to the caller" }
-  ]
+    {
+      "id": "entry",
+      "label": "Call visit on the root"
+    },
+    {
+      "id": "base-case",
+      "label": "Empty subtree: return"
+    },
+    {
+      "id": "go-left",
+      "label": "Recurse into the left subtree"
+    },
+    {
+      "id": "visit",
+      "label": "Visit the node"
+    },
+    {
+      "id": "go-right",
+      "label": "Recurse into the right subtree"
+    },
+    {
+      "id": "finish",
+      "label": "Return to the caller"
+    }
+  ],
+  "practice": {
+    "fn": "inorder_traversal",
+    "adapter": "tree",
+    "note": "The tree arrives as `root` (None or null when empty), built by inserting the values one at a time into a binary search tree (smaller goes left, equal or larger goes right). A TreeNode has `val`, `left` and `right`. Return the in-order traversal as a list: left subtree, node, right subtree."
+  }
 }

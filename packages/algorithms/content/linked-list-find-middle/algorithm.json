@@ -58,5 +58,10 @@
       "id": "finish",
       "label": "Return the middle value"
     }
-  ]
+  ],
+  "practice": {
+    "fn": "find_middle",
+    "adapter": "list",
+    "note": "The list arrives as `head`, the first ListNode (None in Python, null in JavaScript when the list is empty). A ListNode has `val` and `next`. Return the value in the middle node (the second of the two middle nodes when the length is even)."
+  }
 }
