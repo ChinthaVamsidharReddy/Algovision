@@ -1,0 +1,128 @@
+[
+ {
+  "name": "empty",
+  "input": {
+   "s": ""
+  },
+  "expected": 1
+ },
+ {
+  "name": "single",
+  "input": {
+   "s": "a"
+  },
+  "expected": 1
+ },
+ {
+  "name": "limit length",
+  "input": {
+   "s": "abcabcbbaaabcab"
+  },
+  "expected": 0
+ },
+ {
+  "name": "odd palindrome",
+  "input": {
+   "s": "racecar"
+  },
+  "expected": 1
+ },
+ {
+  "name": "even palindrome",
+  "input": {
+   "s": "abba"
+  },
+  "expected": 1
+ },
+ {
+  "name": "near miss",
+  "input": {
+   "s": "abca"
+  },
+  "expected": 0
+ },
+ {
+  "name": "two letters",
+  "input": {
+   "s": "ab"
+  },
+  "expected": 0
+ },
+ {
+  "name": "all same",
+  "input": {
+   "s": "aaaaaaaaaaaaaaa"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "s": "bdfaageace"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "s": "c"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "s": "aaddab"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "s": "cb"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "s": "g"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "s": "acc"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "s": "e"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "s": "aaacabbacacb"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "s": "aeefb"
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "s": "accacacabcc"
+  },
+  "expected": 0
+ }
+]

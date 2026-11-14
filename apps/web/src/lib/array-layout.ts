@@ -11,6 +11,8 @@ export const BOTTOM = 62;
 export interface ArrayCellLayout {
   readonly index: number;
   readonly value: number;
+  /** What the cell shows: the number, or the character when the array is a string. */
+  readonly text: string;
   readonly x: number;
   readonly y: number;
   readonly role: HighlightRole | "none";
@@ -36,6 +38,7 @@ export function layoutArray(state: ArrayState, highlights: readonly Highlight[])
     return {
       index,
       value,
+      text: state.chars ? String.fromCharCode(value) : String(value),
       x: PAD_X + index * (CELL_W + GAP),
       y: TOP,
       role: mine[0]?.role ?? "none",

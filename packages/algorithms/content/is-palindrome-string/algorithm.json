@@ -1,0 +1,55 @@
+{
+  "id": "is-palindrome-string",
+  "title": "Valid Palindrome (Two Pointers)",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Check whether a word reads the same forwards and backwards by comparing the outer characters and moving two pointers towards the middle.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "racecar"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Put the pointers at the two ends"
+    },
+    {
+      "id": "compare",
+      "label": "Compare the two characters"
+    },
+    {
+      "id": "mismatch",
+      "label": "Different: not a palindrome"
+    },
+    {
+      "id": "advance",
+      "label": "Move both pointers inwards"
+    },
+    {
+      "id": "finish",
+      "label": "Every pair matched"
+    }
+  ]
+}

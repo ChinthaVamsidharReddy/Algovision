@@ -1,0 +1,55 @@
+{
+  "id": "longest-palindromic-substring",
+  "title": "Longest Palindromic Substring (Expand Around Centre)",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Find the length of the longest palindrome inside a text by trying every centre (on a letter and between two letters) and growing outwards while the two ends match.",
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "babad"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start the tally at 0"
+    },
+    {
+      "id": "centre",
+      "label": "Pick the next centre"
+    },
+    {
+      "id": "expand",
+      "label": "Ends match: grow outwards"
+    },
+    {
+      "id": "stop",
+      "label": "This centre is finished"
+    },
+    {
+      "id": "finish",
+      "label": "Return the answer"
+    }
+  ]
+}

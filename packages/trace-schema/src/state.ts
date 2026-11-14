@@ -29,6 +29,8 @@ export const ArrayStateSchema = z.strictObject({
   values: z.array(z.number().int()),
   /** Named index pointers such as `low`, `mid`, `high`, `i`, `j`; null when not pointing at a cell. */
   pointers: z.record(z.string().min(1), z.number().int().min(0).nullable()),
+  /** Schema 1.3: when true, `values` are character codes and cells are drawn as characters (string algorithms). */
+  chars: z.boolean().optional(),
 });
 export type ArrayState = z.infer<typeof ArrayStateSchema>;
 

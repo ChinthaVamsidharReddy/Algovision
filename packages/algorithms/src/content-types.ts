@@ -16,7 +16,7 @@ export interface CodeFile {
 
 export interface InputSpec {
   readonly name: string;
-  readonly kind: "intList" | "int";
+  readonly kind: "intList" | "int" | "text";
   readonly label: string;
   /** Extra rule shown under the field, e.g. "Must be in ascending order." */
   readonly note?: string;
@@ -26,7 +26,7 @@ export interface InputSpec {
 
 /**
  * How the language harnesses talk to the test runner (stdin/stdout, one case per line):
- * each input in order is `intList` -> "n v1 .. vn" or `int` -> "v"; the output uses the same encoding.
+ * each input in order is `intList` -> "n v1 .. vn", `text` -> "n c1 .. cn" (character codes) or `int` -> "v"; the output uses the same encoding.
  */
 export interface IoSpec {
   readonly inputs: readonly string[];

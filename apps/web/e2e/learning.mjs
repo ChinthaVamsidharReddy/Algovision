@@ -61,7 +61,7 @@ for (const [label, viewport] of [["desktop", { width: 1200, height: 900 }], ["ph
   check(`${label}: compare updates the address`, page.url().includes("a=bubble-sort") && page.url().includes("b=quick-sort"));
 
   await page.goto(`${base}/cheatsheet`, { waitUntil: "load" });
-  check(`${label}: cheat sheet has a table per topic`, (await page.locator("table").count()) === 16, `${await page.locator("table").count()} tables`);
+  check(`${label}: cheat sheet has a table per topic`, (await page.locator("table").count()) === 17, `${await page.locator("table").count()} tables`);
   check(`${label}: cheat sheet page has no sideways scroll`, (await overflow()) <= 0, `${await overflow()}px`);
   check(`${label}: no page or console errors`, problems.length === 0, problems.join(" | "));
   await ctx.close();

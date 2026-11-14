@@ -60,6 +60,12 @@ export const PATHS: readonly LearningPath[] = [
     outcomes: ["Argue why a greedy choice is safe", "Track a farthest-reach frontier", "Schedule by earliest finish"],
     steps: ["jump-game", "min-jumps-to-end", "merge-intervals", "activity-selection", "best-time-to-buy-sell-stock", "dijkstra"],
   },
+  {
+    id: "strings", title: "Strings", level: "INTERMEDIATE",
+    summary: "Treat text as an array of characters and reuse two pointers, letter counts and sliding windows.",
+    outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes"],
+    steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring"],
+  },
 ];
 
 /** What to learn first. Kept short on purpose: only real dependencies, not everything related. */
@@ -79,6 +85,12 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "heap-sort": ["merge-sort"],
   "counting-sort": ["find-maximum"],
   "three-sum-count": ["two-sum-sorted"],
+  "is-palindrome-string": ["two-sum-sorted"],
+  "first-unique-character": ["count-frequencies"],
+  "longest-substring-no-repeat": ["longest-subarray-sum-at-most"],
+  "longest-repeating-replacement": ["longest-substring-no-repeat"],
+  "count-palindromic-substrings": ["is-palindrome-string"],
+  "longest-palindromic-substring": ["count-palindromic-substrings"],
   "container-with-most-water": ["two-sum-sorted"],
   "trapping-rain-water": ["container-with-most-water"],
   "remove-duplicates-sorted": ["move-zeroes"],

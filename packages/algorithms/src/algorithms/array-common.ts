@@ -8,8 +8,8 @@ export const fmt = (values: readonly number[]): string => (values.length === 0 ?
 /** An index pointer that is null when it points outside the array (e.g. high = -1 on an empty window). */
 export const ptr = (index: number, size: number): number | null => (index >= 0 && index < size ? index : null);
 
-export function snapshot(values: readonly number[], pointers: Record<string, number | null>): ArrayState {
-  return { kind: "array", values: [...values], pointers };
+export function snapshot(values: readonly number[], pointers: Record<string, number | null>, chars = false): ArrayState {
+  return { kind: "array", values: [...values], pointers, ...(chars ? { chars: true } : {}) };
 }
 
 export const cell = (index: number, role: HighlightRole, label?: string): Highlight => ({

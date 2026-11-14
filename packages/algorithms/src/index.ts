@@ -39,3 +39,5 @@ export * from "./algorithms/waveH";
 export * from "./algorithms/waveI";
 export * from "./algorithms/waveJ";
 export * from "./algorithms/waveK";
+export * from "./algorithms/waveL";
+export * from "./algorithms/interview-strings";

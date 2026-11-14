@@ -37,8 +37,9 @@ const issues = (t: unknown) => {
 describe("graph traces (schema 1.2)", () => {
   it("the schema is at least 1.2 and a 1.1 trace is still accepted", () => {
     expect(isSupportedSchemaVersion("1.2.0")).toBe(true);
+    expect(isSupportedSchemaVersion("1.3.0")).toBe(true);
     expect(isSupportedSchemaVersion("1.1.0")).toBe(true);
-    expect(isSupportedSchemaVersion("1.3.0")).toBe(false);
+    expect(isSupportedSchemaVersion("1.4.0")).toBe(false);
   });
   it("accepts a state with an active edge, a frontier, marks and queue events on vertices", () => {
     const ok = trace({ type: "enqueue", element: nodeRef("g1") }, { activeEdge: { from: "g1", to: "g0" }, frontier: ["g1"], marks: { g0: 0, g1: null } }, { highlights: [{ target: nodeRef("g1"), role: "created" }], changed: [nodeRef("g1")] });

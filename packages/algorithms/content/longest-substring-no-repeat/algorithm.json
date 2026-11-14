@@ -1,0 +1,55 @@
+{
+  "id": "longest-substring-no-repeat",
+  "title": "Longest Substring Without Repeating Characters",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Slide a window across the text, remembering where each letter was last seen, and jump the left edge past any repeat to keep the window free of repeated letters.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "abcabcbb"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Empty window, best length 0"
+    },
+    {
+      "id": "loop",
+      "label": "Take the next letter into the window"
+    },
+    {
+      "id": "shrink",
+      "label": "Repeat inside the window: move left past it"
+    },
+    {
+      "id": "extend",
+      "label": "Record the window length"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best length"
+    }
+  ]
+}

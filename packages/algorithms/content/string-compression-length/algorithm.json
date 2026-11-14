@@ -1,0 +1,51 @@
+{
+  "id": "string-compression-length",
+  "title": "Run-Length Compression Length",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "beginner",
+  "summary": "Work out how long a text becomes when every run of equal letters is written as the letter and its run length (the length is left out for runs of 1).",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "aaabccdd"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Compressed length starts at 0"
+    },
+    {
+      "id": "run",
+      "label": "Find the end of this run"
+    },
+    {
+      "id": "emit",
+      "label": "Add the letter (and its count)"
+    },
+    {
+      "id": "finish",
+      "label": "Return the length"
+    }
+  ]
+}

@@ -24,7 +24,7 @@ const MetaSchema = z.strictObject({
   complexity: z.strictObject({ time: z.string().min(1), space: z.string().min(1) }),
   defaultInput: z.record(z.string(), z.unknown()),
   inputs: z
-    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int"]), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
+    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int", "text"]), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
     .min(1),
   io: z.strictObject({ inputs: z.array(z.string()).min(1), output: z.enum(["int", "intList"]) }),
   anchors: z.array(z.strictObject({ id: z.string(), label: z.string().min(1) })).min(1),
@@ -59,6 +59,14 @@ describe("completeness: every algorithm ships everything the contract requires",
 
       it("covers vectors for the empty, single and limit cases", () => {
         const vs = readVectors(entry.id);
+        // Text algorithms: the empty string, a single character and a string of the maximum length must be covered.
+        if (typeof entry.content.meta.defaultInput.s === "string") {
+          const lens = vs.map((v) => String((v.input as unknown as Record<string, unknown>).s).length);
+          expect(lens).toContain(0);
+          expect(lens).toContain(1);
+          expect(lens).toContain(LIMIT_PROFILES.standard.maxArrayLength);
+          return;
+        }
         // Scalar-only algorithms (e.g. factorial) have no array: they must cover their smallest and largest accepted value.
         if (!("values" in entry.content.meta.defaultInput)) {
           const candidates = [...Array.from({ length: 2001 }, (_, i) => i - 1000), 999999, 1000000];

@@ -66,3 +66,12 @@ describe("array traces", () => {
     expect(validateTrace(wrong).ok).toBe(false);
   });
 });
+
+describe("character arrays (schema 1.3)", () => {
+  it("accepts chars: true, still accepts traces without it, and rejects a non-boolean", () => {
+    const withChars = { kind: "array", values: [97, 98], pointers: { i: 0 }, chars: true };
+    expect(issuesOf(arrayTrace({}, { state: withChars }))).toEqual([]);
+    expect(issuesOf(arrayTrace())).toEqual([]);
+    expect(issuesOf(arrayTrace({}, { state: { ...withChars, chars: "yes" } })).length).toBeGreaterThan(0);
+  });
+});

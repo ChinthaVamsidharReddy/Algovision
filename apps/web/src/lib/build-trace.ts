@@ -15,7 +15,9 @@ export function buildTrace(content: AlgorithmContent, texts: InputTexts, limits:
   const errors: Record<string, string> = {};
   for (const spec of content.meta.inputs) {
     const text = texts[spec.name] ?? "";
-    if (spec.kind === "intList") {
+    if (spec.kind === "text") {
+      raw[spec.name] = text.trim();
+    } else if (spec.kind === "intList") {
       const r = parseIntList(text);
       if (r.ok) raw[spec.name] = r.values;
       else errors[spec.name] = r.message;

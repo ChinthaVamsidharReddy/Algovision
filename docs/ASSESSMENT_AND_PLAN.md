@@ -127,3 +127,11 @@ Design notes:
 - New pages: `/paths`, `/paths/[slug]`, `/compare`, `/cheatsheet`; new panels on the algorithm page (prerequisites, paths, practice, compare link, quiz).
 - No schema, API or database change. Navigation gained Paths and Compare (header), and Cheat sheet (menu and footer).
 - Accessibility: radio-group quiz, tables with captions and row headers, `sr-only` text kept inside `relative` scroll containers (an absolutely positioned screen-reader span had caused page-wide sideways scroll on phones).
+
+
+## 13. Strings milestone (116 algorithms, 17 categories, trace schema 1.3.0)
+
+- New `text` input kind (lowercase a-z, up to the profile's array length, so 15 standard and 8 lite). It is validated in the executor, typed in the content contract, and sent to the Java, Python, C++ and C test harnesses as character codes, so the existing harness reader is reused.
+- Trace schema 1.3.0 adds an optional array flag `chars` so a string is shown as character cells. Backward compatible; no new state kind.
+- 7 algorithms in a new Strings category (wave L): valid palindrome, first unique character, longest substring without repeats, longest palindromic substring, count palindromic substrings, run-length compression length, longest repeating character replacement. New learning path "Strings".
+- Not done (needs a new grid state and a list-of-lists output): edit distance, LCS, grid problems, linked-list cycle and merge. Listed for a later milestone.

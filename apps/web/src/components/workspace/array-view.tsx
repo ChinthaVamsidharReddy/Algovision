@@ -44,7 +44,7 @@ export function ArrayView({ step }: { step: ArrayStep }) {
                   strokeDasharray={c.role === "pointer" ? "6 4" : undefined}
                 />
                 <text x={CELL_W / 2} y={CELL_H / 2} textAnchor="middle" dominantBaseline="central" fontSize={18} fontWeight={700} fill="var(--text)">
-                  {c.value}
+                  {c.text}
                 </text>
                 <text x={CELL_W / 2} y={CELL_H + 16} textAnchor="middle" fontSize={12} fill="var(--muted)">
                   {c.index}

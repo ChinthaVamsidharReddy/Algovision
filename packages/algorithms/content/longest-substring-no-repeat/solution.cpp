@@ -1,0 +1,18 @@
+#include <algorithm>
+#include <string>
+
+int longestNoRepeat(const std::string& s) {              // @a entry
+    int last[26];
+    for (int k = 0; k < 26; k++) last[k] = -1;           // @a init
+    int left = 0;                                        // @a init
+    int best = 0;                                        // @a init
+    for (int right = 0; right < static_cast<int>(s.size()); right++) {   // @a loop
+        int c = s[right] - 'a';                          // @a loop
+        if (last[c] >= left) {                           // @a shrink
+            left = last[c] + 1;                          // @a shrink
+        }
+        last[c] = right;                                 // @a extend
+        best = std::max(best, right - left + 1);        // @a extend
+    }
+    return best;                                         // @a finish
+}

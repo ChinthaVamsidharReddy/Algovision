@@ -6,7 +6,7 @@ Interactive DSA learning: watch an algorithm run step by step, with the matching
 
 Working end to end in the browser (against the API contract; see "Verification" for what has and has not been exercised):
 
-- **109 algorithms** in 16 categories: Arrays (11), Two Pointers (9), Sliding Window (4), Linked Lists (8), Searching (8), Sorting (8), Stacks and Queues (9), Hashing (5), Trees (9), Recursion (5), Dynamic Programming (13), Graphs (8), Backtracking (3), Greedy (3), Math (3), Bit Manipulation (3). Each has an executor, a validated trace, and verified Java, Python, C++ and C code with synchronized line highlighting.
+- **116 algorithms** in 17 categories: Arrays (11), Two Pointers (9), Sliding Window (4), Linked Lists (8), Searching (8), Sorting (8), Stacks and Queues (9), Hashing (5), Trees (9), Recursion (5), Dynamic Programming (13), Graphs (8), Backtracking (3), Greedy (3), Math (3), Bit Manipulation (3), Strings (7). Each has an executor, a validated trace, and verified Java, Python, C++ and C code with synchronized line highlighting.
 - **Accounts**: register, login, logout, forgot/reset password (console mailer in dev), refresh-token rotation with a short grace window.
 - **Learning state**: progress bar per category and overall, completed topics, bookmarks, dashboard, and a bookmarks page (sign in required).
 - **Search**: header search box (`/` shortcut) and a `/search` page with ranking and one-typo tolerance.
@@ -14,7 +14,7 @@ Working end to end in the browser (against the API contract; see "Verification" 
 ## Verification
 
 - `pnpm test:strict`: trace-schema, viz-engine, algorithms (real javac/python3/g++/gcc against shared vectors) and web tests.
-- **Learning experience:** 8 ordered learning paths (`/paths`), prerequisites and practice links on every algorithm page, a "Test yourself" quiz generated from the trace on screen, a side-by-side compare page (`/compare`) and a printable cheat sheet (`/cheatsheet`). All of it is static data in `packages/algorithms/src/learning/` plus build-time pages; it adds no API endpoints and no database tables. Progress ticks use the existing progress API.
+- **Learning experience:** 9 ordered learning paths (`/paths`), prerequisites and practice links on every algorithm page, a "Test yourself" quiz generated from the trace on screen, a side-by-side compare page (`/compare`) and a printable cheat sheet (`/cheatsheet`). All of it is static data in `packages/algorithms/src/learning/` plus build-time pages; it adds no API endpoints and no database tables. Progress ticks use the existing progress API.
 - `apps/web/e2e`: Playwright checks against an in-memory **stub** of the API (`node e2e/stub-api.mjs`); see docs/DEVELOPMENT_GUIDE.md. The Spring Boot layer (controllers, JDBC stores) has **not** been compiled in the authoring environment because Maven Central was unreachable; the framework-free core logic and the SQL are tested separately. Run `mvn test` locally first.
 
 ## Quick start

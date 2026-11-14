@@ -15,3 +15,8 @@ New state kinds (minor change): `array` (values + named index pointers), `stack`
 ## Schema 1.2.0 addition (graphs)
 New state kind (minor change, so 1.1 traces stay valid): `graph`. Fields: `directed`; `nodes` (`id`, `value` = vertex number); `edges` (`from`, `to`, `weight` or null); `current` (vertex being processed); `activeEdge` (the edge being examined, or null); `frontier` + `frontierName` (the queue, stack or call stack in use); `visited`; `marks` + `markName` (one number per vertex, such as a distance, parent, component or in-degree, null when unset); `output` (the result so far).
 Graph traces may use `init`, `compare`, `assign`, `visit`, `enqueue`, `dequeue`, `push`, `pop`, `call`, `return`, `found`, `notFound`, `done`, and may reference vertices only by node id. Semantic checks: node ids are unique; every edge, pointer, frontier entry, visited entry, mark and reference points at an existing vertex; no self-loops or duplicate edges (an undirected edge counts in both directions); the active edge must be an edge of the graph.
+
+
+## Schema 1.3.0 addition (text)
+
+`ArrayState` gains an optional boolean `chars`. When true, `values` are character codes and the renderer draws each cell as the character (`"a"`), and the text description reads `["a", "b"]`. Traces without the field, including every earlier trace, are unchanged and still valid. String algorithms use it, so the existing array renderer, pointers and highlights work for text without a new state kind.

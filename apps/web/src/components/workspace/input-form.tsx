@@ -44,6 +44,7 @@ export function InputForm({
 
   const hint: Record<string, string> = {
     intList: `Whole numbers separated by commas. Up to ${maxItems} values, each between -${limits.maxAbsValue} and ${limits.maxAbsValue}. Leave empty for an empty list.`,
+    text: `Lowercase letters a to z only, up to ${maxItems} characters. Leave empty for an empty string.`,
     int: `A whole number between -${limits.maxAbsValue} and ${limits.maxAbsValue}.`,
   };
 
@@ -63,6 +64,7 @@ export function InputForm({
                 name={spec.name}
                 type="text"
                 inputMode={spec.kind === "int" ? "numeric" : "text"}
+                autoCapitalize="none"
                 autoComplete="off"
                 spellCheck={false}
                 value={draft[spec.name] ?? ""}

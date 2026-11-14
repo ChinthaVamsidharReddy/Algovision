@@ -418,6 +418,32 @@
           "Count solutions of a constraint problem"
         ]
       }
+    },
+    {
+      "id": "strings",
+      "slug": "strings",
+      "name": "Strings",
+      "description": "Work with text one character at a time: palindromes, counting letters and sliding windows over strings.",
+      "sort": 140,
+      "keywords": [
+        "string",
+        "text",
+        "character",
+        "palindrome",
+        "substring",
+        "window"
+      ],
+      "topic": {
+        "slug": "string-patterns",
+        "name": "String Patterns",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Treat a string as an array of characters and reuse two pointers, counting and sliding windows.",
+        "objectives": [
+          "Compare characters from both ends",
+          "Count letters with a small table",
+          "Grow and shrink a window over text"
+        ]
+      }
     }
   ]
 }

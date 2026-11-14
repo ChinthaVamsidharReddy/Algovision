@@ -1,0 +1,63 @@
+{
+  "id": "longest-repeating-replacement",
+  "title": "Longest Repeating Character Replacement",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Find the longest stretch that can become one repeated letter after at most k replacements, by sliding a window and tracking the highest letter count seen.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "aababba",
+    "k": 1
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    },
+    {
+      "name": "k",
+      "kind": "int",
+      "label": "Replacements k",
+      "note": "From 0 to 8."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s",
+      "k"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Empty window, best length 0"
+    },
+    {
+      "id": "grow",
+      "label": "Add the next letter to the window"
+    },
+    {
+      "id": "shrink",
+      "label": "Too many replacements: drop the left letter"
+    },
+    {
+      "id": "record",
+      "label": "Record the window length"
+    },
+    {
+      "id": "finish",
+      "label": "Return the best length"
+    }
+  ]
+}

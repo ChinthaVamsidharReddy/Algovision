@@ -30,10 +30,11 @@ export function describeLinkedList(state: LinkedListState): string {
 
 /** Text rendering of an array snapshot: values by index, then each pointer and where it points. */
 export function describeArray(state: ArrayState): string {
-  if (state.values.length === 0) return "empty array []";
-  const parts = [`[${state.values.join(", ")}]`];
+  const show = (v: number | undefined): string => (v === undefined ? "?" : state.chars ? `"${String.fromCharCode(v)}"` : String(v));
+  if (state.values.length === 0) return state.chars ? 'empty string ""' : "empty array []";
+  const parts = [`[${state.values.map((v) => show(v)).join(", ")}]`];
   for (const [name, index] of Object.entries(state.pointers)) {
-    parts.push(index === null ? `${name} → none` : `${name} → index ${index} (value ${state.values[index] ?? "?"})`);
+    parts.push(index === null ? `${name} → none` : `${name} → index ${index} (value ${show(state.values[index])})`);
   }
   return parts.join("; ");
 }

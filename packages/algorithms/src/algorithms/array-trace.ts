@@ -13,8 +13,12 @@ export class ArrayTrace {
   readonly values: number[];
   private readonly b: TraceBuilder<"array">;
 
-  constructor(id: string, input: Record<string, unknown>, values: readonly number[], limits: LimitProfile) {
+  private readonly chars: boolean;
+
+  /** `chars: true` marks the values as character codes so cells are drawn as letters (schema 1.3). */
+  constructor(id: string, input: Record<string, unknown>, values: readonly number[], limits: LimitProfile, chars = false) {
     this.values = [...values];
+    this.chars = chars;
     this.b = new TraceBuilder({ algorithmId: id, stateKind: "array", input, maxSteps: limits.maxSteps });
   }
 
@@ -22,7 +26,7 @@ export class ArrayTrace {
     const clean: Record<string, number | null> = {};
     for (const [k, v] of Object.entries(pointers)) clean[k] = v === null ? null : ptr(v, this.values.length);
     this.b.step({
-      event, anchor, explanation, variables, state: snapshot(this.values, clean), highlights: [...highlights],
+      event, anchor, explanation, variables, state: snapshot(this.values, clean, this.chars), highlights: [...highlights],
       ...(changed.length > 0 ? { changed: changed.map((i) => indexRef(i)) } : {}),
     });
   }

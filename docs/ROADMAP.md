@@ -1,6 +1,6 @@
-# AlgoVision roadmap: from 109 algorithms to a complete beginner-to-product-company path
+# AlgoVision roadmap: from 116 algorithms to a complete beginner-to-product-company path
 
-Today: 109 algorithms in 16 categories, four languages each, trace-driven visuals, accounts, progress, bookmarks, search.
+Today: 116 algorithms in 17 categories, four languages each, trace-driven visuals, accounts, progress, bookmarks, search.
 Goal: a student can go from "what is an array" to "ready for product-company interviews" on one site.
 
 Input kinds today are only `intList` and `int`. Strings and grids need new kinds (decision D1 below).
@@ -60,7 +60,7 @@ Platform
 | --- | --- | --- | --- |
 | 9 | Interview core I | Priority-A items that need no new input kind: array patterns, binary-search variants, linked-list (Floyd, merge), monotonic stack, DP (1D and classic), subsets, permutations, N-Queens, greedy, bit tricks, GCD and sieve. New categories: Backtracking, Greedy, Bit Manipulation, Math. | about 45 planned; 32 delivered (see section 3a) |
 | 10 | Learning experience (delivered, see section 3b) | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
-| 11 | New input kinds | String and grid kinds, then Strings, grid graphs (islands, rotting oranges), edit distance, LCS, KMP | about 30 |
+| 11 | New input kinds (part 1 delivered: strings) | `text` kind and 7 string algorithms delivered. Still to do: grid kind, grid graphs (islands, rotting oranges), edit distance, LCS, KMP | about 23 left |
 | 12 | Heaps, tries and advanced trees | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
 | 13 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
 | 14 | AI tutor and run-your-own-code | Tutor, mock interview, code sandbox, more languages | features |
@@ -81,7 +81,7 @@ Delivered: learning paths with prerequisites, quizzes, practice links, cheat she
 Left for later: stored quiz scores (needs a table and endpoint), per-path completion certificates (Milestone 13), and hand-written conceptual quiz questions.
 
 ## 4. Decisions needed before building (not changed silently)
-- **D1:** add `string` and `grid` input kinds to the trace schema (a minor version, backward compatible)? Needed for Milestone 11.
+- **D1 (string part done, grid part open):** add `string` and `grid` input kinds to the trace schema (a minor version, backward compatible)? Needed for Milestone 11.
 - **D2:** AI tutor provider and cost model (needs an API key and a usage limit per student).
 - **D3:** code sandbox approach (a hosted runner service or in-browser interpreters). Free-tier friendly options are limited.
 - **D4:** whether to turn the Instructor role on (adds teacher screens and permissions).

@@ -1,0 +1,55 @@
+{
+  "id": "count-palindromic-substrings",
+  "title": "Count Palindromic Substrings",
+  "category": "strings",
+  "wave": 12,
+  "stateKind": "array",
+  "difficulty": "intermediate",
+  "summary": "Count every palindromic piece of a text by trying each centre and counting every outward step where the two ends still match.",
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "s": "aaab"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start the tally at 0"
+    },
+    {
+      "id": "centre",
+      "label": "Pick the next centre"
+    },
+    {
+      "id": "expand",
+      "label": "Ends match: grow outwards"
+    },
+    {
+      "id": "stop",
+      "label": "This centre is finished"
+    },
+    {
+      "id": "finish",
+      "label": "Return the answer"
+    }
+  ]
+}

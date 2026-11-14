@@ -36,7 +36,8 @@ function sh(cmd: string, args: string[], cwd: string, input?: string) {
 for (const entry of listAlgorithms()) {
   const vectors = readVectors(entry.id);
   const io = entry.content.meta.io;
-  const enc = (x: unknown): string[] => (Array.isArray(x) ? [String(x.length), ...x.map(String)] : [String(x)]);
+  const enc = (x: unknown): string[] =>
+    typeof x === "string" ? [String(x.length), ...[...x].map((ch) => String(ch.charCodeAt(0)))] : (Array.isArray(x) ? [String(x.length), ...x.map(String)] : [String(x)]);
   const stdin =
     `${vectors.length}\n` +
     vectors
