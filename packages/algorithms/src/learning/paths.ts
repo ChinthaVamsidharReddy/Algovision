@@ -46,7 +46,7 @@ export const PATHS: readonly LearningPath[] = [
     id: "trees-and-graphs", title: "Trees and graphs", level: "INTERMEDIATE",
     summary: "Traversals first, then searching and ordering on graphs, up to shortest paths.",
     outcomes: ["Run all four tree traversals from memory", "Choose BFS or DFS", "Detect cycles and order tasks", "Explain Dijkstra's greedy choice"],
-    steps: ["tree-height", "count-leaves", "binary-tree-preorder", "binary-tree-inorder", "binary-tree-postorder", "level-order-traversal", "bst-search", "bst-find-min-max", "bst-insert", "bfs-traversal", "dfs-traversal", "bfs-shortest-path", "connected-components", "detect-cycle-undirected", "union-find-components", "topological-sort-kahn", "dijkstra", "number-of-islands", "max-area-of-island", "rotting-oranges"],
+    steps: ["tree-height", "count-leaves", "binary-tree-preorder", "binary-tree-inorder", "binary-tree-postorder", "level-order-traversal", "bst-search", "bst-find-min-max", "bst-insert", "avl-tree-insert", "bfs-traversal", "dfs-traversal", "bfs-shortest-path", "connected-components", "detect-cycle-undirected", "union-find-components", "topological-sort-kahn", "dijkstra", "number-of-islands", "max-area-of-island", "rotting-oranges"],
   },
   {
     id: "recursion-and-dp", title: "Recursion, backtracking and dynamic programming", level: "ADVANCED",
@@ -66,6 +66,12 @@ export const PATHS: readonly LearningPath[] = [
     outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes"],
     steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring"],
   },
+  {
+    id: "heaps", title: "Heaps and priority queues", level: "INTERMEDIATE",
+    summary: "Store a complete binary tree in an array, keep the smallest value at the root, and use it for top-k problems.",
+    outcomes: ["Find the parent and children of an array index", "Restore the heap rule with sift-up and sift-down", "Explain why heapify is O(n)", "Find the k-th largest with a size-k min-heap"],
+    steps: ["tree-height", "min-heap-build-insert", "heapify-bottom-up", "kth-largest-element", "heap-sort"],
+  },
 ];
 
 /** What to learn first. Kept short on purpose: only real dependencies, not everything related. */
@@ -82,7 +88,6 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "shell-sort": ["insertion-sort"],
   "merge-sort": ["insertion-sort"],
   "quick-sort": ["merge-sort"],
-  "heap-sort": ["merge-sort"],
   "counting-sort": ["find-maximum"],
   "three-sum-count": ["two-sum-sorted"],
   "number-of-islands": ["dfs-traversal"],
@@ -131,6 +136,11 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "bst-search": ["binary-tree-inorder"],
   "bst-find-min-max": ["bst-search"],
   "bst-insert": ["bst-search"],
+  "avl-tree-insert": ["bst-insert"],
+  "min-heap-build-insert": ["tree-height"],
+  "heapify-bottom-up": ["min-heap-build-insert"],
+  "kth-largest-element": ["min-heap-build-insert"],
+  "heap-sort": ["merge-sort", "heapify-bottom-up"],
   "level-order-traversal": ["queue-enqueue-dequeue", "binary-tree-preorder"],
   "binary-tree-inorder": ["binary-tree-preorder"],
   "binary-tree-postorder": ["binary-tree-preorder"],

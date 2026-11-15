@@ -159,3 +159,13 @@ Decision D3: run learner code **in the browser only**, in JavaScript and Python.
 - Docker image now also copies `apps/web/public`; Vercel needs no change (`pnpm build` runs the copy step).
 - Not changed: API, database, trace schema, the 123 algorithms.
 - Deferred: Java, C++ and C execution (needs the sandbox service), hidden tests, code history, submitting results to the server.
+
+## 16. Heaps and AVL milestone (milestone 13, part 1)
+
+- New category **Heaps** (sort 82, topic "Heaps and Priority Queues") and a new **Heaps and priority queues** learning path; AVL joins "Trees and graphs".
+- Four algorithms, all on the existing tree state, so the trace schema is unchanged (1.4.0): `min-heap-build-insert` (sift-up), `heapify-bottom-up` (Floyd, O(n)), `kth-largest-element` (size-k min-heap, input `values` and `k`) and `avl-tree-insert` (single and double rotations, result is the final height).
+- Heaps are drawn as a complete binary tree; node `t{i+1}` is array index i, so a swap changes two node values and the picture matches the array layout.
+- Tree traces may only use the events init, call, return, visit and done, so compares and swaps are described by highlights and text rather than events.
+- Tests: wave tests with independent references (heap arrangement, k-th largest by sorting, AVL balance, sorted in-order and height), step budgets at standard and lite limits, real Java/Python/C++/C conformance (16/16), DB verification (127 algorithms, 508 language rows, 485 distinct hashes, 18 categories).
+- Not done: trie (needs an n-ary node state, which is a schema decision for you), segment tree, Fenwick, MST, SCC, LRU.
+

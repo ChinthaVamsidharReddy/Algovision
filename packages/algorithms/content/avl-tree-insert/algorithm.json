@@ -1,0 +1,91 @@
+{
+  "id": "avl-tree-insert",
+  "title": "AVL Tree: Insert with Rotations",
+  "category": "trees",
+  "wave": 14,
+  "stateKind": "tree",
+  "difficulty": "advanced",
+  "summary": "Insert values into a self-balancing AVL tree. After every insert, a node whose two subtrees differ in height by more than one is fixed with a single or double rotation, so the height stays about log n even for sorted input.",
+  "complexity": {
+    "time": "O(n log n)",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      10,
+      20,
+      30,
+      40,
+      50,
+      25
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "Each value is inserted into an AVL tree. Repeated values are skipped. The answer is the final height."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "next",
+      "label": "Insert the next value"
+    },
+    {
+      "id": "insert",
+      "label": "Insert into a subtree"
+    },
+    {
+      "id": "create",
+      "label": "Create a node in an empty spot"
+    },
+    {
+      "id": "duplicate",
+      "label": "Skip a value already in the tree"
+    },
+    {
+      "id": "compare",
+      "label": "Compare with this node"
+    },
+    {
+      "id": "go-left",
+      "label": "Insert into the left subtree"
+    },
+    {
+      "id": "go-right",
+      "label": "Insert into the right subtree"
+    },
+    {
+      "id": "balance",
+      "label": "Check the balance of this node"
+    },
+    {
+      "id": "rotate-right",
+      "label": "Rotate right"
+    },
+    {
+      "id": "rotate-left",
+      "label": "Rotate left"
+    },
+    {
+      "id": "balanced",
+      "label": "Balanced: return unchanged"
+    },
+    {
+      "id": "finish",
+      "label": "Return the height"
+    }
+  ]
+}

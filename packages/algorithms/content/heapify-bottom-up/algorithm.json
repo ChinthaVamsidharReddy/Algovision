@@ -1,0 +1,72 @@
+{
+  "id": "heapify-bottom-up",
+  "title": "Heapify (Build a Heap in O(n))",
+  "category": "heaps",
+  "wave": 14,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Turn any array into a min-heap in place by sifting down every parent, starting from the last one and working back to the root. It is faster than inserting values one by one because most nodes are near the bottom and barely move.",
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      9,
+      5,
+      6,
+      2,
+      3,
+      8,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values",
+      "note": "The array is read as a complete binary tree: index i has children 2i+1 and 2i+2."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "start",
+      "label": "Pick the next parent, from the last one back to the root"
+    },
+    {
+      "id": "pick-smallest",
+      "label": "Assume the parent is the smallest"
+    },
+    {
+      "id": "compare-left",
+      "label": "Compare with the left child"
+    },
+    {
+      "id": "compare-right",
+      "label": "Compare with the right child"
+    },
+    {
+      "id": "stop",
+      "label": "The heap rule holds: stop"
+    },
+    {
+      "id": "swap",
+      "label": "Swap with the smaller child"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

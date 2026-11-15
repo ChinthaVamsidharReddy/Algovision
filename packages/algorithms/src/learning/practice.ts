@@ -63,6 +63,8 @@ export const PRACTICE: Readonly<Record<string, readonly PracticeLink[]>> = {
   "binary-tree-postorder": [lc("Binary Tree Postorder Traversal", "binary-tree-postorder-traversal")],
   "level-order-traversal": [lc("Binary Tree Level Order Traversal", "binary-tree-level-order-traversal")],
   "bst-search": [lc("Search in a Binary Search Tree", "search-in-a-binary-search-tree")],
+  "kth-largest-element": [lc("Kth Largest Element in an Array", "kth-largest-element-in-an-array")],
+  "avl-tree-insert": [lc("Balance a Binary Search Tree", "balance-a-binary-search-tree")],
   "bst-insert": [lc("Insert into a Binary Search Tree", "insert-into-a-binary-search-tree")],
   "topological-sort-kahn": [lc("Course Schedule II", "course-schedule-ii")],
   "dijkstra": [lc("Network Delay Time", "network-delay-time")],

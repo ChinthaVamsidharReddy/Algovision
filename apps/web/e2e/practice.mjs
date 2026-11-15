@@ -93,7 +93,7 @@ await page.reload({ waitUntil: "load" });
 await page.getByRole("button", { name: "JavaScript", exact: true }).click();
 check("draft is restored after reload", (await page.locator("#code-editor").inputValue()).includes("// my draft"));
 await open("fibonacci-dp");
-check("solved mark shows on the problem page", await page.getByText("✓ Solved").first().isVisible());
+check("solved mark shows on the problem page", await page.getByText("✓ Solved").first().waitFor({ timeout: 5000 }).then(() => true, () => false));
 await page.goto(`${base}/practice`, { waitUntil: "load" });
 check("practice index lists every algorithm", (await page.locator('main a[href^="/practice/"]').count()) === ids.length, String(await page.locator('main a[href^="/practice/"]').count()));
 check("practice index marks solved problems", await page.getByText("✓ Solved").first().waitFor({ timeout: 5000 }).then(() => true, () => false));

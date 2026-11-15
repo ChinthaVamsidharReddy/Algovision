@@ -1,0 +1,68 @@
+{
+  "id": "min-heap-build-insert",
+  "title": "Build a Min-Heap by Inserting",
+  "category": "heaps",
+  "wave": 14,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Build a min-heap by adding values one at a time at the bottom of a complete binary tree and swapping each one upward while it is smaller than its parent, so the smallest value always ends at the root.",
+  "complexity": {
+    "time": "O(n log n)",
+    "space": "O(1)"
+  },
+  "defaultInput": {
+    "values": [
+      9,
+      5,
+      6,
+      2,
+      3,
+      8,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Values to insert (in order)",
+      "note": "The values are arranged as a complete binary tree: index i has children 2i+1 and 2i+2."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values"
+    ],
+    "output": "intList"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "insert",
+      "label": "Add the next value at the bottom"
+    },
+    {
+      "id": "sift-up",
+      "label": "Look at the parent"
+    },
+    {
+      "id": "compare",
+      "label": "Compare the parent with the child"
+    },
+    {
+      "id": "stop",
+      "label": "The heap rule holds: stop"
+    },
+    {
+      "id": "swap",
+      "label": "Swap the child up"
+    },
+    {
+      "id": "finish",
+      "label": "Return"
+    }
+  ]
+}

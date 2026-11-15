@@ -444,6 +444,33 @@
           "Grow and shrink a window over text"
         ]
       }
+    },
+    {
+      "id": "heaps",
+      "slug": "heaps",
+      "name": "Heaps",
+      "description": "Complete binary trees that keep the smallest value at the root, used for priority queues and top-k problems.",
+      "sort": 82,
+      "keywords": [
+        "heap",
+        "min-heap",
+        "priority queue",
+        "top k",
+        "kth largest",
+        "heapify",
+        "sift"
+      ],
+      "topic": {
+        "slug": "heaps-and-priority-queues",
+        "name": "Heaps and Priority Queues",
+        "difficulty": "INTERMEDIATE",
+        "summary": "Storing a complete binary tree in an array and keeping the heap rule with sift-up and sift-down.",
+        "objectives": [
+          "Find the parent and children of an index in an array heap",
+          "Restore the heap rule with sift-up and sift-down",
+          "Use a size-k heap to find the k-th largest value"
+        ]
+      }
     }
   ]
 }

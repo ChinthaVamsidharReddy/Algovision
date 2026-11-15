@@ -1,0 +1,82 @@
+{
+  "id": "kth-largest-element",
+  "title": "K-th Largest Element (Min-Heap of Size k)",
+  "category": "heaps",
+  "wave": 14,
+  "stateKind": "tree",
+  "difficulty": "intermediate",
+  "summary": "Find the k-th largest value in an array while keeping only the k largest seen so far in a min-heap. The root is the smallest of them, so a new value is worth keeping only if it beats the root; at the end the root is the answer.",
+  "complexity": {
+    "time": "O(n log k)",
+    "space": "O(k)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      2,
+      1,
+      5,
+      6,
+      4
+    ],
+    "k": 2
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "k",
+      "kind": "int",
+      "label": "k",
+      "note": "Which largest value to find, from 1 (the maximum) up to the array length."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "k"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "next",
+      "label": "Take the next value"
+    },
+    {
+      "id": "check-size",
+      "label": "Is there room in the heap?"
+    },
+    {
+      "id": "push",
+      "label": "Add to the bottom of the heap"
+    },
+    {
+      "id": "sift-up",
+      "label": "Move the new value up"
+    },
+    {
+      "id": "compare-root",
+      "label": "Compare with the smallest kept value"
+    },
+    {
+      "id": "replace",
+      "label": "Replace the root"
+    },
+    {
+      "id": "sift-down",
+      "label": "Move the new root down"
+    },
+    {
+      "id": "finish",
+      "label": "Return the root"
+    }
+  ]
+}
