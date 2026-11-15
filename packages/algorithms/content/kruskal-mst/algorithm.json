@@ -1,0 +1,88 @@
+{
+  "id": "kruskal-mst",
+  "title": "Kruskal's Minimum Spanning Tree",
+  "category": "graphs",
+  "wave": 15,
+  "stateKind": "graph",
+  "difficulty": "advanced",
+  "summary": "Connect every vertex as cheaply as possible without making a cycle: sort the edges by weight and take each one only if its two ends are still in different groups, tracked with union-find.",
+  "complexity": {
+    "time": "O(E log E)",
+    "space": "O(V + E)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      4,
+      0,
+      2,
+      3,
+      1,
+      2,
+      1,
+      1,
+      3,
+      2,
+      3,
+      4,
+      2
+    ],
+    "vertices": 5
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Weighted edges",
+      "hint": "Edges as triples: vertex, vertex, weight (1 to 99). For example 0, 1, 4, 1, 2, 3 means 0\u20131 (weight 4) and 1\u20132 (weight 3)."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "sort-edges",
+      "label": "Sort the edges by weight"
+    },
+    {
+      "id": "init-parents",
+      "label": "Every vertex is its own group"
+    },
+    {
+      "id": "edge-loop",
+      "label": "Next cheapest edge"
+    },
+    {
+      "id": "find",
+      "label": "Find the group of each end"
+    },
+    {
+      "id": "check-roots",
+      "label": "Are the groups different?"
+    },
+    {
+      "id": "take-edge",
+      "label": "Keep the edge and merge the groups"
+    },
+    {
+      "id": "finish",
+      "label": "Return the total weight"
+    }
+  ]
+}

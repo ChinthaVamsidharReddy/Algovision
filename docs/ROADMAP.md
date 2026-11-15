@@ -1,6 +1,6 @@
-# AlgoVision roadmap: from 127 algorithms to a complete beginner-to-product-company path
+# AlgoVision roadmap: from 131 algorithms to a complete beginner-to-product-company path
 
-Today: 127 algorithms in 18 categories, four languages each, trace-driven visuals, accounts, progress, bookmarks, search.
+Today: 131 algorithms in 18 categories, four languages each, trace-driven visuals, accounts, progress, bookmarks, search.
 Goal: a student can go from "what is an array" to "ready for product-company interviews" on one site.
 
 Input kinds today are only `intList` and `int`. Strings and grids need new kinds (decision D1 below).
@@ -62,7 +62,7 @@ Platform
 | 10 | Learning experience (delivered, see section 3b) | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
 | 11 | New input kinds (delivered, see sections 13 and 14 of the assessment) | `text` and `grid` input kinds, grid state in schema 1.4, 14 algorithms (7 strings, 7 grid and table). Left for later: KMP, linked-list cycle and merge, 2D prefix sums, word search | done |
 | 12 | In-browser code practice (delivered, see section 15 of the assessment) | Write a solution in JavaScript or Python and run it against each algorithm's test vectors in the browser | features |
-| 13 | Heaps, tries and advanced trees (part 1 delivered: heaps and AVL; trie, segment tree, Fenwick, MST, SCC, LRU remain) | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
+| 13 | Heaps, tries and advanced trees (parts 1 and 2 delivered: heaps, AVL, Fenwick, segment tree, Kruskal MST, SCC; trie and LRU cache moved to a later milestone because they need new view or input support) | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
 | 14 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
 | 15 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
 | 16 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |

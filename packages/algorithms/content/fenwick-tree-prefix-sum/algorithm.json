@@ -1,0 +1,84 @@
+{
+  "id": "fenwick-tree-prefix-sum",
+  "title": "Fenwick Tree (Binary Indexed Tree)",
+  "category": "trees",
+  "wave": 15,
+  "stateKind": "array",
+  "difficulty": "advanced",
+  "summary": "Answer prefix-sum questions in about log n steps by storing partial sums: position j holds the sum of the last (j & -j) values ending at j, so adding a value and summing a prefix both jump by lowest set bits.",
+  "complexity": {
+    "time": "O(n log n) build, O(log n) query",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      3,
+      2,
+      -1,
+      6,
+      5,
+      4,
+      -3,
+      3
+    ],
+    "index": 5
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "index",
+      "kind": "int",
+      "label": "Index",
+      "note": "The sum of the values from index 0 up to and including this index."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "index"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-tree",
+      "label": "Make the empty tree"
+    },
+    {
+      "id": "build",
+      "label": "Take the next value"
+    },
+    {
+      "id": "build-add",
+      "label": "Add it to a position that covers it"
+    },
+    {
+      "id": "build-climb",
+      "label": "Jump to the next covering position"
+    },
+    {
+      "id": "query",
+      "label": "Start the prefix sum"
+    },
+    {
+      "id": "query-add",
+      "label": "Add a block's partial sum"
+    },
+    {
+      "id": "query-climb",
+      "label": "Jump to the block before it"
+    },
+    {
+      "id": "finish",
+      "label": "Return the sum"
+    }
+  ]
+}

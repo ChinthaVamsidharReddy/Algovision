@@ -1,0 +1,459 @@
+[
+ {
+  "name": "single vertex",
+  "input": {
+   "values": [],
+   "vertices": 1
+  },
+  "expected": 0
+ },
+ {
+  "name": "no edges",
+  "input": {
+   "values": [],
+   "vertices": 4
+  },
+  "expected": 0
+ },
+ {
+  "name": "path",
+  "input": {
+   "values": [
+    0,
+    1,
+    5,
+    1,
+    2,
+    2,
+    2,
+    3,
+    9
+   ],
+   "vertices": 4
+  },
+  "expected": 16
+ },
+ {
+  "name": "triangle drops the dearest",
+  "input": {
+   "values": [
+    0,
+    1,
+    1,
+    1,
+    2,
+    2,
+    0,
+    2,
+    3
+   ],
+   "vertices": 3
+  },
+  "expected": 3
+ },
+ {
+  "name": "equal weights",
+  "input": {
+   "values": [
+    0,
+    1,
+    2,
+    1,
+    2,
+    2,
+    2,
+    3,
+    2,
+    3,
+    0,
+    2
+   ],
+   "vertices": 4
+  },
+  "expected": 6
+ },
+ {
+  "name": "two pieces (a forest)",
+  "input": {
+   "values": [
+    0,
+    1,
+    3,
+    1,
+    2,
+    4,
+    3,
+    4,
+    1
+   ],
+   "vertices": 6
+  },
+  "expected": 8
+ },
+ {
+  "name": "classic",
+  "input": {
+   "values": [
+    0,
+    1,
+    4,
+    0,
+    2,
+    3,
+    1,
+    2,
+    1,
+    1,
+    3,
+    2,
+    2,
+    3,
+    4,
+    3,
+    4,
+    2,
+    4,
+    5,
+    6
+   ],
+   "vertices": 6
+  },
+  "expected": 14
+ },
+ {
+  "name": "edges given backwards",
+  "input": {
+   "values": [
+    2,
+    1,
+    5,
+    1,
+    0,
+    3,
+    3,
+    2,
+    1
+   ],
+   "vertices": 4
+  },
+  "expected": 9
+ },
+ {
+  "name": "complete graph on five",
+  "input": {
+   "values": [
+    0,
+    1,
+    4,
+    0,
+    2,
+    7,
+    0,
+    3,
+    10,
+    0,
+    4,
+    13,
+    1,
+    2,
+    12,
+    1,
+    3,
+    15,
+    1,
+    4,
+    1,
+    2,
+    3,
+    3,
+    2,
+    4,
+    6,
+    3,
+    4,
+    11
+   ],
+   "vertices": 5
+  },
+  "expected": 14
+ },
+ {
+  "name": "heaviest weights",
+  "input": {
+   "values": [
+    0,
+    1,
+    99,
+    1,
+    2,
+    99,
+    0,
+    2,
+    98
+   ],
+   "vertices": 3
+  },
+  "expected": 197
+ },
+ {
+  "name": "eight vertices, ten edges",
+  "input": {
+   "values": [
+    0,
+    1,
+    7,
+    1,
+    2,
+    5,
+    2,
+    3,
+    8,
+    3,
+    4,
+    9,
+    4,
+    5,
+    7,
+    5,
+    6,
+    5,
+    6,
+    7,
+    15,
+    0,
+    7,
+    6,
+    1,
+    6,
+    3,
+    2,
+    5,
+    4
+   ],
+   "vertices": 8
+  },
+  "expected": 40
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "values": [
+    2,
+    1,
+    11,
+    1,
+    0,
+    13,
+    2,
+    0,
+    21
+   ],
+   "vertices": 3
+  },
+  "expected": 24
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "values": [
+    2,
+    4,
+    5,
+    3,
+    1,
+    1,
+    1,
+    6,
+    23,
+    6,
+    2,
+    2,
+    6,
+    0,
+    24,
+    4,
+    5,
+    28,
+    4,
+    1,
+    12,
+    0,
+    3,
+    27,
+    2,
+    0,
+    22
+   ],
+   "vertices": 7
+  },
+  "expected": 70
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "values": [
+    0,
+    1,
+    7
+   ],
+   "vertices": 2
+  },
+  "expected": 7
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "values": [
+    2,
+    0,
+    30
+   ],
+   "vertices": 3
+  },
+  "expected": 30
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "values": [
+    4,
+    2,
+    1,
+    1,
+    3,
+    25
+   ],
+   "vertices": 8
+  },
+  "expected": 26
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "values": [
+    0,
+    1,
+    2
+   ],
+   "vertices": 2
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "values": [
+    1,
+    5,
+    16,
+    2,
+    1,
+    27,
+    4,
+    5,
+    16,
+    4,
+    1,
+    27,
+    5,
+    3,
+    19,
+    4,
+    3,
+    10,
+    4,
+    2,
+    23,
+    0,
+    1,
+    6,
+    1,
+    3,
+    21,
+    3,
+    0,
+    16
+   ],
+   "vertices": 6
+  },
+  "expected": 71
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "values": [
+    7,
+    4,
+    28,
+    4,
+    1,
+    22,
+    6,
+    0,
+    11,
+    2,
+    7,
+    15,
+    4,
+    3,
+    9,
+    2,
+    0,
+    5,
+    1,
+    2,
+    21,
+    5,
+    4,
+    8,
+    7,
+    6,
+    9
+   ],
+   "vertices": 8
+  },
+  "expected": 85
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "values": [
+    3,
+    0,
+    12,
+    1,
+    2,
+    11,
+    1,
+    0,
+    9,
+    3,
+    2,
+    24,
+    2,
+    0,
+    6,
+    3,
+    1,
+    4
+   ],
+   "vertices": 4
+  },
+  "expected": 19
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "values": [
+    2,
+    0,
+    24,
+    1,
+    2,
+    9
+   ],
+   "vertices": 3
+  },
+  "expected": 33
+ }
+]

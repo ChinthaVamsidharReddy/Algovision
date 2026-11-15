@@ -72,6 +72,12 @@ export const PATHS: readonly LearningPath[] = [
     outcomes: ["Find the parent and children of an array index", "Restore the heap rule with sift-up and sift-down", "Explain why heapify is O(n)", "Find the k-th largest with a size-k min-heap"],
     steps: ["tree-height", "min-heap-build-insert", "heapify-bottom-up", "kth-largest-element", "heap-sort"],
   },
+  {
+    id: "advanced-structures", title: "Range queries, groups and spanning trees", level: "ADVANCED",
+    summary: "Answer range questions fast with Fenwick and segment trees, then use groups of vertices to find strongly connected components and cheapest spanning trees.",
+    outcomes: ["Explain why a Fenwick tree jumps by the lowest set bit", "Build a segment tree and answer a range sum from whole nodes", "Run two depth-first searches to find strongly connected components", "Pick edges for a minimum spanning tree with union-find"],
+    steps: ["prefix-sum", "fenwick-tree-prefix-sum", "segment-tree-range-sum", "dfs-traversal", "strongly-connected-components", "union-find-components", "kruskal-mst"],
+  },
 ];
 
 /** What to learn first. Kept short on purpose: only real dependencies, not everything related. */
@@ -137,6 +143,10 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "bst-find-min-max": ["bst-search"],
   "bst-insert": ["bst-search"],
   "avl-tree-insert": ["bst-insert"],
+  "fenwick-tree-prefix-sum": ["prefix-sum"],
+  "segment-tree-range-sum": ["fenwick-tree-prefix-sum"],
+  "strongly-connected-components": ["dfs-traversal"],
+  "kruskal-mst": ["union-find-components"],
   "min-heap-build-insert": ["tree-height"],
   "heapify-bottom-up": ["min-heap-build-insert"],
   "kth-largest-element": ["min-heap-build-insert"],

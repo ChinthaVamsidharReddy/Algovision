@@ -1,0 +1,98 @@
+{
+  "id": "segment-tree-range-sum",
+  "title": "Segment Tree (Range Sum)",
+  "category": "trees",
+  "wave": 15,
+  "stateKind": "tree",
+  "difficulty": "advanced",
+  "summary": "Build a tree where every node stores the sum of a range and splits it in half, then answer a range-sum query by taking whole nodes that fit inside the range instead of adding every value.",
+  "complexity": {
+    "time": "O(n) build, O(log n) per query",
+    "space": "O(n)"
+  },
+  "defaultInput": {
+    "values": [
+      2,
+      1,
+      5,
+      3,
+      4,
+      6
+    ],
+    "left": 1,
+    "right": 4
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Array values"
+    },
+    {
+      "name": "left",
+      "kind": "int",
+      "label": "Left",
+      "note": "First index of the range (0 is the first value)."
+    },
+    {
+      "name": "right",
+      "kind": "int",
+      "label": "Right",
+      "note": "Last index of the range, not smaller than Left."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "left",
+      "right"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init-tree",
+      "label": "Make room for the tree"
+    },
+    {
+      "id": "build",
+      "label": "Build the node for a range"
+    },
+    {
+      "id": "build-leaf",
+      "label": "A single value: store it"
+    },
+    {
+      "id": "build-children",
+      "label": "Split the range and build both halves"
+    },
+    {
+      "id": "build-sum",
+      "label": "Store the sum of the two halves"
+    },
+    {
+      "id": "query",
+      "label": "Ask a node for its part of the range"
+    },
+    {
+      "id": "query-outside",
+      "label": "Outside the range: 0"
+    },
+    {
+      "id": "query-inside",
+      "label": "Inside the range: take the stored sum"
+    },
+    {
+      "id": "query-split",
+      "label": "Partly inside: ask both halves"
+    },
+    {
+      "id": "finish",
+      "label": "Return the sum"
+    }
+  ]
+}

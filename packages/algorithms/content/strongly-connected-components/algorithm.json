@@ -1,0 +1,99 @@
+{
+  "id": "strongly-connected-components",
+  "title": "Strongly Connected Components (Kosaraju)",
+  "category": "graphs",
+  "wave": 15,
+  "stateKind": "graph",
+  "difficulty": "advanced",
+  "summary": "Count the groups of vertices that can all reach each other in a directed graph: one depth-first search records the finish order, then a second search along the reversed edges, started from the last finished vertex, collects one group at a time.",
+  "complexity": {
+    "time": "O(V\u00b2)",
+    "space": "O(V)"
+  },
+  "defaultInput": {
+    "values": [
+      0,
+      1,
+      1,
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5,
+      3
+    ],
+    "vertices": 6
+  },
+  "inputs": [
+    {
+      "name": "values",
+      "kind": "intList",
+      "label": "Directed edges",
+      "hint": "Edges as pairs: from, to. For example 0, 1, 1, 2 means 0\u21921 and 1\u21922. Do not list both directions of the same pair."
+    },
+    {
+      "name": "vertices",
+      "kind": "int",
+      "label": "Number of vertices",
+      "hint": "From 1 to 8. Vertices are numbered 0 up to one less than this number."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "values",
+      "vertices"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "build-graph",
+      "label": "Store the edges in a table"
+    },
+    {
+      "id": "init-visited",
+      "label": "Nothing is visited yet"
+    },
+    {
+      "id": "first-loop",
+      "label": "Start a search from an unvisited vertex"
+    },
+    {
+      "id": "first-pass",
+      "label": "Depth-first search along the edges"
+    },
+    {
+      "id": "finish-time",
+      "label": "Record the vertex when it finishes"
+    },
+    {
+      "id": "second-init",
+      "label": "No vertex has a component yet"
+    },
+    {
+      "id": "second-loop",
+      "label": "Take vertices from the last finished"
+    },
+    {
+      "id": "second-pass",
+      "label": "Search along the reversed edges"
+    },
+    {
+      "id": "new-component",
+      "label": "The component is complete"
+    },
+    {
+      "id": "finish",
+      "label": "Return the component count"
+    }
+  ]
+}

@@ -169,3 +169,14 @@ Decision D3: run learner code **in the browser only**, in JavaScript and Python.
 - Tests: wave tests with independent references (heap arrangement, k-th largest by sorting, AVL balance, sorted in-order and height), step budgets at standard and lite limits, real Java/Python/C++/C conformance (16/16), DB verification (127 algorithms, 508 language rows, 485 distinct hashes, 18 categories).
 - Not done: trie (needs an n-ary node state, which is a schema decision for you), segment tree, Fenwick, MST, SCC, LRU.
 
+## 17. Structures milestone (milestone 13, part 2)
+
+You asked me to decide based on how the application is built, so the decisions were:
+
+- **Only existing state kinds, no schema change (still 1.4.0).** Four algorithms: `fenwick-tree-prefix-sum` (array state, the array drawn is the tree, cell k is position k + 1), `segment-tree-range-sum` (tree state with the build and query recursion on the call stack; a new node shows 0 and a "?" label until its sum is known), `kruskal-mst` (weighted graph, total weight of the cheapest spanning forest, vertex marks show the union-find group, the list shows accepted weights) and `strongly-connected-components` (Kosaraju, directed graph, call stack as the work list, vertex marks show the component).
+- **Trie is deferred to its own milestone.** A trie node has many children, so it needs a new n-ary tree state (schema 1.5.0), a layout and a view. That is a bigger, user-visible change than this part should carry.
+- **LRU cache is deferred.** It needs an operation-sequence input kind (get and put calls), which is also new input and view work.
+- New learning path "Range queries, groups and spanning trees" (7 steps); prerequisites and LeetCode links added.
+- Input rules: Fenwick `index` and segment tree `left` and `right` must lie inside the array (left not bigger than right); graph inputs follow the existing edge-list rules (up to 8 vertices; weights 1 to 99; no edge listed in both directions).
+- Verified: wave tests with independent references (prefix sums, Prim for the spanning forest, transitive closure for components), step budgets at standard and lite, real Java/Python/C++/C conformance (16/16), DB verification (131 algorithms, 524 rows, 499 distinct hashes, 18 categories).
+
