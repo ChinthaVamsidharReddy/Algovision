@@ -18,7 +18,7 @@ const MetaSchema = z.strictObject({
   title: z.string().min(1),
   category: z.string().min(1),
   wave: z.number().int().min(0),
-  stateKind: z.enum(["linkedList", "array", "stack", "queue", "tree", "graph", "grid"]),
+  stateKind: z.enum(["linkedList", "array", "stack", "queue", "tree", "graph", "grid", "trie"]),
   difficulty: z.enum(["beginner", "intermediate", "advanced"]),
   summary: z.string().min(10),
   complexity: z.strictObject({ time: z.string().min(1), space: z.string().min(1) }),

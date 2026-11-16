@@ -1,5 +1,5 @@
 import type { ElementRef } from "./refs";
-import type { ArrayState, GraphState, LinkedListState, QueueState, StackState, TreeState } from "./state";
+import type { ArrayState, GraphState, LinkedListState, QueueState, StackState, TreeState, TrieState } from "./state";
 import {
   ExecutionTraceSchema,
   type ExecutionStep,
@@ -109,6 +109,9 @@ export function validateTraceSemantics(
         break;
       case "grid":
         validateGridStep(step as ExecutionStep<"grid">, position, add);
+        break;
+      case "trie":
+        validateTrieStep(step as ExecutionStep<"trie">, position, add);
         break;
     }
   });
@@ -357,6 +360,73 @@ function validateTreeStep(step: ExecutionStep<"tree">, position: number, add: Ad
     default:
       break;
   }
+}
+
+const TRIE_EVENTS = ["init", "visit", "insertNode", "found", "notFound", "done"] as const;
+
+function validateTrieStep(step: ExecutionStep<"trie">, position: number, add: AddIssue): void {
+  const state = step.state;
+  const base = `steps.${position}`;
+  const byId = new Map<string, TrieState["nodes"][number]>();
+  for (const node of state.nodes) {
+    if (byId.has(node.id)) add(position, `${base}.state.nodes`, `duplicate node id "${node.id}"`);
+    byId.set(node.id, node);
+  }
+  const parents = new Map<string, number>();
+  for (const node of state.nodes) {
+    const letters = new Set<string>();
+    let previous = "";
+    for (const child of node.children) {
+      const target = byId.get(child);
+      if (!target) {
+        add(position, `${base}.state.nodes`, `node "${node.id}" points to missing node "${child}"`);
+        continue;
+      }
+      parents.set(child, (parents.get(child) ?? 0) + 1);
+      if (target.label.length !== 1) add(position, `${base}.state.nodes`, `node "${child}" must carry exactly one letter`);
+      if (letters.has(target.label)) add(position, `${base}.state.nodes`, `node "${node.id}" has two children for the letter "${target.label}"`);
+      letters.add(target.label);
+      if (target.label < previous) add(position, `${base}.state.nodes`, `children of "${node.id}" must be in alphabetical order`);
+      previous = target.label;
+    }
+  }
+  for (const [id, count] of parents) {
+    if (count > 1) add(position, `${base}.state.nodes`, `node "${id}" has more than one parent`);
+  }
+  if (state.root !== null) {
+    if (!byId.has(state.root)) add(position, `${base}.state.root`, `root points to missing node "${state.root}"`);
+    if (parents.has(state.root)) add(position, `${base}.state.root`, "the root cannot be a child of another node");
+  }
+  const reached = new Set<string>();
+  const stack = state.root !== null ? [state.root] : [];
+  while (stack.length > 0) {
+    const id = stack.pop()!;
+    if (reached.has(id)) continue;
+    reached.add(id);
+    for (const child of byId.get(id)?.children ?? []) stack.push(child);
+  }
+  if (reached.size !== state.nodes.length) add(position, `${base}.state.nodes`, "every node must be reachable from the root");
+
+  const known = (id: string | null, path: string) => {
+    if (id !== null && !byId.has(id)) add(position, path, `references missing node "${id}"`);
+  };
+  known(state.current, `${base}.state.current`);
+  if (state.position !== null && state.position > state.word.length) {
+    add(position, `${base}.state.position`, "position cannot be past the end of the word");
+  }
+  const checkRef = (ref: ElementRef, path: string) => {
+    if (ref.kind !== "node") add(position, path, "trie traces may only reference nodes by id");
+    else known(ref.id, path);
+  };
+  step.changed.forEach((ref, i) => checkRef(ref, `${base}.changed.${i}`));
+  step.highlights.forEach((h, i) => checkRef(h.target, `${base}.highlights.${i}.target`));
+
+  const event = step.event;
+  if (!(TRIE_EVENTS as readonly string[]).includes(event.type)) {
+    add(position, `${base}.event.type`, `a trie trace cannot use the "${event.type}" event`);
+  }
+  if (event.type === "insertNode") known(event.node, `${base}.event.node`);
+  if (event.type === "visit" || event.type === "found") checkRef(event.element, `${base}.event.element`);
 }
 
 function hasCycle(state: LinkedListState): boolean {

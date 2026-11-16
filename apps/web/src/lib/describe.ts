@@ -1,4 +1,4 @@
-import type { ArrayState, GraphState, GridState, LinkedListState, QueueState, StackState, TreeState } from "@algovision/trace-schema";
+import type { ArrayState, GraphState, GridState, LinkedListState, QueueState, StackState, TreeState, TrieState } from "@algovision/trace-schema";
 
 /**
  * Text rendering of a snapshot for screen readers and the "as text" panel. It is derived from the
@@ -104,4 +104,39 @@ export function describeGrid(state: GridState): string {
   }
   const cols = state.colLabels ? `; columns: ${state.colLabels.map((l) => (l === "" ? "none" : l)).join(" ")}` : "";
   return `${state.rows} by ${state.cols} grid${cols}; ${rows.join("; ")}`;
+}
+
+/** Words for the trie: every word spelled by a path, with counts when the algorithm tracks them. */
+export function describeTrie(state: TrieState): string {
+  if (state.root === null) return "empty trie";
+  const byId = new Map(state.nodes.map((n) => [n.id, n]));
+  const tracked = state.nodes.some((n) => n.count > 0);
+  const lines: string[] = [];
+  const walk = (id: string, prefix: string, seen: Set<string>): void => {
+    if (seen.has(id)) return;
+    seen.add(id);
+    const n = byId.get(id);
+    if (!n) return;
+    for (const c of n.children) {
+      const child = byId.get(c);
+      if (child) {
+        const text = prefix + child.label;
+        lines.push(tracked ? `${text} (${child.count})` : text);
+        walk(c, text, seen);
+      }
+    }
+  };
+  walk(state.root, "", new Set());
+  const current = state.current === null ? "none" : state.current === state.root ? "root" : (() => {
+    const parts: string[] = [];
+    for (let id: string | undefined = state.current; id && id !== state.root; ) {
+      const n = byId.get(id);
+      if (!n) break;
+      parts.unshift(n.label);
+      id = state.nodes.find((p) => p.children.includes(id!))?.id;
+    }
+    return parts.join("");
+  })();
+  const inserting = state.position === null ? "" : `; inserting ${state.word} (${state.position} of ${state.word.length} letters done)`;
+  return `${state.nodes.length - 1} node${state.nodes.length === 2 ? "" : "s"}; standing at ${current}${inserting}; paths: ${lines.length === 0 ? "none" : lines.join(", ")}`;
 }

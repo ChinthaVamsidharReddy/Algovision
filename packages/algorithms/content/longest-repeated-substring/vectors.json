@@ -1,0 +1,128 @@
+[
+ {
+  "name": "empty",
+  "input": {
+   "s": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "single",
+  "input": {
+   "s": "a"
+  },
+  "expected": 0
+ },
+ {
+  "name": "limit length",
+  "input": {
+   "s": "abcabcbbaaabcab"
+  },
+  "expected": 5
+ },
+ {
+  "name": "banana",
+  "input": {
+   "s": "banana"
+  },
+  "expected": 3
+ },
+ {
+  "name": "all same",
+  "input": {
+   "s": "aaaaaaaaaaaaaaa"
+  },
+  "expected": 14
+ },
+ {
+  "name": "all different",
+  "input": {
+   "s": "abcdefghijklmno"
+  },
+  "expected": 0
+ },
+ {
+  "name": "overlap",
+  "input": {
+   "s": "aaa"
+  },
+  "expected": 2
+ },
+ {
+  "name": "abab",
+  "input": {
+   "s": "abab"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 0",
+  "input": {
+   "s": "cegdbb"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 1",
+  "input": {
+   "s": ""
+  },
+  "expected": 0
+ },
+ {
+  "name": "random 2",
+  "input": {
+   "s": "fbdaafb"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 3",
+  "input": {
+   "s": "bbaaccbc"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 4",
+  "input": {
+   "s": "eefdbbaaaeadbb"
+  },
+  "expected": 3
+ },
+ {
+  "name": "random 5",
+  "input": {
+   "s": "aaacc"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 6",
+  "input": {
+   "s": "bdbeef"
+  },
+  "expected": 1
+ },
+ {
+  "name": "random 7",
+  "input": {
+   "s": "cacbabcacbcca"
+  },
+  "expected": 4
+ },
+ {
+  "name": "random 8",
+  "input": {
+   "s": "gdfdaffdbbac"
+  },
+  "expected": 2
+ },
+ {
+  "name": "random 9",
+  "input": {
+   "s": "caabccb"
+  },
+  "expected": 1
+ }
+]

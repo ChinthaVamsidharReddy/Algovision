@@ -17,6 +17,7 @@ import { LinkedListView } from "./linked-list-view";
 import { QueueView, StackView } from "./sequence-view";
 import { GraphView } from "./graph-view";
 import { TreeView } from "./tree-view";
+import { TrieView } from "./trie-view";
 import { ExplanationPanel, VariablesPanel } from "./panels";
 import { usePlayback } from "./use-playback";
 import { LearningActions } from "../learning/learning-actions";
@@ -196,6 +197,7 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
             {trace.stateKind === "tree" && <TreeView step={step as ExecutionStep<"tree">} />}
             {trace.stateKind === "graph" && <GraphView step={step as ExecutionStep<"graph">} />}
             {trace.stateKind === "grid" && <GridView step={step as ExecutionStep<"grid">} />}
+            {trace.stateKind === "trie" && <TrieView step={step as ExecutionStep<"trie">} />}
             <Controls state={playback} dispatch={dispatch} />
             <ExplanationPanel step={step} playback={playback} />
             <VariablesPanel step={step} />

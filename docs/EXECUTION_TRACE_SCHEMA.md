@@ -22,6 +22,10 @@ Graph traces may use `init`, `compare`, `assign`, `visit`, `enqueue`, `dequeue`,
 `ArrayState` gains an optional boolean `chars`. When true, `values` are character codes and the renderer draws each cell as the character (`"a"`), and the text description reads `["a", "b"]`. Traces without the field, including every earlier trace, are unchanged and still valid. String algorithms use it, so the existing array renderer, pointers and highlights work for text without a new state kind.
 
 
+## Schema 1.5.0 addition (trie)
+
+A new state kind `trie`: `{ kind: "trie", nodes, root, current, word, position }` where a node is `{ id, label, count, children }`. `label` is the single letter on the edge into the node (empty for the root), `children` lists child ids in alphabetical order with at most one child per letter, and `count` is how many inserted words or suffixes pass through the node (0 when the algorithm does not track it; the view then hides the counts). `word` is the text being inserted and `position` is how many of its letters are done (null when nothing is being inserted). The validator checks unique ids, one parent per node, every node reachable from the root, one letter per node, no repeated or unordered sibling letters, `position <= word.length`, node-only references, and allows only the events `init`, `visit`, `insertNode`, `found`, `notFound` and `done`. Existing state kinds are unchanged; a 1.4 trace is still accepted.
+
 ## Schema 1.4.0 addition (grid)
 
 A new state kind `grid`: `{ kind: "grid", rows, cols, cells, rowLabels?, colLabels? }`. `cells` is row-major, so cell (r, c) is `cells[r * cols + c]` and an `index` element reference means the same number (the validator rejects node references and out-of-range indexes, and checks that `cells.length === rows * cols` and that label lists match). A `null` cell is empty (not computed yet). Optional labels name rows and columns, for example the letters of two strings in a dynamic-programming table. Existing state kinds are unchanged.

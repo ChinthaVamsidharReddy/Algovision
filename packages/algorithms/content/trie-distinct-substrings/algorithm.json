@@ -1,0 +1,59 @@
+{
+  "id": "trie-distinct-substrings",
+  "title": "Count Distinct Substrings (Suffix Trie)",
+  "category": "strings",
+  "wave": 16,
+  "stateKind": "trie",
+  "difficulty": "advanced",
+  "summary": "Count the different substrings of a word by inserting every suffix into a trie: each substring is a path from the root, and each new node is a substring seen for the first time.",
+  "complexity": {
+    "time": "O(n\u00b2)",
+    "space": "O(n\u00b2)"
+  },
+  "defaultInput": {
+    "s": "banana"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start with an empty trie and a count of zero"
+    },
+    {
+      "id": "suffix",
+      "label": "Start at the root for the next suffix"
+    },
+    {
+      "id": "check",
+      "label": "Does the current node have a child for this letter?"
+    },
+    {
+      "id": "create",
+      "label": "Create the child and count a new substring"
+    },
+    {
+      "id": "descend",
+      "label": "Move into the child"
+    },
+    {
+      "id": "finish",
+      "label": "Return the number of distinct substrings"
+    }
+  ]
+}

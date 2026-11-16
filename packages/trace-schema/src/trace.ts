@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TraceEventSchema } from "./events";
 import { ElementRefSchema } from "./refs";
-import { ArrayStateSchema, LinkedListStateSchema, QueueStateSchema, GraphStateSchema, GridStateSchema, StackStateSchema, TreeStateSchema, type StateKind, type StateOf } from "./state";
+import { ArrayStateSchema, LinkedListStateSchema, QueueStateSchema, GraphStateSchema, GridStateSchema, StackStateSchema, TreeStateSchema, TrieStateSchema, type StateKind, type StateOf } from "./state";
 
 export const HIGHLIGHT_ROLES = [
   "active",
@@ -84,6 +84,7 @@ export const QueueTraceSchema = traceSchema("queue", QueueStateSchema);
 export const TreeTraceSchema = traceSchema("tree", TreeStateSchema);
 export const GraphTraceSchema = traceSchema("graph", GraphStateSchema);
 export const GridTraceSchema = traceSchema("grid", GridStateSchema);
+export const TrieTraceSchema = traceSchema("trie", TrieStateSchema);
 
 /** Discriminated by `stateKind`. Add each new structure's trace schema here. */
 export const ExecutionTraceSchema = z.discriminatedUnion("stateKind", [
@@ -94,6 +95,7 @@ export const ExecutionTraceSchema = z.discriminatedUnion("stateKind", [
   TreeTraceSchema,
   GraphTraceSchema,
   GridTraceSchema,
+  TrieTraceSchema,
 ]);
 
 export type ExecutionTrace = z.infer<typeof ExecutionTraceSchema>;

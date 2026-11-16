@@ -1,0 +1,63 @@
+{
+  "id": "longest-repeated-substring",
+  "title": "Longest Repeated Substring (Suffix Trie)",
+  "category": "strings",
+  "wave": 16,
+  "stateKind": "trie",
+  "difficulty": "advanced",
+  "summary": "Find the longest piece of a word that appears at least twice. Insert every suffix into a trie and count the suffixes through each node; the deepest node with a count of two or more is the answer.",
+  "complexity": {
+    "time": "O(n\u00b2)",
+    "space": "O(n\u00b2)"
+  },
+  "defaultInput": {
+    "s": "banana"
+  },
+  "inputs": [
+    {
+      "name": "s",
+      "kind": "text",
+      "label": "Text"
+    }
+  ],
+  "io": {
+    "inputs": [
+      "s"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Start with an empty trie and a best length of zero"
+    },
+    {
+      "id": "suffix",
+      "label": "Start at the root for the next suffix"
+    },
+    {
+      "id": "check",
+      "label": "Does the current node have a child for this letter?"
+    },
+    {
+      "id": "create",
+      "label": "Create the missing child"
+    },
+    {
+      "id": "descend",
+      "label": "Move into the child and count the visit"
+    },
+    {
+      "id": "best",
+      "label": "Two suffixes share this path: a new longest repeat"
+    },
+    {
+      "id": "finish",
+      "label": "Return the longest repeated length"
+    }
+  ]
+}

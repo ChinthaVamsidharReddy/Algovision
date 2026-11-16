@@ -63,8 +63,8 @@ export const PATHS: readonly LearningPath[] = [
   {
     id: "strings", title: "Strings", level: "INTERMEDIATE",
     summary: "Treat text as an array of characters and reuse two pointers, letter counts and sliding windows.",
-    outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes"],
-    steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring"],
+    outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes", "Build a suffix trie to count and compare substrings"],
+    steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring", "trie-distinct-substrings", "longest-repeated-substring"],
   },
   {
     id: "heaps", title: "Heaps and priority queues", level: "INTERMEDIATE",
@@ -109,6 +109,8 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "longest-repeating-replacement": ["longest-substring-no-repeat"],
   "count-palindromic-substrings": ["is-palindrome-string"],
   "longest-palindromic-substring": ["count-palindromic-substrings"],
+  "trie-distinct-substrings": ["count-palindromic-substrings"],
+  "longest-repeated-substring": ["trie-distinct-substrings"],
   "container-with-most-water": ["two-sum-sorted"],
   "trapping-rain-water": ["container-with-most-water"],
   "remove-duplicates-sorted": ["move-zeroes"],

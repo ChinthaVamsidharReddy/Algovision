@@ -180,3 +180,13 @@ You asked me to decide based on how the application is built, so the decisions w
 - Input rules: Fenwick `index` and segment tree `left` and `right` must lie inside the array (left not bigger than right); graph inputs follow the existing edge-list rules (up to 8 vertices; weights 1 to 99; no edge listed in both directions).
 - Verified: wave tests with independent references (prefix sums, Prim for the spanning forest, transitive closure for components), step budgets at standard and lite, real Java/Python/C++/C conformance (16/16), DB verification (131 algorithms, 524 rows, 499 distinct hashes, 18 categories).
 
+
+## 18. Trie milestone (milestone 14)
+
+- **Schema 1.5.0, new `trie` state kind** (minor change, 1.4 traces still accepted). A trie node has up to 26 children reached by labelled edges, which the binary tree state cannot express. Nodes carry `label`, `count` and ordered `children`; the state also carries the `word` being inserted and how many letters are done. See EXECUTION_TRACE_SCHEMA.
+- **Two algorithms in the Strings category, both suffix tries** (every suffix of the text is inserted): `trie-distinct-substrings` (nodes created = distinct substrings) and `longest-repeated-substring` (deepest node with a count of 2 or more). I chose suffix tries because the existing text input (one lowercase string) fits them. A word-list trie (insert, search, starts-with) needs a list-of-words input, so it waits with the LRU cache for an operation-list input kind.
+- Code: Java, C++ and C use a flat `next[node][26]` table (index 0 = no child) sized for the worst case n(n+1)/2 + 1 nodes; Python uses nested dicts. Every language marks the same anchors.
+- View: a new trie view with leaves in their own columns and parents centred over their children (width follows leaf count, not node count), the letter on each edge, the suffix being inserted with its done letters greyed, and counts inside the nodes when tracked. The picture is a pure function of the state.
+- The strings learning path grew from 7 to 9 steps; LeetCode links added.
+- Tests: trace-schema 56 (7 new trie rules), wave tests with independent references (substring sets, occurrence counts per node), step budgets at standard and lite, real Java/Python/C++/C conformance, web layout, description and axe checks.
+- Not done: word-list trie, LRU cache.

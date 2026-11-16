@@ -123,7 +123,33 @@ export const GridStateSchema = z.strictObject({
 });
 export type GridState = z.infer<typeof GridStateSchema>;
 
-export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree", "graph", "grid"] as const;
+export const TrieNodeSchema = z.strictObject({
+  id: z.string().min(1),
+  /** The letter on the edge that leads into this node; the root has an empty label. */
+  label: z.string().max(1),
+  /** How many inserted words (or suffixes) pass through this node. */
+  count: z.number().int().min(0),
+  /** Child ids in alphabetical order of their labels, at most one child per letter. */
+  children: z.array(z.string().min(1)),
+});
+export type TrieNode = z.infer<typeof TrieNodeSchema>;
+
+/**
+ * Trie snapshot (schema 1.5): a tree whose nodes can have many children, each reached by a labelled
+ * edge. `word` is the text being inserted right now and `position` is how many of its letters have
+ * been consumed (null when nothing is being inserted). `current` is the node the walk is standing on.
+ */
+export const TrieStateSchema = z.strictObject({
+  kind: z.literal("trie"),
+  nodes: z.array(TrieNodeSchema),
+  root: z.string().min(1).nullable(),
+  current: z.string().min(1).nullable(),
+  word: z.string(),
+  position: z.number().int().min(0).nullable(),
+});
+export type TrieState = z.infer<typeof TrieStateSchema>;
+
+export const STATE_KINDS = ["linkedList", "array", "stack", "queue", "tree", "graph", "grid", "trie"] as const;
 export type StateKind = (typeof STATE_KINDS)[number];
 
 export const stateSchemas = {
@@ -134,6 +160,7 @@ export const stateSchemas = {
   tree: TreeStateSchema,
   graph: GraphStateSchema,
   grid: GridStateSchema,
+  trie: TrieStateSchema,
 } as const;
 
 export interface StateMap {
@@ -144,5 +171,6 @@ export interface StateMap {
   tree: TreeState;
   graph: GraphState;
   grid: GridState;
+  trie: TrieState;
 }
 export type StateOf<K extends StateKind> = StateMap[K];

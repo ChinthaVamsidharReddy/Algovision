@@ -30,6 +30,8 @@ export const PRACTICE: Readonly<Record<string, readonly PracticeLink[]>> = {
   "first-unique-character": [lc("First Unique Character in a String", "first-unique-character-in-a-string")],
   "longest-substring-no-repeat": [lc("Longest Substring Without Repeating Characters", "longest-substring-without-repeating-characters")],
   "longest-palindromic-substring": [lc("Longest Palindromic Substring", "longest-palindromic-substring")],
+  "trie-distinct-substrings": [lc("Number of Distinct Substrings in a String", "number-of-distinct-substrings-in-a-string")],
+  "longest-repeated-substring": [lc("Longest Duplicate Substring", "longest-duplicate-substring")],
   "count-palindromic-substrings": [lc("Palindromic Substrings", "palindromic-substrings")],
   "longest-repeating-replacement": [lc("Longest Repeating Character Replacement", "longest-repeating-character-replacement")],
   "number-of-islands": [lc("Number of Islands", "number-of-islands")],
