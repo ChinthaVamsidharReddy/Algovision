@@ -14,9 +14,17 @@ export interface CodeFile {
   readonly anchors: Readonly<Record<string, readonly LineRange[]>>;
 }
 
+/** One operation of an `ops` input: `args` is how many whole numbers it takes, or "word" for one lowercase word. */
+export interface OpSpec {
+  readonly name: string;
+  readonly args: 1 | 2 | "word";
+}
+
 export interface InputSpec {
   readonly name: string;
-  readonly kind: "intList" | "int" | "text" | "grid";
+  readonly kind: "intList" | "int" | "text" | "grid" | "ops";
+  /** Only for kind "ops": the operations a learner may write, in code order (code 1 is the first). See ops.ts. */
+  readonly ops?: readonly OpSpec[];
   readonly label: string;
   /** Extra rule shown under the field, e.g. "Must be in ascending order." */
   readonly note?: string;
@@ -26,7 +34,7 @@ export interface InputSpec {
 
 /**
  * How the language harnesses talk to the test runner (stdin/stdout, one case per line):
- * each input in order is `intList` -> "n v1 .. vn", `text` -> "n c1 .. cn" (character codes), `grid` -> "rows cols v11 .. vRC" (row-major; an empty grid is "0 0") or `int` -> "v"; the output uses the same encoding.
+ * each input in order is `intList` -> "n v1 .. vn", `text` -> "n c1 .. cn" (character codes), `grid` -> "rows cols v11 .. vRC" (row-major; an empty grid is "0 0"), `ops` -> the same as an `intList` of the flat operation list (see ops.ts) or `int` -> "v"; the output uses the same encoding.
  */
 export interface IoSpec {
   readonly inputs: readonly string[];

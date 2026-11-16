@@ -121,7 +121,7 @@ export function describeTrie(state: TrieState): string {
       const child = byId.get(c);
       if (child) {
         const text = prefix + child.label;
-        lines.push(tracked ? `${text} (${child.count})` : text);
+        lines.push((tracked ? `${text} (${child.count})` : text) + (child.end ? " [word ends]" : ""));
         walk(c, text, seen);
       }
     }
@@ -137,6 +137,6 @@ export function describeTrie(state: TrieState): string {
     }
     return parts.join("");
   })();
-  const inserting = state.position === null ? "" : `; inserting ${state.word} (${state.position} of ${state.word.length} letters done)`;
+  const inserting = state.position === null ? "" : `; walking ${state.word} (${state.position} of ${state.word.length} letters done)`;
   return `${state.nodes.length - 1} node${state.nodes.length === 2 ? "" : "s"}; standing at ${current}${inserting}; paths: ${lines.length === 0 ? "none" : lines.join(", ")}`;
 }

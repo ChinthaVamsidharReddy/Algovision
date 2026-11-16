@@ -31,7 +31,7 @@ describe("trie state (schema 1.5)", () => {
     const text = describeTrie(state());
     expect(text).toContain("3 nodes");
     expect(text).toContain("standing at ac");
-    expect(text).toContain("inserting abc (2 of 3 letters done)");
+    expect(text).toContain("walking abc (2 of 3 letters done)");
     expect(text).toContain("paths: a, ac, b");
     expect(describeTrie(state({ nodes: [], root: null, current: null }))).toBe("empty trie");
     expect(describeTrie(state({ nodes: [n("n0", "", ["n1"]), n("n1", "a", [], 3)], current: "n0", position: null }))).toContain("a (3)");

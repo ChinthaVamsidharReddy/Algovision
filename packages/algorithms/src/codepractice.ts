@@ -39,13 +39,15 @@ const KIND_WORDS: Record<InputSpec["kind"], string> = {
   int: "an integer",
   text: "a string of lowercase letters",
   grid: "a list of rows, each row a list of digits",
+  ops: "a flat list of integers, three parts per operation: its code, how many values follow, then the values",
 };
 
 export function practiceInputLines(meta: AlgorithmMeta): string[] {
   const byName = new Map(meta.inputs.map((i) => [i.name, i]));
   return meta.io.inputs.map((name) => {
     const spec = byName.get(name);
-    return `${name}: ${spec ? KIND_WORDS[spec.kind] : "a value"}${spec ? ` (${spec.label})` : ""}`;
+    const codes = spec?.ops ? ` [codes: ${spec.ops.map((o, i) => `${o.name}=${i + 1}`).join(", ")}${spec.ops.some((o) => o.args === "word") ? "; letters are character codes" : ""}]` : "";
+    return `${name}: ${spec ? KIND_WORDS[spec.kind] : "a value"}${spec ? ` (${spec.label})` : ""}${codes}`;
   });
 }
 export const practiceReturnLine = (meta: AlgorithmMeta): string => (meta.io.output === "int" ? "an integer" : "a list of integers");

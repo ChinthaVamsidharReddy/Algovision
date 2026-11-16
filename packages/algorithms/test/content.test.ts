@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import {
+  decodeOps,
   LANGUAGES,
   LANGUAGE_IDS,
   LIMIT_PROFILES,
@@ -24,7 +25,7 @@ const MetaSchema = z.strictObject({
   complexity: z.strictObject({ time: z.string().min(1), space: z.string().min(1) }),
   defaultInput: z.record(z.string(), z.unknown()),
   inputs: z
-    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int", "text", "grid"]), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
+    .array(z.strictObject({ name: z.string(), kind: z.enum(["intList", "int", "text", "grid", "ops"]), ops: z.array(z.strictObject({ name: z.string(), args: z.union([z.literal(1), z.literal(2), z.literal("word")]) })).optional(), label: z.string(), note: z.string().optional(), hint: z.string().optional() }))
     .min(1),
   io: z.strictObject({ inputs: z.array(z.string()).min(1), output: z.enum(["int", "intList"]) }),
   anchors: z.array(z.strictObject({ id: z.string(), label: z.string().min(1) })).min(1),
@@ -69,6 +70,19 @@ describe("completeness: every algorithm ships everything the contract requires",
           expect(lens).toContain(0);
           expect(lens).toContain(1);
           expect(lens).toContain(longest);
+          return;
+        }
+        // Operation-list algorithms: no operations, a single operation and a list of the maximum length must be covered.
+        const opsSpec = entry.content.meta.inputs.find((i) => i.kind === "ops");
+        if (opsSpec) {
+          const counts = vs.map((v) => {
+            const d = decodeOps((v.input as unknown as { ops: number[] }).ops, opsSpec.ops!, { maxOps: 99, maxAbs: 999 });
+            if (!d.ok) throw new Error(d.message);
+            return d.value.length;
+          });
+          expect(counts).toContain(0);
+          expect(counts).toContain(1);
+          expect(counts).toContain(LIMIT_PROFILES.standard.maxArrayLength);
           return;
         }
         // Grid algorithms: a 1 x 1 grid, a grid of the largest accepted size and (where accepted) the empty grid.

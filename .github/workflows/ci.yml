@@ -18,7 +18,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
@@ -43,30 +43,43 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @algovision/web build
-      - run: npx --yes playwright@1 install --with-deps chromium
-      - run: |
-          (cd apps/web && node .next/standalone/apps/web/server.js &) 
-          sleep 5
+        env:
+          API_INTERNAL_URL: http://127.0.0.1:8099
+      # smoke.mjs does require("playwright"), so the package itself has to be installed, not just its browser.
+      - run: npm install -g playwright@1
+      - run: playwright install --with-deps chromium
+      - name: Run the smoke test against the production server
+        run: |
+          # The standalone server does not include static files or public/; copy them in as the Dockerfile does.
+          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+          cp -r apps/web/public apps/web/.next/standalone/apps/web/public
+          (cd apps/web && node e2e/stub-api.mjs > /tmp/stub.log 2>&1 &)
+          (cd apps/web/.next/standalone/apps/web && node server.js > /tmp/web.log 2>&1 &)
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/ > /dev/null && break; sleep 1; done
           cd apps/web && NODE_PATH=$(npm root -g) node e2e/smoke.mjs http://localhost:3000 e2e-output
         env:
           PORT: "3000"
+          HOSTNAME: 127.0.0.1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: e2e-screenshots
           path: apps/web/e2e-output
+          if-no-files-found: ignore
 
   api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
       # `verify` runs unit tests, then integration tests (Testcontainers; Docker is available here).
       - run: mvn -B -f apps/api/pom.xml verify
+        env:
+          AUTH_TOKEN_SECRET: ci-only-secret-ci-only-secret-ci-only-secret-0123456789
 
   db-constraints:
     runs-on: ubuntu-latest

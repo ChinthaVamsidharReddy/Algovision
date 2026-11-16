@@ -34,7 +34,7 @@ export const PATHS: readonly LearningPath[] = [
     id: "linked-lists-stacks-queues", title: "Linked lists, stacks and queues", level: "INTERMEDIATE",
     summary: "Pointer-based structures and the stack tricks (monotonic stacks, parsing) that turn O(n^2) loops into one pass.",
     outcomes: ["Rewire list pointers safely", "Use a stack to match and evaluate", "Recognise a monotonic-stack problem"],
-    steps: ["linked-list-insert-head", "linked-list-insert-tail", "linked-list-search", "linked-list-insert-at-position", "linked-list-delete-value", "linked-list-find-middle", "linked-list-remove-nth-from-end", "linked-list-reverse", "valid-parentheses", "evaluate-postfix", "circular-queue", "next-greater-element", "stock-span", "sliding-window-maximum", "largest-rectangle-histogram"],
+    steps: ["linked-list-insert-head", "linked-list-insert-tail", "linked-list-search", "linked-list-insert-at-position", "linked-list-delete-value", "linked-list-find-middle", "linked-list-remove-nth-from-end", "linked-list-reverse", "valid-parentheses", "evaluate-postfix", "circular-queue", "next-greater-element", "stock-span", "sliding-window-maximum", "largest-rectangle-histogram", "lru-cache"],
   },
   {
     id: "hashing-and-bits", title: "Hashing, maths and bit tricks", level: "INTERMEDIATE",
@@ -63,8 +63,8 @@ export const PATHS: readonly LearningPath[] = [
   {
     id: "strings", title: "Strings", level: "INTERMEDIATE",
     summary: "Treat text as an array of characters and reuse two pointers, letter counts and sliding windows.",
-    outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes", "Build a suffix trie to count and compare substrings"],
-    steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring", "trie-distinct-substrings", "longest-repeated-substring"],
+    outcomes: ["Compare a string from both ends", "Count letters with a 26-slot table", "Slide a window over text", "Expand around a centre to find palindromes", "Store and look up words in a trie", "Build a suffix trie to count and compare substrings"],
+    steps: ["is-palindrome-string", "first-unique-character", "string-compression-length", "longest-substring-no-repeat", "longest-repeating-replacement", "count-palindromic-substrings", "longest-palindromic-substring", "trie-insert-search", "trie-distinct-substrings", "longest-repeated-substring"],
   },
   {
     id: "heaps", title: "Heaps and priority queues", level: "INTERMEDIATE",
@@ -109,7 +109,9 @@ export const PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
   "longest-repeating-replacement": ["longest-substring-no-repeat"],
   "count-palindromic-substrings": ["is-palindrome-string"],
   "longest-palindromic-substring": ["count-palindromic-substrings"],
-  "trie-distinct-substrings": ["count-palindromic-substrings"],
+  "trie-insert-search": ["is-palindrome-string"],
+  "trie-distinct-substrings": ["trie-insert-search"],
+  "lru-cache": ["linked-list-reverse"],
   "longest-repeated-substring": ["trie-distinct-substrings"],
   "container-with-most-water": ["two-sum-sorted"],
   "trapping-rain-water": ["container-with-most-water"],

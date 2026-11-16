@@ -23,3 +23,7 @@ Repo: `/home/claude/algovision` (pnpm monorepo). Work only in `packages/algorith
 
 ## Final report (your last message)
 List: algorithm ids created (and any skipped with reasons), files you created, the exact test commands you ran and their real pass/fail counts, step-count worst cases, and any known issues. Be honest; do not claim a test passed unless you ran it.
+
+## Operation-list inputs (input kind `ops`)
+
+For algorithms driven by a sequence of operations (an LRU cache, a trie of words) declare an input with `"kind": "ops"` and `"ops": [{"name": "put", "args": 2}, {"name": "get", "args": 1}]` (`args` is 1, 2 or `"word"`). The learner types `put 1 10, get 1`; the web page turns it into ONE flat list of whole numbers, `code, n, a1 .. an` per operation (`code` is the 1-based position in `ops`; a word is sent as character codes). Because that is just an `intList`, the harness, the solutions and the practice page receive a plain integer list, and the solution decodes it. Add `hint` text that lists the operations, keep the operation list in `algorithm.json` identical to the one in the executor (a test checks it), and cover the empty list, one operation and the maximum number of operations (`maxArrayLength`) in the vectors.

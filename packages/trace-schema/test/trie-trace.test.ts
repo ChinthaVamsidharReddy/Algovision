@@ -36,6 +36,10 @@ describe("trie traces (schema 1.5)", () => {
     expect(issues(trace({ type: "init" }))).toBe("");
     expect(issues(trace({ type: "insertNode", node: "n1" }, {}, { changed: [nodeRef("n1")], highlights: [{ target: nodeRef("n1"), role: "found" }] }))).toBe("");
   });
+  it("accepts word-end flags and rejects a non-boolean one", () => {
+    expect(issues(trace({ type: "init" }, { nodes: [{ ...base[0]!, end: false }, { ...base[1]!, end: true }, base[2]!] }))).toBe("");
+    expect(issues(trace({ type: "init" }, { nodes: [{ ...base[0]!, end: "yes" }, base[1]!, base[2]!] }))).not.toBe("");
+  });
   it("accepts an empty trie", () => {
     expect(issues(trace({ type: "init" }, { nodes: [], root: null, current: null, word: "", position: null }))).toBe("");
   });

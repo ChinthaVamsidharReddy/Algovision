@@ -1,0 +1,120 @@
+{
+  "id": "lru-cache",
+  "title": "LRU Cache (Hash Table + Linked List)",
+  "category": "linked-list",
+  "wave": 17,
+  "stateKind": "linkedList",
+  "difficulty": "advanced",
+  "summary": "Keep the most recently used entries and throw out the least recently used one when the cache is full. A table finds a key at once and a doubly linked list keeps the use order, so both get and put take constant time.",
+  "complexity": {
+    "time": "O(1) per operation",
+    "space": "O(capacity)"
+  },
+  "defaultInput": {
+    "ops": [
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      3,
+      3,
+      2,
+      1,
+      2,
+      1,
+      2,
+      3,
+      9,
+      1,
+      2,
+      4,
+      4,
+      2,
+      1,
+      3
+    ],
+    "capacity": 2
+  },
+  "inputs": [
+    {
+      "name": "ops",
+      "kind": "ops",
+      "label": "Operations",
+      "ops": [
+        {
+          "name": "put",
+          "args": 2
+        },
+        {
+          "name": "get",
+          "args": 1
+        }
+      ],
+      "hint": "Operations separated by commas: put key value, or get key. Up to 8 operations (15 in standard mode); keys and values are whole numbers between -999 and 999."
+    },
+    {
+      "name": "capacity",
+      "kind": "int",
+      "label": "Capacity",
+      "hint": "A whole number from 1 to 4."
+    }
+  ],
+  "io": {
+    "inputs": [
+      "ops",
+      "capacity"
+    ],
+    "output": "int"
+  },
+  "anchors": [
+    {
+      "id": "entry",
+      "label": "Function entry"
+    },
+    {
+      "id": "init",
+      "label": "Create the table, the node arrays and the empty list"
+    },
+    {
+      "id": "lookup",
+      "label": "Look the key up in the table"
+    },
+    {
+      "id": "hit",
+      "label": "get found the key: add its value"
+    },
+    {
+      "id": "miss",
+      "label": "get did not find the key: add -1"
+    },
+    {
+      "id": "update",
+      "label": "put found the key: replace its value"
+    },
+    {
+      "id": "evict",
+      "label": "The cache is full: remove the least recently used node"
+    },
+    {
+      "id": "insert",
+      "label": "Store the new key and value in a free node"
+    },
+    {
+      "id": "front",
+      "label": "Move the node to the head of the list"
+    },
+    {
+      "id": "finish",
+      "label": "Return the total of the get results"
+    }
+  ]
+}

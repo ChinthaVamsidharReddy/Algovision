@@ -129,6 +129,8 @@ export const TrieNodeSchema = z.strictObject({
   label: z.string().max(1),
   /** How many inserted words (or suffixes) pass through this node. */
   count: z.number().int().min(0),
+  /** True when a whole inserted word ends at this node (drawn with a double ring). Omitted when the algorithm has no words. */
+  end: z.boolean().optional(),
   /** Child ids in alphabetical order of their labels, at most one child per letter. */
   children: z.array(z.string().min(1)),
 });

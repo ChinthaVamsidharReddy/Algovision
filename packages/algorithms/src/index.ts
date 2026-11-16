@@ -2,6 +2,7 @@ export * from "./languages";
 export * from "./limits";
 export * from "./input";
 export * from "./content-types";
+export * from "./ops";
 export * from "./definition";
 export * from "./trace-builder";
 export * from "./registry";

@@ -62,11 +62,12 @@ Platform
 | 10 | Learning experience (delivered, see section 3b) | Learning paths, prerequisites, quizzes, practice links, cheat sheets, compare mode | features |
 | 11 | New input kinds (delivered, see sections 13 and 14 of the assessment) | `text` and `grid` input kinds, grid state in schema 1.4, 14 algorithms (7 strings, 7 grid and table). Left for later: KMP, linked-list cycle and merge, 2D prefix sums, word search | done |
 | 12 | In-browser code practice (delivered, see section 15 of the assessment) | Write a solution in JavaScript or Python and run it against each algorithm's test vectors in the browser | features |
-| 13 | Heaps, tries and advanced trees (parts 1 and 2 delivered: heaps, AVL, Fenwick, segment tree, Kruskal MST, SCC; trie delivered in milestone 14 as a suffix trie; LRU cache still waits for an operation-list input) | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
+| 13 | Heaps, tries and advanced trees (parts 1 and 2 delivered: heaps, AVL, Fenwick, segment tree, Kruskal MST, SCC; trie delivered in milestone 14 as a suffix trie; LRU cache and the word trie delivered in milestone 15) | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
 | 14 | Trie state (delivered: schema 1.5.0 trie state, distinct substrings, longest repeated substring) | Trie view with labelled edges, suffix tries | 2 |
-| 15 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
-| 16 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
-| 17 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |
+| 15 | Operation lists (delivered: input kind ops, LRU cache, word trie) | Operation-list input, LRU cache, trie insert/search/prefix | 2 |
+| 16 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
+| 17 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
+| 18 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |
 
 Result: about 180 algorithms and a full path from first lesson to interview.
 

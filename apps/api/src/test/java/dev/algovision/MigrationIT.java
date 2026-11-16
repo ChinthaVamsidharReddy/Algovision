@@ -20,7 +20,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  * infra/db/verify.sql holds the deeper constraint checks and is also run in CI.
  */
 @Testcontainers
-@SpringBootTest
+// auth.token-secret has no default on purpose, so the test supplies a throwaway one (the context cannot start without it).
+@SpringBootTest(properties = "auth.token-secret=integration-test-secret-integration-test-secret-0123456789")
 class MigrationIT {
 
     @Container

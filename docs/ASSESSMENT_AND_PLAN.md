@@ -190,3 +190,13 @@ You asked me to decide based on how the application is built, so the decisions w
 - The strings learning path grew from 7 to 9 steps; LeetCode links added.
 - Tests: trace-schema 56 (7 new trie rules), wave tests with independent references (substring sets, occurrence counts per node), step budgets at standard and lite, real Java/Python/C++/C conformance, web layout, description and axe checks.
 - Not done: word-list trie, LRU cache.
+
+## 19. Operation lists milestone (milestone 15) and CI repair
+
+- **New input kind `ops`** (no trace schema change except one optional trie field). A learner writes `put 1 10, get 1`; the page converts it to one flat integer list (`code, n, values...`, letters as character codes). It is deliberately an `intList` on the wire, so the four-language harnesses, the practice page and the Python/JavaScript runners needed no new input handling. Each algorithm declares its operations in `algorithm.json`; the parser explains every mistake in words (unknown operation, wrong number of values, number out of range, too many operations, bad word).
+- **`lru-cache`** (Linked Lists): get and put on a cache of capacity 1 to 4. The code keeps a doubly linked list in slot arrays plus a direct-address table indexed by key, so both operations are O(1); the picture draws the list from most recent (head) to least recent (tail) with each node labelled by its key. The answer is the sum of the values returned by get (a miss counts as -1).
+- **`trie-insert-search`** (Trees): insert, search and prefix on words of 1 to 6 letters. The trie state gained an optional `end` flag (double ring) for word ends; it stays at schema 1.5.0 because it is optional and 1.5.0 has not been released.
+- Limits: up to `maxArrayLength` operations (8 lite, 15 standard), keys and values within +-999.
+- Learning: the LRU cache joins "Linked lists, stacks and queues", the word trie joins "Strings" before the suffix tries.
+- **CI repair** (the GitHub workflow was failing in two jobs): (1) `browser-smoke` never installed the Playwright package that `smoke.mjs` imports and ran the standalone server without `.next/static` and `public`, so the page could not load; the job now installs Playwright, copies both folders (as the Dockerfile does) and starts the stub API, and I ran that exact flow locally (433 of 433). (2) `api`: `MigrationIT` starts the whole Spring context, but `auth.token-secret` has no default on purpose, so the context could not start; the test now supplies a throwaway secret and the job sets `AUTH_TOKEN_SECRET`. The Spring change could not be run here (Maven Central is blocked), so it is verified only when you push. `setup-java` moved to v5.
+- Not done: engagement and the AI tutor (next, in that order), syncing solved practice marks.

@@ -9,6 +9,7 @@ export interface TrieNodeLayout {
   readonly id: string;
   readonly label: string;
   readonly count: number;
+  readonly end: boolean;
   readonly x: number;
   readonly y: number;
   readonly depth: number;
@@ -52,7 +53,7 @@ export function layoutTrie(state: TrieState): TrieLayout {
       const xs = kids.map((c) => place(c, depth + 1));
       x = (xs[0]! + xs[xs.length - 1]!) / 2;
     }
-    pos.set(id, { id, label: node.label, count: node.count, x, y: T_PAD + depth * T_Y, depth });
+    pos.set(id, { id, label: node.label, count: node.count, end: node.end === true, x, y: T_PAD + depth * T_Y, depth });
     return x;
   };
   if (state.root !== null && byId.has(state.root)) place(state.root, 0);

@@ -22,11 +22,11 @@ export function TrieView({ step }: { step: ExecutionStep<"trie"> }) {
     <div className="space-y-3">
       <section aria-labelledby="word-heading" className="rounded-xl border border-border bg-surface p-3">
         <h2 id="word-heading" className="mb-2 text-sm font-bold">
-          Suffix being inserted
+          Word being walked
         </h2>
         {state.position === null ? (
           <p className="text-sm text-muted" data-testid="trie-word-empty">
-            None right now
+            Nothing right now
           </p>
         ) : (
           <p className="flex flex-wrap gap-1 font-mono text-base" data-testid="trie-word" aria-label={`${state.word}, ${state.position} of ${letters.length} letters done`}>
@@ -63,6 +63,7 @@ export function TrieView({ step }: { step: ExecutionStep<"trie"> }) {
             const strong = r.role === "active" || r.role === "found";
             return (
               <g key={n.id} data-node-id={n.id} data-role={r.role} data-changed={changed.has(n.id) ? "true" : undefined}>
+                {n.end && <circle cx={n.x} cy={n.y} r={TR + 4} fill="none" stroke={stroke} strokeWidth={1.5} data-end="true" />}
                 <circle cx={n.x} cy={n.y} r={TR} fill={fill} stroke={stroke} strokeWidth={strong ? 3 : 1.5} strokeDasharray={r.role === "pointer" ? "4 3" : undefined} />
                 {n.depth === 0 ? (
                   <text x={n.x} y={n.y} textAnchor="middle" dominantBaseline="central" fontSize={9} fontWeight={700} fill="var(--text)">

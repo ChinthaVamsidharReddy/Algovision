@@ -13,13 +13,13 @@ import { parseText, type Txt } from "./interview-strings";
 export const DISTINCT_ID = "trie-distinct-substrings";
 export const REPEATED_ID = "longest-repeated-substring";
 
-interface Node { id: string; label: string; count: number; children: string[] }
+export interface Node { id: string; label: string; count: number; children: string[]; end?: boolean }
 type Mark = { id: string; role: HighlightRole; label?: string };
 
 const parseT = (raw: unknown, limits: LimitProfile) => parseText(raw, limits) as InputResult<Txt>;
 const q = (s: string): string => `"${s}"`;
 
-class Trie {
+export class Trie {
   readonly nodes: Node[] = [{ id: "n0", label: "", count: 0, children: [] }];
   /** Root-to-current walk of the suffix being inserted. */
   path: string[] = ["n0"];
@@ -28,8 +28,10 @@ class Trie {
   readonly b: TraceBuilder<"trie">;
   private readonly byId = new Map<string, Node>([["n0", this.nodes[0]!]]);
 
-  constructor(id: string, s: string, limits: LimitProfile) {
-    this.b = new TraceBuilder({ algorithmId: id, stateKind: "trie", input: { s }, maxSteps: limits.maxSteps });
+  /** Word tries mark the end of each stored word, so every node then carries an `end` flag. */
+  constructor(id: string, input: Record<string, unknown>, limits: LimitProfile, private readonly marksEnds = false) {
+    this.b = new TraceBuilder({ algorithmId: id, stateKind: "trie", input, maxSteps: limits.maxSteps });
+    if (marksEnds) this.nodes[0]!.end = false;
   }
   get current(): string { return this.path[this.path.length - 1]!; }
   node(id: string): Node { return this.byId.get(id)!; }
@@ -37,7 +39,7 @@ class Trie {
     return this.node(id).children.map((c) => this.node(c)).find((c) => c.label === ch);
   }
   create(parent: string, ch: string): Node {
-    const n: Node = { id: `n${this.nodes.length}`, label: ch, count: 0, children: [] };
+    const n: Node = { id: `n${this.nodes.length}`, label: ch, count: 0, children: [], ...(this.marksEnds ? { end: false } : {}) };
     this.nodes.push(n);
     this.byId.set(n.id, n);
     const p = this.node(parent);
@@ -67,7 +69,7 @@ class Trie {
  * otherwise the answer is the number of nodes created (distinct substrings).
  */
 function run(id: string, s: string, limits: LimitProfile, countVisits: boolean): ExecutionTrace {
-  const T = new Trie(id, s, limits);
+  const T = new Trie(id, { s }, limits);
   const n = s.length;
   let created = 0;
   let best = 0;

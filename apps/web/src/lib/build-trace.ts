@@ -1,4 +1,4 @@
-import { parseInt10, parseIntList, runAlgorithm, type AlgorithmContent, type LimitProfile } from "@algovision/algorithms";
+import { formatOps, parseInt10, parseIntList, parseOpsText, runAlgorithm, type AlgorithmContent, type LimitProfile } from "@algovision/algorithms";
 import { validateTrace, type ExecutionTrace } from "@algovision/trace-schema";
 
 export type InputTexts = Readonly<Record<string, string>>;
@@ -21,6 +21,10 @@ export function buildTrace(content: AlgorithmContent, texts: InputTexts, limits:
       const rows = text.split(/[\s,;]+/).filter((row) => row.length > 0);
       if (rows.some((row) => !/^[0-9]+$/.test(row))) errors[spec.name] = "Write each row as digits, with rows separated by commas or spaces, for example 110, 011.";
       else raw[spec.name] = rows.map((row) => [...row].map(Number));
+    } else if (spec.kind === "ops") {
+      const r = parseOpsText(text, spec.ops ?? [], { maxOps: limits.maxArrayLength, maxAbs: limits.maxAbsValue });
+      if (r.ok) raw[spec.name] = r.value;
+      else errors[spec.name] = r.message;
     } else if (spec.kind === "intList") {
       const r = parseIntList(text);
       if (r.ok) raw[spec.name] = r.values;
@@ -51,7 +55,7 @@ export function defaultTexts(content: AlgorithmContent): Record<string, string> 
   const out: Record<string, string> = {};
   for (const spec of content.meta.inputs) {
     const v = content.meta.defaultInput[spec.name];
-    out[spec.name] = spec.kind === "grid" && Array.isArray(v) ? v.map((row) => (row as number[]).join("")).join(", ") : Array.isArray(v) ? v.join(", ") : String(v ?? "");
+    out[spec.name] = spec.kind === "ops" && Array.isArray(v) ? formatOps(v as number[], spec.ops ?? []) : spec.kind === "grid" && Array.isArray(v) ? v.map((row) => (row as number[]).join("")).join(", ") : Array.isArray(v) ? v.join(", ") : String(v ?? "");
   }
   return out;
 }
