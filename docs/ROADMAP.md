@@ -65,7 +65,7 @@ Platform
 | 13 | Heaps, tries and advanced trees (parts 1 and 2 delivered: heaps, AVL, Fenwick, segment tree, Kruskal MST, SCC; trie delivered in milestone 14 as a suffix trie; LRU cache and the word trie delivered in milestone 15) | Heap visual, top-K, trie, segment tree, Fenwick, AVL, MST, SCC, LRU | about 25 |
 | 14 | Trie state (delivered: schema 1.5.0 trie state, distinct substrings, longest repeated substring) | Trie view with labelled edges, suffix tries | 2 |
 | 15 | Operation lists (delivered: input kind ops, LRU cache, word trie) | Operation-list input, LRU cache, trie insert/search/prefix | 2 |
-| 16 | Engagement | Streaks, XP, badges, spaced repetition, notes, certificates | features |
+| 16 | Engagement (delivered: level, streak, badges, path certificates) | Streaks, XP, badges, spaced repetition, notes, certificates | features |
 | 17 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
 | 18 | Hardening and reach | PWA, i18n, admin tool, analytics, teacher role, load test | features |
 

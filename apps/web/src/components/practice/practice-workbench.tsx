@@ -34,7 +34,7 @@ export function PracticeWorkbench({ id, title, adapter, fns, starters, vectors }
   // Restore saved drafts after hydration (the server renders the starter code).
   useEffect(() => {
     setCodes((c) => ({ javascript: readDraft(id, "javascript") ?? c.javascript, python: readDraft(id, "python") ?? c.python }));
-    setSolved(readDraft(id, "solved") === "1");
+    setSolved(Boolean(readDraft(id, "solved")));
   }, [id]);
   useEffect(
     () => () => {

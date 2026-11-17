@@ -1,3 +1,4 @@
+import { recordToday } from "./activity-log";
 import { ApiError } from "./api";
 import type { AuthClient } from "./auth-client";
 
@@ -89,6 +90,7 @@ export class LearningClient {
     this.viewed.add(slug);
     const gen = this.generation;
     const stamp = new Date(this.now()).toISOString();
+    recordToday(new Date(this.now()));
     try {
       await this.auth.request(`/api/v1/algorithms/${slug}/view`, { method: "POST", body: language ? { language } : {} });
       if (gen !== this.generation) return;
@@ -108,6 +110,7 @@ export class LearningClient {
     const gen = this.generation;
     const before = this.state.progress.get(slug);
     const stamp = new Date(this.now()).toISOString();
+    recordToday(new Date(this.now()));
     this.mark(slug, true);
     this.putProgress({
       algorithmSlug: slug,

@@ -189,7 +189,7 @@ describe("workspace actions", () => {
 describe("dashboard", () => {
   it("shows overall and per-topic progress, a resume link and completed items", async () => {
     const s = { ...fresh(), progress: [entry("bubble-sort", "COMPLETED"), entry("linear-search", "IN_PROGRESS")] };
-    await mount(<Dashboard cards={cards} />, s);
+    await mount(<Dashboard cards={cards} paths={[]} />, s);
     expect(await screen.findByRole("heading", { name: "My learning" })).toBeInTheDocument();
     expect(screen.getByRole("progressbar", { name: "Overall progress" })).toBeInTheDocument();
     expect(screen.getByRole("progressbar", { name: "Sorting" })).toHaveAttribute("aria-valuenow");
@@ -198,13 +198,13 @@ describe("dashboard", () => {
   });
 
   it("a brand-new learner gets a clear first step", async () => {
-    await mount(<Dashboard cards={cards} />, fresh());
+    await mount(<Dashboard cards={cards} paths={[]} />, fresh());
     expect(await screen.findByText(/You have not started anything yet/)).toBeInTheDocument();
   });
 
   it("shows an error with retry when progress cannot be loaded", { timeout: 20_000 }, async () => {
     const s = { ...fresh(), failLoad: true };
-    await mount(<Dashboard cards={cards} />, s);
+    await mount(<Dashboard cards={cards} paths={[]} />, s);
     expect(await screen.findByText("Could not load your progress", undefined, { timeout: 10_000 })).toBeInTheDocument();
     s.failLoad = false;
     await userEvent.click(screen.getByRole("button", { name: "Try again" }));

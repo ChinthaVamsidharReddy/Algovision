@@ -135,7 +135,7 @@ describe("practice workbench", () => {
     await waitFor(() => expect(screen.getByTestId("practice-summary")).toHaveTextContent("3 of 3 tests passed."));
     expect(screen.getAllByText(/Passed/)).toHaveLength(3);
     expect(screen.getByText("✓ Solved")).toBeInTheDocument();
-    expect(readDraft("demo", "solved")).toBe("1");
+    expect(readDraft("demo", "solved")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it("shows wrong answers and errors per test and does not mark solved", async () => {

@@ -1,3 +1,5 @@
+import { localDay, recordToday } from "../activity-log";
+
 /** Drafts and solved marks live only in this browser. Every access is guarded: storage can be blocked or full. */
 const codeKey = (id: string, lang: string) => `algovision.code.${id}.${lang}`;
 const solvedKey = (id: string) => `algovision.solved.${id}`;
@@ -16,15 +18,28 @@ export function writeDraft(id: string, lang: string, code: string): void {
     /* storage unavailable: the draft just is not kept */
   }
 }
-export function markSolved(id: string): void {
+/** Stores the local day it was first solved ("1" in marks saved by older versions: solved, day unknown). */
+export function markSolved(id: string, day: string = localDay(new Date())): void {
   try {
-    localStorage.setItem(solvedKey(id), "1");
+    if (localStorage.getItem(solvedKey(id))) return;
+    localStorage.setItem(solvedKey(id), day);
+    recordToday();
   } catch {
     /* ignore */
   }
 }
 export function solvedIds(ids: readonly string[]): Set<string> {
   const out = new Set<string>();
-  for (const id of ids) if (readDraft(id, "solved") === "1") out.add(id);
+  for (const id of ids) if (readDraft(id, "solved")) out.add(id);
+  return out;
+}
+
+/** Every solved mark with the day it was made (null when unknown). */
+export function solvedMarks(ids: readonly string[]): { id: string; date: string | null }[] {
+  const out: { id: string; date: string | null }[] = [];
+  for (const id of ids) {
+    const v = readDraft(id, "solved");
+    if (v) out.push({ id, date: /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null });
+  }
   return out;
 }

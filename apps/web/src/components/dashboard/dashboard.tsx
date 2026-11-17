@@ -9,24 +9,24 @@ import { RequireAuth } from "../auth/require-auth";
 import { useAuth } from "../auth/auth-provider";
 import { useLearning, useLearningClient } from "../learning/learning-provider";
 import { ProgressBar } from "../learning/progress-bar";
+import { EngagementPanel } from "./engagement-panel";
+import type { PathSteps } from "@/lib/engagement";
 
-export function Dashboard({ cards }: { cards: CatalogCard[] }) {
+export function Dashboard({ cards, paths }: { cards: CatalogCard[]; paths: PathSteps[] }) {
   return (
     <RequireAuth returnTo="/dashboard" what="your learning progress">
-      <Inner cards={cards} />
+      <Inner cards={cards} paths={paths} />
     </RequireAuth>
   );
 }
 
-function Inner({ cards }: { cards: CatalogCard[] }) {
+function Inner({ cards, paths }: { cards: CatalogCard[]; paths: PathSteps[] }) {
   const auth = useAuth();
   const learning = useLearning();
   const client = useLearningClient();
   const byId = useMemo(() => new Map(cards.map((c) => [c.id, c])), [cards]);
-  const summary = useMemo(
-    () => summarize(groupCards(cards).map((g) => ({ id: g.categoryId, name: g.categoryName, ids: g.cards.map((c) => c.id) })), learning.progress),
-    [cards, learning.progress],
-  );
+  const groups = useMemo(() => groupCards(cards).map((g) => ({ id: g.categoryId, name: g.categoryName, ids: g.cards.map((c) => c.id) })), [cards]);
+  const summary = useMemo(() => summarize(groups, learning.progress), [groups, learning.progress]);
   const name = auth.status === "authenticated" ? auth.user.fullName.split(" ")[0] : "";
 
   if (learning.status === "idle" || learning.status === "loading") {
@@ -82,6 +82,8 @@ function Inner({ cards }: { cards: CatalogCard[] }) {
           </p>
         )}
       </section>
+
+      <EngagementPanel groups={groups} paths={paths} />
 
       {resume && (
         <section aria-labelledby="resume" className="space-y-2 rounded-xl border border-border bg-surface p-5">

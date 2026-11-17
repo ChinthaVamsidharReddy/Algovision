@@ -12,8 +12,11 @@ import { createServer } from "node:http";
 import { randomBytes, randomUUID, createHash } from "node:crypto";
 
 const port = Number(process.argv[2] ?? 8099);
-const ALLOWED = new Set(["http://localhost:3100", "http://127.0.0.1:3100"]);
-const SLUGS = new Set(["linked-list-insert-head", "linear-search", "binary-search", "bubble-sort", "stack-push-pop", "queue-enqueue-dequeue", "binary-tree-inorder", "selection-sort", "insertion-sort", "linked-list-insert-tail"]);
+const ALLOWED = new Set(["http://localhost:3100", "http://127.0.0.1:3100", "http://localhost:3000", "http://127.0.0.1:3000"]);
+// The real API knows every catalog algorithm; the stub knows a few, or all of them when STUB_ALL_SLUGS=1 (engagement E2E).
+const ALL = process.env.STUB_ALL_SLUGS === "1";
+const KNOWN = new Set(["linked-list-insert-head", "linear-search", "binary-search", "bubble-sort", "stack-push-pop", "queue-enqueue-dequeue", "binary-tree-inorder", "selection-sort", "insertion-sort", "linked-list-insert-tail"]);
+const SLUGS = { has: (slug) => ALL ? /^[a-z0-9-]+$/.test(slug) : KNOWN.has(slug) };
 const users = new Map(); // email -> user
 const refresh = new Map(); // hash -> {userId, family, rotated, revoked}
 const resets = new Map(); // hash -> {userId, used, expires}

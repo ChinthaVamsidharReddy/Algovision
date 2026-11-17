@@ -32,7 +32,12 @@ export function PathView({ path }: { path: PathData }) {
             </Link>
           </div>
         ) : (
-          <p className="font-semibold text-success">You have completed every algorithm on this path.</p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="font-semibold text-success">You have completed every algorithm on this path.</p>
+            <Link href={`/paths/${path.id}/certificate`} className="inline-flex min-h-11 items-center rounded-lg bg-accent px-5 font-semibold text-accent-fg">
+              Get your certificate
+            </Link>
+          </div>
         )}
         {!signedIn && (
           <p className="mt-3 text-sm text-muted">
