@@ -56,6 +56,9 @@ export function MobileMenu() {
             <Link href="/practice" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
               Practice
             </Link>
+            <Link href="/review" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
+              Review
+            </Link>
             <Link href="/compare" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
               Compare
             </Link>

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { getAlgorithm, listAlgorithms } from "@algovision/algorithms";
 import { Workspace, WorkspaceSkeleton } from "@/components/workspace/workspace";
 import { AlgorithmExtras } from "@/components/learning/algorithm-extras";
+import { NotesBox } from "@/components/learning/notes-box";
 import { extrasFor } from "@/lib/learning-data";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -29,6 +30,7 @@ export default async function AlgorithmPage({ params }: Props) {
         <Workspace algorithmId={slug} />
       </Suspense>
       <AlgorithmExtras id={slug} extras={extrasFor(slug)} />
+      <NotesBox id={slug} />
     </>
   );
 }

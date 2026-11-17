@@ -43,6 +43,14 @@ export default tseslint.config(
     },
   },
   {
+    // The offline service worker: a plain script with service-worker globals.
+    files: ["apps/web/public/sw.js"],
+    languageOptions: {
+      sourceType: "script",
+      globals: { self: "readonly", caches: "readonly", fetch: "readonly", URL: "readonly", Response: "readonly" },
+    },
+  },
+  {
     // e2e scripts run in Node but pass functions to page.evaluate, which execute in the browser.
     files: ["apps/web/e2e/**/*.mjs"],
     languageOptions: {

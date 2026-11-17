@@ -30,6 +30,9 @@ export function SiteHeader({ cards }: { cards: CatalogCard[] }) {
           <Link href="/practice" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
             Practice
           </Link>
+          <Link href="/review" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
+            Review
+          </Link>
           <Link href="/compare" className="rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-fg">
             Compare
           </Link>

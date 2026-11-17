@@ -6,12 +6,15 @@ import { LearningProvider } from "@/components/learning/learning-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { catalogCards } from "@/lib/catalog-cards";
 import { SiteHeader } from "@/components/site-header";
+import { PwaRegister } from "@/components/pwa-register";
 import { WakeBanner } from "@/components/wake-banner";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: `${brand.name} - ${brand.tagline}`, template: `%s | ${brand.name}` },
   description: brand.description,
+  icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
+  appleWebApp: { capable: true, title: brand.name, statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -39,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
+        <PwaRegister />
         <AuthProvider>
           <LearningProvider>
           <SiteHeader cards={catalogCards()} />
