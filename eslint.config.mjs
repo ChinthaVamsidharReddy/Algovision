@@ -65,6 +65,7 @@ export default tseslint.config(
         localStorage: "readonly",
         URL: "readonly",
         Buffer: "readonly",
+        navigator: "readonly",
       },
     },
   },

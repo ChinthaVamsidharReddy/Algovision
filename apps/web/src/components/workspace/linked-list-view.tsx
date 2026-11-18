@@ -24,7 +24,7 @@ export function LinkedListView({ step }: { step: LinkedListStep }) {
 
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Visualization, scrolls sideways when wide">
         <svg
           role="img"
           aria-label={`Linked list. ${description}`}

@@ -41,7 +41,7 @@ export function StackView({ step }: { step: ExecutionStep<"stack"> }) {
 
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Visualization, scrolls sideways when wide">
         <svg role="img" aria-label={`Stack. ${description}`} viewBox={`0 0 ${width} ${height}`} width={width} height={height} className="mx-auto block max-w-none">
           <line x1={PAD - 6} y1={PAD} x2={PAD - 6} y2={height - PAD + 4} stroke="var(--text)" strokeWidth={3} />
           <line x1={PAD - 6} y1={height - PAD + 4} x2={PAD + CELL_W + 6} y2={height - PAD + 4} stroke="var(--text)" strokeWidth={3} />
@@ -84,7 +84,7 @@ export function QueueView({ step }: { step: ExecutionStep<"queue"> }) {
 
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Visualization, scrolls sideways when wide">
         <svg role="img" aria-label={`Queue. ${description}`} viewBox={`0 0 ${width} ${height}`} width={width} height={height} className="mx-auto block max-w-none" style={{ minWidth: width }}>
           {items.map((value, i) => {
             const r = roleAt(step.highlights, i);

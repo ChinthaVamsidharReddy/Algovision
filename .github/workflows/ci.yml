@@ -56,7 +56,7 @@ jobs:
           (cd apps/web && STUB_ALL_SLUGS=1 node e2e/stub-api.mjs > /tmp/stub.log 2>&1 &)
           (cd apps/web/.next/standalone/apps/web && node server.js > /tmp/web.log 2>&1 &)
           for i in $(seq 1 30); do curl -sf http://localhost:3000/ > /dev/null && break; sleep 1; done
-          cd apps/web && export NODE_PATH=$(npm root -g) && node e2e/smoke.mjs http://localhost:3000 e2e-output && node e2e/engagement.mjs http://localhost:3000 && node e2e/offline.mjs http://localhost:3000
+          cd apps/web && export NODE_PATH=$(npm root -g) && node e2e/smoke.mjs http://localhost:3000 e2e-output && node e2e/engagement.mjs http://localhost:3000 && node e2e/offline.mjs http://localhost:3000 && node e2e/story.mjs http://localhost:3000
         env:
           PORT: "3000"
           HOSTNAME: 127.0.0.1

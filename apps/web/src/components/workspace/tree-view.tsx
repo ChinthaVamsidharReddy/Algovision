@@ -21,7 +21,7 @@ export function TreeView({ step }: { step: ExecutionStep<"tree"> }) {
 
   return (
     <div className="space-y-3">
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Visualization, scrolls sideways when wide">
         <svg
           role="img"
           aria-label={`Binary tree. ${description}`}

@@ -22,7 +22,7 @@ export function GraphView({ step }: { step: ExecutionStep<"graph"> }) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Graph visualization">
         <svg role="img" aria-label={`Graph. ${description}`} viewBox={`0 0 ${layout.size} ${layout.size}`} className="mx-auto block h-auto w-full max-w-[420px]">
           <defs>
             <marker id="graph-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

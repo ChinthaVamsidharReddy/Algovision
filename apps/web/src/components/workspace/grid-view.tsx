@@ -10,7 +10,7 @@ export function GridView({ step }: { step: GridStep }) {
   const changed = new Set(step.changed.flatMap((c) => (c.kind === "index" ? [c.index] : [])));
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface" data-testid="viz-scroll" tabIndex={0} role="region" aria-label="Visualization, scrolls sideways when wide">
         <svg role="img" aria-label={`Grid. ${description}`} viewBox={`0 0 ${layout.width} ${layout.height}`} width={layout.width} height={layout.height} className="mx-auto block max-w-none" style={{ minWidth: layout.width }}>
           {layout.colHeaders.map((h, i) => (
             <text key={`c${i}`} x={h.x} y={30} textAnchor="middle" fontSize={13} fontWeight={700} fill="var(--muted)">
