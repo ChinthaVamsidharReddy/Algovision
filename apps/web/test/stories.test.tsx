@@ -111,6 +111,98 @@ describe("the story always agrees with the algorithm's real answer", () => {
   });
 });
 
+describe("batch 2: each story agrees with the algorithm's real answer", () => {
+  const lastFrame = (id: string, input: unknown) => {
+    const trace = traceOf(id, input);
+    return storyFor(id)!.frame(trace.steps[trace.steps.length - 1]! as ExecutionStep<"array">, trace);
+  };
+
+  it("binary-search reports the right book, or that it is absent", () => {
+    for (const v of vectors("binary-search")) {
+      const f = lastFrame("binary-search", v.input);
+      const target = (v.input as { target: number }).target;
+      if (v.expected === -1) expect(f.banner, v.name).toEqual({ kind: "bad", text: `${target} is not on the shelf.` });
+      else expect(f.banner, v.name).toEqual({ kind: "good", text: `Found ${target} on book ${(v.expected as number) + 1}.` });
+    }
+  });
+
+  it("binary-search only crosses out books outside the flags, and the peek is inside them", () => {
+    const trace = traceOf("binary-search", { values: [2, 5, 8, 12, 16, 23, 38], target: 23 });
+    const story = storyFor("binary-search")!;
+    for (const step of trace.steps) {
+      const f = story.frame(step as ExecutionStep<"array">, trace);
+      const low = step.variables.find((x) => x.name === "low")?.value as number | undefined;
+      const high = step.variables.find((x) => x.name === "high")?.value as number | undefined;
+      if (low === undefined || high === undefined) continue;
+      f.cells.forEach((c, i) => expect(c.tone === "dim", `step ${step.index} cell ${i}`).toBe(i < low || i > high));
+    }
+  });
+
+  it("dutch-national-flag ends with the socks in the expected order and every cell marked done", () => {
+    const EMOJI = ["🔴", "⚪", "🔵"];
+    for (const v of vectors("dutch-national-flag")) {
+      const f = lastFrame("dutch-national-flag", v.input);
+      expect(f.cells.map((c) => c.main), v.name).toEqual((v.expected as number[]).map((x) => EMOJI[x]));
+      expect(f.cells.every((c) => c.tone === "good"), v.name).toBe(true);
+      expect(f.banner?.kind, v.name).toBe("good");
+    }
+  });
+
+  it("dutch-national-flag zones are consistent: done zones hold the right colours at every step", () => {
+    const trace = traceOf("dutch-national-flag", { values: [2, 0, 2, 1, 1, 0, 1] });
+    const story = storyFor("dutch-national-flag")!;
+    for (const step of trace.steps) {
+      const low = step.variables.find((x) => x.name === "low")?.value as number | undefined;
+      const mid = step.variables.find((x) => x.name === "mid")?.value as number | undefined;
+      const high = step.variables.find((x) => x.name === "high")?.value as number | undefined;
+      const src = step.source;
+      if (low === undefined || mid === undefined || high === undefined || (src.kind === "anchor" && src.id === "finish")) continue;
+      const vals = step.state.values;
+      for (let i = 0; i < vals.length; i++) {
+        if (i < low) expect(vals[i], `step ${step.index} red zone`).toBe(0);
+        else if (i < mid) expect(vals[i], `step ${step.index} white zone`).toBe(1);
+        else if (i > high) expect(vals[i], `step ${step.index} blue zone`).toBe(2);
+      }
+      story.frame(step as ExecutionStep<"array">, trace);
+    }
+  });
+
+  it("container-with-most-water names the expected best pond, and draws a strip per post", () => {
+    for (const v of vectors("container-with-most-water")) {
+      const f = lastFrame("container-with-most-water", v.input);
+      expect(f.banner, v.name).toEqual({ kind: "good", text: `The biggest pond holds ${v.expected}.` });
+    }
+    const trace = traceOf("container-with-most-water", { values: [1, 8, 6, 2, 5, 4, 8] });
+    const f = storyFor("container-with-most-water")!.frame(trace.steps[2] as ExecutionStep<"array">, trace);
+    expect(f.cells.map((c) => c.bar)).toEqual([1 / 8, 1, 6 / 8, 2 / 8, 5 / 8, 4 / 8, 1]);
+  });
+
+  it("container-with-most-water always moves the shorter post (in the story and in the trace)", () => {
+    const trace = traceOf("container-with-most-water", { values: [1, 8, 6, 2, 5, 4, 8, 3, 7] });
+    const steps = trace.steps;
+    for (let i = 1; i < steps.length; i++) {
+      const src = steps[i]!.source;
+      const id = src.kind === "anchor" ? src.id : "";
+      if (id !== "move-left" && id !== "move-right") continue;
+      const prev = steps[i - 1]!;
+      const l = prev.variables.find((x) => x.name === "left")!.value as number;
+      const r = prev.variables.find((x) => x.name === "right")!.value as number;
+      const vals = prev.state.values;
+      if (id === "move-left") expect(vals[l]!, `step ${i}`).toBeLessThan(vals[r]!);
+      else expect(vals[r]!, `step ${i}`).toBeLessThanOrEqual(vals[l]!);
+    }
+  });
+
+  it("reverse-in-place ends reversed, with the books in the expected order and no hands left", () => {
+    for (const v of vectors("reverse-in-place")) {
+      const f = lastFrame("reverse-in-place", v.input);
+      expect(f.cells.map((c) => c.main), v.name).toEqual((v.expected as number[]).map(String));
+      expect(f.actors, v.name).toEqual([]);
+      if ((v.expected as number[]).length > 0) expect(f.banner?.kind, v.name).toBe("good");
+    }
+  });
+});
+
 describe("story panel", () => {
   it("shows the situation, the cast, moves the actors with the steps, and the moral only at the end", () => {
     const trace = traceOf("find-duplicate-floyd", { values: [1, 3, 4, 2, 2] });
@@ -162,7 +254,7 @@ describe("the workspace", () => {
     expect(screen.getByTestId("state-text")).toBeInTheDocument();
   });
   it("shows no story panel for algorithms without one", () => {
-    render(<Workspace algorithmId="binary-search" />);
+    render(<Workspace algorithmId="bubble-sort" />);
     expect(screen.queryByTestId("story")).toBeNull();
   });
 });

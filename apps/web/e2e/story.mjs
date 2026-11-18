@@ -28,6 +28,10 @@ const CASES = [
   { id: "find-duplicate-floyd", query: "", final: /repeated number is 2/ },
   { id: "two-sum-sorted", query: "", final: /exactly 10/ },
   { id: "is-palindrome-string", query: "", final: /perfect mirror/i },
+  { id: "binary-search", query: "", final: /Found 23 on book 6/ },
+  { id: "dutch-national-flag", query: "", final: /all reds, then whites, then blues/ },
+  { id: "container-with-most-water", query: "", final: /biggest pond holds 40/ },
+  { id: "reverse-in-place", query: "", final: /shelf is reversed/ },
 ];
 const browser = await chromium.launch();
 for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["phone", { width: 375, height: 800 }]]) {

@@ -18,6 +18,8 @@ export interface StoryCell {
   /** Small text under it (an index, a sign, a label). */
   sub?: string;
   tone: Tone;
+  /** 0 to 1: draws a small strip at the foot of the cell, as long as the value is tall (heights, sizes). */
+  bar?: number;
 }
 export interface StoryActor {
   id: string;

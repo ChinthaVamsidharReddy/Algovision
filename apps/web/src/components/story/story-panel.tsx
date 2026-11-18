@@ -121,7 +121,10 @@ export function StoryPanel({ story, step, trace }: { story: Story; step: Executi
                       style={{ width: CELL, height: CELL, background: t.fill, border: `2px solid ${t.stroke}`, color: t.text, borderStyle: c.tone === "dim" ? "dashed" : "solid" }}
                     >
                       <span className={`text-lg font-bold ${t.strike ? "line-through" : ""}`}>{c.main}</span>
-                      {c.sub && (
+                      {c.bar !== undefined && (
+                      <span aria-hidden="true" className="mt-0.5 block h-1.5 rounded-full" style={{ width: `${Math.max(8, Math.min(1, c.bar) * 100)}%`, background: t.stroke }} />
+                    )}
+                    {c.sub && (
                         <span className="text-[11px]" style={{ color: "var(--muted)" }}>
                           {c.sub}
                         </span>

@@ -230,3 +230,10 @@ You asked me to decide based on how the application is built, so the decisions w
 - **Authoring rule for later stories:** pick an everyday situation where each variable has a character, state what every branch means in the story, and always add the "In the code" line. Stories for array-state algorithms only for now; other state kinds need their own scene layout.
 - Not done: stories for the remaining algorithms (next batches), non-array scenes (linked lists, trees, graphs), story-based quiz questions.
 
+### Story mode, batch 2 (seven stories in total)
+
+- Added `binary-search` (The Phone Book Trick: start and end flags, a peek in the middle, thrown-away halves crossed out), `dutch-national-flag` (Sorting the Sock Pile: red slot, sorter, blue slot; red, white and blue socks; finished zones turn green), `container-with-most-water` (The Farmer's Pond: two posts, a strip under each post showing its height, running best pond) and `reverse-in-place` (Flipping the Bookshelf: two hands swapping the outer pair and stepping inward).
+- Small generic addition: an optional `bar` on a story cell draws a strip at the foot of the cell (heights, sizes).
+- Extra tests beyond "clean text": the final frame equals each vector's expected answer (book number or absent, sorted colours, best area, reversed order), crossed-out books are exactly those outside the flags, the sock zones really hold the right colours at every step, and the post moved is always the shorter one.
+- Still array-state only. Candidates for the next batches: sliding-window maximum, two-sum with a hash map, move zeroes, remove duplicates, the sorts (bubble, selection, insertion), then linked-list and graph scene layouts.
+
