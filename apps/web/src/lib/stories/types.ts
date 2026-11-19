@@ -45,6 +45,8 @@ export interface StoryFrame {
   /** What the story's step means for the program, one short line. */
   inCode?: string;
   meter?: StoryMeter;
+  /** A running note under the scene, such as the shopkeeper's notebook or the totals so far. */
+  board?: { label: string; text: string };
   banner?: { kind: "good" | "bad" | "info"; text: string };
 }
 export interface CastMember {
@@ -53,7 +55,7 @@ export interface CastMember {
   /** The variable or idea it stands for in the code. */
   means: string;
 }
-export interface Story {
+export interface StoryMeta {
   /** The algorithm id this story belongs to. */
   id: string;
   title: string;
@@ -63,7 +65,36 @@ export interface Story {
   cast: CastMember[];
   /** The one line to remember, shown when the run ends. */
   moral: string;
+}
+/** A story told over a row of cells (the array algorithms). */
+export interface Story extends StoryMeta {
+  kind?: "array";
   frame(step: ExecutionStep<"array">, trace: ArrayTrace): StoryFrame;
+}
+
+/** Where a character stands on a chain: at a node (by id) or past the last node (where a null pointer points). */
+export interface ChainActor {
+  id: string;
+  emoji: string;
+  name: string;
+  node: string | "end";
+}
+export interface ChainFrame {
+  /** Colour per node id; nodes not listed are plain. */
+  tones: Record<string, Tone>;
+  actors: ChainActor[];
+  says: string;
+  inCode?: string;
+  banner?: { kind: "good" | "bad" | "info"; text: string };
+  board?: { label: string; text: string };
+}
+export interface LinkedListTrace {
+  readonly steps: readonly ExecutionStep<"linkedList">[];
+}
+/** A story told over a chain of nodes (the linked-list algorithms). */
+export interface ChainStory extends StoryMeta {
+  kind: "linkedList";
+  frame(step: ExecutionStep<"linkedList">, trace: LinkedListTrace): ChainFrame;
 }
 
 /** The value of a named variable at this step, or null when it is not set yet. */
@@ -73,4 +104,25 @@ export function variable(step: ExecutionStep, name: string): number | null {
 }
 export function anchorOf(step: ExecutionStep): string {
   return step.source.kind === "anchor" ? step.source.id : "";
+}
+
+/** Node ids in list order, starting at `from` (the head by default), stopping at null or a repeat. */
+export function chainIds(state: { nodes: readonly { id: string; next: string | null }[]; head: string | null }, from: string | null = state.head): string[] {
+  const byId = new Map(state.nodes.map((n) => [n.id, n]));
+  const ids: string[] = [];
+  let id = from;
+  while (id !== null && byId.has(id) && !ids.includes(id)) {
+    ids.push(id);
+    id = byId.get(id)!.next;
+  }
+  return ids;
+}
+/** The values along the list from the head, for example [1, 2, 3]. */
+export function chainValues(state: { nodes: readonly { id: string; value: number; next: string | null }[]; head: string | null }): number[] {
+  const byId = new Map(state.nodes.map((n) => [n.id, n]));
+  return chainIds(state).map((id) => byId.get(id)!.value);
+}
+/** The node a named pointer aims at: its id, null (points at nothing) or undefined (the pointer is not in use right now). */
+export function pointerOf(step: ExecutionStep<"linkedList">, name: string): string | null | undefined {
+  return Object.prototype.hasOwnProperty.call(step.state.pointers, name) ? step.state.pointers[name] : undefined;
 }

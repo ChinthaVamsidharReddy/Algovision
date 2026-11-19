@@ -32,6 +32,21 @@ const CASES = [
   { id: "dutch-national-flag", query: "", final: /all reds, then whites, then blues/ },
   { id: "container-with-most-water", query: "", final: /biggest pond holds 40/ },
   { id: "reverse-in-place", query: "", final: /shelf is reversed/ },
+  { id: "linear-search", query: "", final: /Found 4 in locker 4/ },
+  { id: "bubble-sort", query: "", final: /Sorted from shortest to tallest/ },
+  { id: "selection-sort", query: "", final: /Sorted from shortest to tallest/ },
+  { id: "insertion-sort", query: "", final: /The hand is sorted/ },
+  { id: "move-zeroes", query: "", final: /All passengers at the front/ },
+  { id: "remove-duplicates-sorted", query: "", final: /4 different values kept/ },
+  { id: "two-sum-hash", query: "", final: /Places 1 and 2 make 9/ },
+  { id: "kadane-max-subarray", query: "", final: /best streak earns 6/ },
+  // stories told over a chain of nodes (linked lists)
+  { id: "linked-list-reverse", query: "", final: /line is reversed/, chain: true },
+  { id: "linked-list-find-middle", query: "", final: /middle coach holds/, chain: true },
+  { id: "linked-list-remove-nth-from-end", query: "", final: /Removed the coach holding/, chain: true },
+  { id: "linked-list-search", query: "", final: /Found \d+ in coach number|not in the list/, chain: true },
+  { id: "linked-list-insert-head", query: "", final: /is now at the front/, chain: true },
+  { id: "linked-list-delete-value", query: "", final: /Removed the coach holding|nothing removed/, chain: true },
 ];
 const browser = await chromium.launch();
 for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["phone", { width: 375, height: 800 }]]) {
@@ -56,11 +71,13 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
       seen.add(says);
       if (/undefined|NaN|null|\[object/.test(says)) bad.push(`${i}: ${says}`);
       // actors standing on different cells must not cover each other
-      const boxes = await page.locator('[data-testid^="actor-"]').evaluateAll((els) => els.map((e) => ({ at: e.dataset.at, r: e.getBoundingClientRect() })));
+      const boxes = await page.locator('[data-testid^="actor-"]').evaluateAll((els) => els.map((e) => ({ at: e.dataset.at ?? e.dataset.node, r: e.getBoundingClientRect() })));
       for (let a = 0; a < boxes.length; a++) for (let b = a + 1; b < boxes.length; b++) {
         if (boxes[a].at !== boxes[b].at) {
           const x = Math.min(boxes[a].r.right, boxes[b].r.right) - Math.max(boxes[a].r.left, boxes[b].r.left);
-          if (x > 6) overlapIssues.push(`step ${i}: ${x.toFixed(0)}px`);
+          // chains can have several rows (detached nodes sit above), so characters only collide when they overlap on both axes
+          const y = Math.min(boxes[a].r.bottom, boxes[b].r.bottom) - Math.max(boxes[a].r.top, boxes[b].r.top);
+          if (x > 6 && y > 6) overlapIssues.push(`step ${i}: ${x.toFixed(0)}x${y.toFixed(0)}px`);
         }
       }
       if (shots && i === Math.min(5, total - 2)) await page.screenshot({ path: `${shots}/${label}-${c.id}-mid.png`, fullPage: false });
@@ -73,9 +90,13 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
     if (shots) await page.screenshot({ path: `${shots}/${label}-${c.id}-end.png`, fullPage: false });
     const pageScroll = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${tag}: no sideways scrolling of the page`, !pageScroll);
-    if (label === "phone") {
-      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), sideways: el.scrollWidth > el.clientWidth + 1 }));
-      check(`${tag}: the scene shrinks to fit the phone, so both characters stay in view`, fit.scale < 1 && !fit.sideways, JSON.stringify(fit));
+    if (label === "phone" && c.chain) {
+      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), nodes: el.querySelectorAll('[data-testid="story-node"]').length, focusable: el.tabIndex === 0 }));
+      check(`${tag}: the chain scene scales down on the phone and stays reachable`, fit.nodes > 0 && fit.scale <= 1 && fit.focusable, JSON.stringify(fit));
+    } else if (label === "phone") {
+      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), sideways: el.scrollWidth > el.clientWidth + 1, cells: el.querySelectorAll('[data-testid="story-cell"]').length, focusable: el.tabIndex === 0 }));
+      // Up to 7 cells fit a 375px phone at a readable size; wider scenes scroll sideways in a keyboard-focusable area.
+      check(`${tag}: the scene fits the phone (up to 7 cells) or scrolls in a focusable area`, fit.cells <= 7 ? fit.scale < 1 && !fit.sideways : fit.focusable, JSON.stringify(fit));
     }
     await axeCheck(page, tag);
     // the standard visualization is still there

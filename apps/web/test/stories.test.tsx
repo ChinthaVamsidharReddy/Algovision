@@ -11,7 +11,14 @@ vi.mock("next/navigation", () => ({ useSearchParams: () => new URLSearchParams("
 
 import { StoryPanel } from "../src/components/story/story-panel";
 import { Workspace } from "../src/components/workspace/workspace";
-import { STORIES, storyFor } from "../src/lib/stories";
+import { STORIES, storyFor as anyStoryFor } from "../src/lib/stories";
+import type { Story } from "../src/lib/stories";
+
+/** The row-of-cells story for an algorithm (these tests drive it with array traces). */
+const storyFor = (id: string): Story | undefined => {
+  const s = anyStoryFor(id);
+  return s && s.kind !== "linkedList" ? s : undefined;
+};
 
 interface Vector { name: string; input: unknown; expected: unknown }
 const vectors = (id: string): Vector[] => JSON.parse(readFileSync(resolve(process.cwd(), "../../packages/algorithms/content", id, "vectors.json"), "utf8")) as Vector[];
@@ -203,6 +210,121 @@ describe("batch 2: each story agrees with the algorithm's real answer", () => {
   });
 });
 
+describe("batch 3: each story agrees with the algorithm's real answer", () => {
+  const lastFrame = (id: string, input: unknown) => {
+    const trace = traceOf(id, input);
+    return storyFor(id)!.frame(trace.steps[trace.steps.length - 1]! as ExecutionStep<"array">, trace);
+  };
+  const SORTS = ["bubble-sort", "selection-sort", "insertion-sort"];
+  for (const id of SORTS) {
+    it(`${id} ends sorted and every cell is marked done`, () => {
+      for (const v of vectors(id)) {
+        const f = lastFrame(id, v.input);
+        expect(f.cells.map((c) => c.main), `${id} ${v.name}`).toEqual((v.expected as number[]).map(String));
+        expect(f.cells.every((c) => c.tone === "good"), `${id} ${v.name}`).toBe(true);
+      }
+    });
+  }
+
+  it("bubble-sort: the settled (green) kids at the back really are in their final places at every step", () => {
+    const trace = traceOf("bubble-sort", { values: [5, 2, 9, 1, 6, 3] });
+    const sorted = [...(trace.steps[0]!.state.values as number[])].sort((x, y) => x - y);
+    for (const step of trace.steps) {
+      const f = storyFor("bubble-sort")!.frame(step as ExecutionStep<"array">, trace);
+      f.cells.forEach((c, i) => c.tone === "good" && expect(step.state.values[i], `step ${step.index}`).toBe(sorted[i]));
+    }
+  });
+
+  it("selection-sort: green cells (the settled front) are the smallest values, in order, at every step", () => {
+    const trace = traceOf("selection-sort", { values: [64, 25, 12, 22, 11, 90, 3] });
+    const sorted = [...(trace.steps[0]!.state.values as number[])].sort((x, y) => x - y);
+    for (const step of trace.steps) {
+      const f = storyFor("selection-sort")!.frame(step as ExecutionStep<"array">, trace);
+      f.cells.forEach((c, i) => c.tone === "good" && expect(step.state.values[i], `step ${step.index}`).toBe(sorted[i]));
+    }
+  });
+
+  it("insertion-sort: the green hand is always sorted, and the card in hand is shown", () => {
+    const trace = traceOf("insertion-sort", { values: [12, 11, 13, 5, 6] });
+    for (const step of trace.steps) {
+      const f = storyFor("insertion-sort")!.frame(step as ExecutionStep<"array">, trace);
+      const green = f.cells.map((c, i) => (c.tone === "good" ? step.state.values[i]! : null)).filter((x): x is number => x !== null);
+      expect(green, `step ${step.index}`).toEqual([...green].sort((x, y) => x - y));
+      const id = step.source.kind === "anchor" ? step.source.id : "";
+      if (id === "pick-key") expect(f.board?.label).toBe("Card in hand");
+    }
+  });
+
+  it("move-zeroes ends with the passengers first in order, the empty seats last", () => {
+    for (const v of vectors("move-zeroes")) {
+      const f = lastFrame("move-zeroes", v.input);
+      expect(f.cells.map((c) => c.main), v.name).toEqual((v.expected as number[]).map(String));
+      expect(f.cells.filter((c) => c.tone === "good").length, v.name).toBe((v.expected as number[]).filter((x) => x !== 0).length);
+    }
+  });
+
+  it("remove-duplicates-sorted keeps exactly the expected values", () => {
+    for (const v of vectors("remove-duplicates-sorted")) {
+      const f = lastFrame("remove-duplicates-sorted", v.input);
+      const kept = f.cells.filter((c) => c.tone === "good").map((c) => c.main);
+      expect(kept, v.name).toEqual((v.expected as number[]).map(String));
+      expect(f.cells.filter((c) => c.tone === "dim").length, v.name).toBe(f.cells.length - kept.length);
+    }
+  });
+
+  it("linear-search names the right locker or says it is missing", () => {
+    for (const v of vectors("linear-search")) {
+      const f = lastFrame("linear-search", v.input);
+      const target = (v.input as { target: number }).target;
+      if (v.expected === -1) expect(f.banner, v.name).toEqual({ kind: "bad", text: `${target} is not in any locker.` });
+      else expect(f.banner, v.name).toEqual({ kind: "good", text: `Found ${target} in locker ${(v.expected as number) + 1}.` });
+    }
+  });
+
+  it("two-sum-hash reports the expected pair, and the notebook only ever holds coins already passed", () => {
+    for (const v of vectors("two-sum-hash")) {
+      const f = lastFrame("two-sum-hash", v.input);
+      const e = v.expected as number[];
+      if (e.length === 2) expect(f.banner, v.name).toEqual({ kind: "good", text: `Places ${e[0]! + 1} and ${e[1]! + 1} make ${(v.input as { target: number }).target}.` });
+      else expect(f.banner?.kind, v.name).toBe("bad");
+    }
+    const trace = traceOf("two-sum-hash", { values: [4, 9, 4, 1, 7], target: 8 });
+    for (const step of trace.steps) {
+      const f = storyFor("two-sum-hash")!.frame(step as ExecutionStep<"array">, trace);
+      const j = step.variables.find((x) => x.name === "j")?.value;
+      const id = step.source.kind === "anchor" ? step.source.id : "";
+      if (typeof j !== "number" || !f.board) continue;
+      const places = [...f.board.text.matchAll(/place (\d+)/g)].map((m) => Number(m[1]) - 1);
+      for (const p of places) expect(p, `step ${step.index}`).toBeLessThanOrEqual(id === "store" ? j : j - 1);
+    }
+  });
+
+  it("kadane: the green best streak adds up to the expected sum, and agrees with the trace's own start and end", () => {
+    for (const v of vectors("kadane-max-subarray")) {
+      const trace = traceOf("kadane-max-subarray", v.input);
+      const last = trace.steps[trace.steps.length - 1]! as ExecutionStep<"array">;
+      const f = storyFor("kadane-max-subarray")!.frame(last, trace);
+      const nums = (v.input as { values: number[] }).values;
+      const green = f.cells.map((c, i) => (c.tone === "good" ? i : -1)).filter((i) => i >= 0);
+      expect(green.reduce((sum, i) => sum + nums[i]!, 0), v.name).toBe(v.expected);
+      const ptr = (last.state as { pointers?: Record<string, number | null> }).pointers;
+      if (ptr && typeof ptr.start === "number" && typeof ptr.end === "number") expect([green[0], green[green.length - 1]], v.name).toEqual([ptr.start, ptr.end]);
+      expect(f.banner?.kind, v.name).toBe("good");
+    }
+  });
+
+  it("kadane: the story drops a streak exactly when its total is negative", () => {
+    const trace = traceOf("kadane-max-subarray", { values: [-2, 1, -3, 4, -1, 2, 1, -5, 4] });
+    for (const step of trace.steps) {
+      const id = step.source.kind === "anchor" ? step.source.id : "";
+      if (id !== "decide") continue;
+      const cur = step.variables.find((x) => x.name === "current")!.value as number;
+      const f = storyFor("kadane-max-subarray")!.frame(step as ExecutionStep<"array">, trace);
+      expect(/drop it/.test(f.says), `step ${step.index}`).toBe(cur < 0);
+    }
+  });
+});
+
 describe("story panel", () => {
   it("shows the situation, the cast, moves the actors with the steps, and the moral only at the end", () => {
     const trace = traceOf("find-duplicate-floyd", { values: [1, 3, 4, 2, 2] });
@@ -254,7 +376,100 @@ describe("the workspace", () => {
     expect(screen.getByTestId("state-text")).toBeInTheDocument();
   });
   it("shows no story panel for algorithms without one", () => {
-    render(<Workspace algorithmId="bubble-sort" />);
+    render(<Workspace algorithmId="prefix-sum" />);
     expect(screen.queryByTestId("story")).toBeNull();
+  });
+});
+
+// ---------- linked-list (chain) stories ----------
+import { ChainPanel } from "../src/components/story/chain-panel";
+import { CHAIN_STORIES } from "../src/lib/stories";
+import { chainValues, type LinkedListTrace } from "../src/lib/stories/types";
+
+const chainTraceOf = (id: string, input: unknown): LinkedListTrace => traceOf(id, input) as unknown as LinkedListTrace;
+const chainStory = (id: string) => CHAIN_STORIES.find((s) => s.id === id)!;
+const lastBanner = (id: string, input: unknown) => {
+  const t = chainTraceOf(id, input);
+  return { t, f: chainStory(id).frame(t.steps[t.steps.length - 1]!, t) };
+};
+
+describe("every chain story frame, on every test vector", () => {
+  for (const story of CHAIN_STORIES) {
+    it(`${story.id}: each step has clean text and actors on real nodes`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = chainTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          const ids = new Set(step.state.nodes.map((n) => n.id));
+          for (const a of f.actors) expect(a.node === "end" || ids.has(a.node), `${where}: actor ${a.id} on ${a.node}`).toBe(true);
+          for (const id of Object.keys(f.tones)) expect(ids.has(id), `${where}: tone for ${id}`).toBe(true);
+          // The story words must be clean; the code line may legitimately say "null" (it quotes the real code).
+          expect([f.says, f.banner?.text ?? ""].join(" "), where).not.toMatch(/undefined|NaN|null|\[object/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(15);
+        }
+      }
+    });
+  }
+});
+
+describe("chain stories agree with the algorithm's real answer", () => {
+  it("reverse ends with the new front dancer and a fully reversed state", () => {
+    for (const v of vectors("linked-list-reverse")) {
+      const expected = v.expected as number[];
+      const { t, f } = lastBanner("linked-list-reverse", v.input);
+      const last = t.steps[t.steps.length - 1]!;
+      if (expected.length === 0) continue;
+      expect(chainValues(last.state), v.name).toEqual(expected);
+      expect(f.banner?.text, v.name).toContain(`dancer ${expected[0]}`);
+    }
+  });
+  it("find-middle names the expected middle value", () => {
+    for (const v of vectors("linked-list-find-middle")) {
+      const { f } = lastBanner("linked-list-find-middle", v.input);
+      expect(f.banner?.text, v.name).toBe(`The middle coach holds ${v.expected}.`);
+    }
+  });
+  it("search reports the expected index or not found", () => {
+    for (const v of vectors("linked-list-search")) {
+      const { f } = lastBanner("linked-list-search", v.input);
+      if (v.expected === -1) expect(f.banner?.kind, v.name).toBe("bad");
+      else expect(f.banner?.text, v.name).toContain(`number ${v.expected} `);
+    }
+  });
+  it("insert-head ends with the new value at the front", () => {
+    for (const v of vectors("linked-list-insert-head")) {
+      const { t, f } = lastBanner("linked-list-insert-head", v.input);
+      expect(chainValues(t.steps[t.steps.length - 1]!.state), v.name).toEqual(v.expected);
+      expect(f.banner?.kind, v.name).toBe("good");
+    }
+  });
+  it("delete-value and remove-nth finish on the expected list", () => {
+    for (const id of ["linked-list-delete-value", "linked-list-remove-nth-from-end"]) {
+      for (const v of vectors(id)) {
+        const { t } = lastBanner(id, v.input);
+        expect(chainValues(t.steps[t.steps.length - 1]!.state), `${id} ${v.name}`).toEqual(v.expected);
+      }
+    }
+  });
+});
+
+describe("the chain panel", () => {
+  it("draws the nodes, the characters and the narration", () => {
+    const trace = chainTraceOf("linked-list-find-middle", { values: [1, 2, 3, 4] });
+    render(<ChainPanel story={chainStory("linked-list-find-middle")} step={trace.steps[4]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-node")).toHaveLength(4);
+    expect(screen.getByTestId("actor-t")).toBeInTheDocument();
+    expect(screen.getByTestId("actor-r")).toBeInTheDocument();
+    expect(screen.getByTestId("story-says")).toHaveTextContent(/Rabbit/);
+  });
+  it("is mounted by the workspace for a linked-list algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="linked-list-reverse" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
   });
 });

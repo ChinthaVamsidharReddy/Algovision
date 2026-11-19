@@ -66,7 +66,7 @@ export interface LinkedListLayout {
  * order; nodes not reachable (e.g. a freshly created node) sit in a row above. The `head` pointer
  * is drawn under the main row, any other named pointer above its node.
  */
-export function layoutLinkedList(state: LinkedListState, nodeLabels: ReadonlyMap<string, string> = new Map()): LinkedListLayout {
+export function layoutLinkedList(state: LinkedListState, nodeLabels: ReadonlyMap<string, string> = new Map(), room: { minPadTop?: number; minRowGap?: number } = {}): LinkedListLayout {
   const byId = new Map(state.nodes.map((n) => [n.id, n]));
   const placed = new Map<string, { slot: number; row: number }>();
   const taken = new Set<string>();
@@ -128,8 +128,8 @@ export function layoutLinkedList(state: LinkedListState, nodeLabels: ReadonlyMap
   }
   const maxLines = Math.max(1, ...[...groups.values()].map((g) => g.length));
   const need = maxLines * LABEL_LINE + 14;
-  const padTop = Math.max(PAD_TOP, need + 8);
-  const rowGap = Math.max(ROW_GAP, NODE_H + need);
+  const padTop = Math.max(PAD_TOP, need + 8, room.minPadTop ?? 0);
+  const rowGap = Math.max(ROW_GAP, NODE_H + need, room.minRowGap ?? 0);
 
   const slots = Math.max(1, ...[...placed.values()].map((p) => p.slot + 1));
   const topRow = Math.max(0, ...[...placed.values()].map((p) => p.row));
