@@ -67,7 +67,7 @@ Platform
 | 15 | Operation lists (delivered: input kind ops, LRU cache, word trie) | Operation-list input, LRU cache, trie insert/search/prefix | 2 |
 | 16 | Engagement (delivered: level, streak, badges, path certificates) | Streaks, XP, badges, spaced repetition, notes, certificates | features |
 | 17 | AI tutor and hosted sandbox | Tutor, mock interview, a separate sandbox service for Java, C++ and C | features |
-| 17b | Story mode (delivered: 21 stories: 15 row-based and 6 linked-list; trees, graphs and queue-based next) | Everyday-story retelling of an algorithm above the normal visualization, built from the same trace | features |
+| 17b | Story mode (delivered: 55 stories: 16 row-based, 6 linked-list, 13 tree, 5 graph, 7 grid, 8 stack/queue; strings, tries and union-find next) | Everyday-story retelling of an algorithm above the normal visualization, built from the same trace | features |
 | 17a | Offline and review (delivered, out of the original order; the AI tutor is paused) | Installable offline app (PWA), spaced-repetition review queue, personal notes | features |
 | 18 | Hardening and reach (PWA delivered in 17a) | i18n, admin tool, analytics, teacher role, load test | features |
 

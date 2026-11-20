@@ -23,9 +23,13 @@ import { usePlayback } from "./use-playback";
 import { LearningActions } from "../learning/learning-actions";
 import { QuizPanel } from "../learning/quiz-panel";
 import { ChainPanel } from "../story/chain-panel";
+import { TreePanel } from "../story/tree-panel";
+import { GraphPanel } from "../story/graph-panel";
+import { GridPanel } from "../story/grid-panel";
+import { PilePanel } from "../story/pile-panel";
 import { StoryPanel } from "../story/story-panel";
-import { storyFor } from "@/lib/stories";
-import type { ArrayTrace, LinkedListTrace } from "@/lib/stories/types";
+import { storyFitsState, storyFor } from "@/lib/stories";
+import type { ArrayTrace, LinkedListTrace, TreeTrace, GraphTrace, GridTrace, PileTrace } from "@/lib/stories/types";
 
 const ENV_PROFILE = process.env.NEXT_PUBLIC_VIZ_LIMIT_PROFILE;
 const LANG_KEY = "av-language";
@@ -158,7 +162,7 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
 
   const step: ExecutionStep | undefined = trace?.steps[Math.min(playback.index, total - 1)];
   // A story is shown only when the trace it was written for is the one on screen.
-  const hasStory = Boolean(story && trace && trace.stateKind === (story.kind === "linkedList" ? "linkedList" : "array"));
+  const hasStory = Boolean(story && trace && storyFitsState(story, trace.stateKind));
   const lang = LANGUAGES.find((l) => l.id === language)!;
   const file = content.code[language];
   const anchorId = step?.source.kind === "anchor" ? step.source.id : null;
@@ -198,8 +202,12 @@ function WorkspaceInner({ algorithmId }: { algorithmId: string }) {
       {step && trace && (
         <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <div className="min-w-0 space-y-4">
-            {story && story.kind !== "linkedList" && trace.stateKind === "array" && <StoryPanel story={story} step={step as ExecutionStep<"array">} trace={trace as unknown as ArrayTrace} />}
+            {story && story.kind !== "linkedList" && story.kind !== "tree" && story.kind !== "graph" && story.kind !== "grid" && story.kind !== "pile" && trace.stateKind === "array" && <StoryPanel story={story} step={step as ExecutionStep<"array">} trace={trace as unknown as ArrayTrace} />}
             {story && story.kind === "linkedList" && trace.stateKind === "linkedList" && <ChainPanel story={story} step={step as ExecutionStep<"linkedList">} trace={trace as unknown as LinkedListTrace} />}
+            {story && story.kind === "tree" && trace.stateKind === "tree" && <TreePanel story={story} step={step as ExecutionStep<"tree">} trace={trace as unknown as TreeTrace} />}
+            {story && story.kind === "graph" && trace.stateKind === "graph" && <GraphPanel story={story} step={step as ExecutionStep<"graph">} trace={trace as unknown as GraphTrace} />}
+            {story && story.kind === "grid" && trace.stateKind === "grid" && <GridPanel story={story} step={step as ExecutionStep<"grid">} trace={trace as unknown as GridTrace} />}
+            {story && story.kind === "pile" && (trace.stateKind === "stack" || trace.stateKind === "queue") && <PilePanel story={story} step={step as ExecutionStep<"stack" | "queue">} trace={trace as unknown as PileTrace} />}
             {hasStory && <Controls state={playback} dispatch={dispatch} />}
             {trace.stateKind === "linkedList" && <LinkedListView step={step as ExecutionStep<"linkedList">} />}
             {trace.stateKind === "array" && <ArrayView step={step as ExecutionStep<"array">} />}

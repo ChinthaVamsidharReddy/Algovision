@@ -48,7 +48,7 @@ function ChainScene({ frame, layout, byId, width, height, endX, hasEnd }: { fram
           </marker>
         </defs>
         {layout.edges.map((e) => (
-          <g key={`${e.from}>${e.to}`} data-edge={`${e.from}>${e.to}`}>
+          <g key={`${e.from}>${e.to}`} data-story-edge={`${e.from}>${e.to}`}>
             <line x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} stroke="var(--text)" strokeWidth={2} markerEnd="url(#story-arrow)" />
             <circle cx={e.x1} cy={e.y1} r={3.5} fill="var(--text)" />
           </g>

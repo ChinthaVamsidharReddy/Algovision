@@ -17,7 +17,7 @@ import type { Story } from "../src/lib/stories";
 /** The row-of-cells story for an algorithm (these tests drive it with array traces). */
 const storyFor = (id: string): Story | undefined => {
   const s = anyStoryFor(id);
-  return s && s.kind !== "linkedList" ? s : undefined;
+  return s && s.kind !== "linkedList" && s.kind !== "tree" && s.kind !== "graph" && s.kind !== "grid" && s.kind !== "pile" ? s : undefined;
 };
 
 interface Vector { name: string; input: unknown; expected: unknown }
@@ -469,6 +469,447 @@ describe("the chain panel", () => {
     const { container } = render(<Workspace algorithmId="linked-list-reverse" />);
     expect(screen.getByTestId("story")).toBeInTheDocument();
     expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- binary-tree stories ----------
+import { TreePanel } from "../src/components/story/tree-panel";
+import { TREE_STORIES } from "../src/lib/stories";
+import type { TreeTrace } from "../src/lib/stories/types";
+
+const treeTraceOf = (id: string, input: unknown): TreeTrace => traceOf(id, input) as unknown as TreeTrace;
+const treeStory = (id: string) => TREE_STORIES.find((s) => s.id === id)!;
+const treeLast = (id: string, input: unknown) => {
+  const t = treeTraceOf(id, input);
+  return treeStory(id).frame(t.steps[t.steps.length - 1]!, t);
+};
+
+describe("every tree story frame, on every test vector", () => {
+  for (const story of TREE_STORIES) {
+    it(`${story.id}: each step has clean text and characters on real nodes`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = treeTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          const ids = new Set(step.state.nodes.map((n) => n.id));
+          for (const a of f.actors) expect(ids.has(a.node), `${where}: actor ${a.id} on ${a.node}`).toBe(true);
+          for (const id of Object.keys(f.tones)) expect(ids.has(id), `${where}: tone for ${id}`).toBe(true);
+          expect([f.says, f.banner?.text ?? "", f.board?.text ?? ""].join(" "), where).not.toMatch(/undefined|NaN|null|\[object/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(15);
+        }
+      }
+    });
+  }
+});
+
+describe("tree stories agree with the algorithm's real answer", () => {
+  it("the three tours end with the expected order on the board and in the banner", () => {
+    for (const id of ["binary-tree-inorder", "binary-tree-preorder", "binary-tree-postorder"]) {
+      for (const v of vectors(id)) {
+        const expected = v.expected as number[];
+        const f = treeLast(id, v.input);
+        if (expected.length === 0) continue;
+        expect(f.banner?.text, `${id} ${v.name}`).toContain(expected.join(", "));
+        expect(f.board?.text, `${id} ${v.name}`).toBe(expected.join(", "));
+      }
+    }
+  });
+  it("every room is marked done at the end of a tour", () => {
+    for (const id of ["binary-tree-inorder", "binary-tree-preorder", "binary-tree-postorder"]) {
+      for (const v of vectors(id)) {
+        const t = treeTraceOf(id, v.input);
+        const last = t.steps[t.steps.length - 1]!;
+        const f = treeStory(id).frame(last, t);
+        expect(Object.values(f.tones).filter((x) => x === "good").length, `${id} ${v.name}`).toBe(last.state.nodes.length);
+      }
+    }
+  });
+  it("bst-search reports found or not found exactly as the vector expects", () => {
+    for (const v of vectors("bst-search")) {
+      const f = treeLast("bst-search", v.input);
+      expect(f.banner?.kind, v.name).toBe(v.expected === 1 ? "good" : "bad");
+    }
+  });
+  it("bst-insert ends with the new house built, and the tree holds the expected values", () => {
+    for (const v of vectors("bst-insert")) {
+      const t = treeTraceOf("bst-insert", v.input);
+      const f = treeStory("bst-insert").frame(t.steps[t.steps.length - 1]!, t);
+      expect(f.banner?.kind, v.name).toBe("good");
+      expect(t.steps[t.steps.length - 1]!.state.output, v.name).toEqual(v.expected);
+    }
+  });
+  it("tree-height states the expected number of generations", () => {
+    for (const v of vectors("tree-height")) {
+      const f = treeLast("tree-height", v.input);
+      if (v.expected === 0) continue;
+      expect(f.banner?.text, v.name).toContain(`is ${v.expected} generation`);
+    }
+  });
+});
+
+describe("the tree panel", () => {
+  it("draws the rooms, the walker and the guest book", () => {
+    const trace = treeTraceOf("binary-tree-inorder", { values: [5, 3, 8] });
+    render(<TreePanel story={treeStory("binary-tree-inorder")} step={trace.steps[5]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-node")).toHaveLength(3);
+    expect(screen.getByTestId("actor-w")).toBeInTheDocument();
+    expect(screen.getByTestId("story-board")).toHaveTextContent("Guest book: 3");
+  });
+  it("is mounted by the workspace for a tree algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="bst-search" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- graph stories ----------
+import { GraphPanel } from "../src/components/story/graph-panel";
+import { GRAPH_STORIES } from "../src/lib/stories";
+import type { GraphTrace } from "../src/lib/stories/types";
+
+const graphTraceOf = (id: string, input: unknown): GraphTrace => traceOf(id, input) as unknown as GraphTrace;
+const graphStory = (id: string) => GRAPH_STORIES.find((s) => s.id === id)!;
+const graphLast = (id: string, input: unknown) => {
+  const t = graphTraceOf(id, input);
+  return { t, last: t.steps[t.steps.length - 1]!, f: graphStory(id).frame(t.steps[t.steps.length - 1]!, t) };
+};
+
+describe("every graph story frame, on every test vector", () => {
+  for (const story of GRAPH_STORIES) {
+    it(`${story.id}: each step has clean text and characters on real vertices`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = graphTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          const ids = new Set(step.state.nodes.map((n) => n.id));
+          for (const a of f.actors) expect(ids.has(a.node), `${where}: actor ${a.id} on ${a.node}`).toBe(true);
+          for (const id of Object.keys(f.tones)) expect(ids.has(id), `${where}: tone for ${id}`).toBe(true);
+          for (const id of Object.keys(f.badges ?? {})) expect(ids.has(id), `${where}: badge for ${id}`).toBe(true);
+          expect([f.says, f.banner?.text ?? "", f.board?.text ?? ""].join(" "), where).not.toMatch(/undefined|NaN|null|\[object/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(15);
+        }
+      }
+    });
+  }
+});
+
+describe("graph stories agree with the algorithm's real answer", () => {
+  it("the two traversals name the expected visiting order", () => {
+    for (const id of ["bfs-traversal", "dfs-traversal"]) {
+      for (const v of vectors(id)) {
+        const { f } = graphLast(id, v.input);
+        expect(f.banner?.text, `${id} ${v.name}`).toContain((v.expected as number[]).join(", "));
+      }
+    }
+  });
+  it("shortest path and Dijkstra name every expected distance", () => {
+    for (const id of ["bfs-shortest-path", "dijkstra"]) {
+      for (const v of vectors(id)) {
+        const { f } = graphLast(id, v.input);
+        const parts = (v.expected as number[]).map((d, i) => `${i}: ${d === -1 ? "no route" : d}`);
+        expect(f.banner?.text, `${id} ${v.name}`).toContain(parts.join(", "));
+      }
+    }
+  });
+  it("topological sort gives a valid order, or says no order exists", () => {
+    for (const v of vectors("topological-sort-kahn")) {
+      const { t, last, f } = graphLast("topological-sort-kahn", v.input);
+      const n = t.steps[0]!.state.nodes.length;
+      if (last.state.output.length === n) expect(f.banner, v.name).toEqual({ kind: "good", text: `A valid order: ${last.state.output.join(", ")}.` });
+      else expect(f.banner?.kind, v.name).toBe("bad");
+      expect(last.state.output, v.name).toEqual(v.expected);
+    }
+  });
+});
+
+describe("the graph panel", () => {
+  it("draws the vertices, the active edge, the badges and the characters", () => {
+    const trace = graphTraceOf("dijkstra", { values: [0, 1, 4, 0, 2, 1, 2, 1, 2, 1, 3, 5], vertices: 4, start: 0 });
+    render(<GraphPanel story={graphStory("dijkstra")} step={trace.steps[8]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-node")).toHaveLength(4);
+    expect(screen.getByTestId("actor-d")).toBeInTheDocument();
+    expect(document.querySelectorAll('[data-story-active="true"]')).toHaveLength(1);
+    expect(screen.getByTestId("story-board")).toBeInTheDocument();
+  });
+  it("is mounted by the workspace for a graph algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="bfs-traversal" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- grid stories ----------
+import { GridPanel } from "../src/components/story/grid-panel";
+import { GRID_STORIES } from "../src/lib/stories";
+import type { GridTrace } from "../src/lib/stories/types";
+
+const gridTraceOf = (id: string, input: unknown): GridTrace => traceOf(id, input) as unknown as GridTrace;
+const gridStory = (id: string) => GRID_STORIES.find((s) => s.id === id)!;
+const gridLast = (id: string, input: unknown) => {
+  const t = gridTraceOf(id, input);
+  const last = t.steps[t.steps.length - 1]!;
+  return { t, last, f: gridStory(id).frame(last, t) };
+};
+
+describe("every grid story frame, on every test vector", () => {
+  for (const story of GRID_STORIES) {
+    it(`${story.id}: each step has clean text and characters on real cells`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = gridTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          const ids = new Set(step.state.cells.map((_, i) => String(i)));
+          for (const a of f.actors) expect(ids.has(a.node), `${where}: actor ${a.id} on ${a.node}`).toBe(true);
+          for (const id of Object.keys(f.tones)) expect(ids.has(id), `${where}: tone for ${id}`).toBe(true);
+          for (const id of Object.keys(f.cells ?? {})) expect(ids.has(id), `${where}: caption for ${id}`).toBe(true);
+          expect([f.says, f.banner?.text ?? "", f.board?.text ?? ""].join(" "), where).not.toMatch(/undefined|NaN|null|\[object|\?/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(15);
+        }
+      }
+    });
+  }
+});
+
+describe("grid stories agree with the algorithm's real answer", () => {
+  it("min-path-sum, LCS and edit distance state the expected number", () => {
+    for (const id of ["min-path-sum", "longest-common-subsequence", "edit-distance"]) {
+      for (const v of vectors(id)) {
+        const { f, last } = gridLast(id, v.input);
+        if (last.state.cells.length === 0) continue;
+        expect(f.banner?.text ?? f.says, `${id} ${v.name}`).toMatch(new RegExp(`\\b${v.expected}\\b|already the same|share ${v.expected}`));
+      }
+    }
+  });
+  it("number-of-islands and max-area-of-island state the expected count or size", () => {
+    for (const id of ["number-of-islands", "max-area-of-island"]) {
+      for (const v of vectors(id)) {
+        const { f, last } = gridLast(id, v.input);
+        if (last.state.cells.length === 0) continue;
+        expect(f.banner?.text, `${id} ${v.name}`).toMatch(new RegExp(`(^|\\s)${v.expected} `));
+      }
+    }
+  });
+  it("rotting-oranges says minutes, or that some can never rot", () => {
+    for (const v of vectors("rotting-oranges")) {
+      const { f, last } = gridLast("rotting-oranges", v.input);
+      if (last.state.cells.length === 0) continue;
+      if (v.expected === -1) expect(f.banner?.kind, v.name).toBe("bad");
+      else expect(f.banner?.text, v.name).toMatch(v.expected === 0 ? /0 minutes/ : new RegExp(`after ${v.expected} minute`));
+    }
+  });
+  it("spiral-order lists the cells in the expected order", () => {
+    for (const v of vectors("spiral-order")) {
+      const { f, last } = gridLast("spiral-order", v.input);
+      if (last.state.cells.length === 0) continue;
+      expect(f.banner?.text, v.name).toBe(`Spiral order: ${(v.expected as number[]).join(", ")}.`);
+    }
+  });
+});
+
+describe("the grid panel", () => {
+  it("draws the cells, pictures, captions and the character", () => {
+    const trace = gridTraceOf("number-of-islands", { grid: [[1, 1, 0], [0, 0, 1], [1, 0, 1]] });
+    render(<GridPanel story={gridStory("number-of-islands")} step={trace.steps[4]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-node")).toHaveLength(9);
+    expect(screen.getByTestId("actor-w")).toBeInTheDocument();
+    expect(screen.getByTestId("story-board")).toHaveTextContent("Islands counted: 1");
+  });
+  it("is mounted by the workspace for a grid algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="edit-distance" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- stack and queue (pile) stories ----------
+import { PilePanel } from "../src/components/story/pile-panel";
+import { PILE_STORIES } from "../src/lib/stories";
+import type { PileTrace } from "../src/lib/stories/types";
+
+const pileTraceOf = (id: string, input: unknown): PileTrace => traceOf(id, input) as unknown as PileTrace;
+const pileStory = (id: string) => PILE_STORIES.find((s) => s.id === id)!;
+const pileLast = (id: string, input: unknown) => {
+  const t = pileTraceOf(id, input);
+  const last = t.steps[t.steps.length - 1]!;
+  return { t, last, f: pileStory(id).frame(last, t) };
+};
+
+describe("every pile story frame, on every test vector", () => {
+  it("registers the eight stack and queue stories", () => {
+    expect(PILE_STORIES.map((s) => s.id).sort()).toEqual(["evaluate-postfix", "largest-rectangle-histogram", "next-greater-element", "queue-enqueue-dequeue", "sliding-window-maximum", "stack-push-pop", "stock-span", "valid-parentheses"]);
+  });
+  for (const story of PILE_STORIES) {
+    it(`${story.id}: each step has clean text and a pile that matches the state`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = pileTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          expect(f.pile.length, where).toBe(step.state.items.length);
+          for (const p of f.pile) expect(p.text, where).toMatch(/^-?\d+$|^[()[\]{}]$|^[+\-−×÷]$/);
+          const text = [f.says, f.banner?.text ?? "", f.board?.text ?? "", ...f.pile.map((p) => `${p.text} ${p.sub ?? ""}`), ...(f.strip?.items.map((i) => i.text) ?? [])].join(" ");
+          expect(text, where).not.toMatch(/undefined|NaN|null|\[object|\?/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(8);
+          if (f.strip) {
+            expect(f.strip.items.length, where).toBe((v.input as { values: unknown[] }).values.length);
+            if (f.strip.at !== undefined) expect(f.strip.at, where).toBeLessThan(Math.max(1, f.strip.items.length));
+          }
+        }
+      }
+    });
+  }
+});
+
+describe("pile stories agree with the algorithm's real answer", () => {
+  it("stack and queue say what is left", () => {
+    for (const id of ["stack-push-pop", "queue-enqueue-dequeue"]) {
+      for (const v of vectors(id)) {
+        const { f } = pileLast(id, v.input);
+        const left = v.expected as number[];
+        expect(f.banner?.text, `${id} ${v.name}`).toMatch(left.length ? new RegExp(`${left.join(", ")}\\.$`) : /is empty\.$/);
+      }
+    }
+  });
+  it("valid-parentheses says balanced or not", () => {
+    for (const v of vectors("valid-parentheses")) {
+      const { f } = pileLast("valid-parentheses", v.input);
+      expect(f.banner?.kind, v.name).toBe(v.expected === 1 ? "good" : "bad");
+      expect(f.banner?.text, v.name).toMatch(v.expected === 1 ? /^Balanced/ : /^Not balanced/);
+    }
+  });
+  it("evaluate-postfix states the result", () => {
+    for (const v of vectors("evaluate-postfix")) {
+      const { f } = pileLast("evaluate-postfix", v.input);
+      expect(f.banner?.text, v.name).toBe(`The expression equals ${v.expected}.`);
+    }
+  });
+  it("next-greater-element, stock-span and sliding-window-maximum list the expected answers", () => {
+    for (const [id, prefix] of [["next-greater-element", "The next taller height for each person: "], ["stock-span", "The streak for each day: "], ["sliding-window-maximum", "The tallest in each window: "]] as const) {
+      for (const v of vectors(id)) {
+        const { f } = pileLast(id, v.input);
+        const exp = v.expected as number[];
+        if (exp.length === 0) continue;
+        expect(f.banner?.text, `${id} ${v.name}`).toBe(`${prefix}${exp.join(", ")}.`);
+      }
+    }
+  });
+  it("largest-rectangle-histogram states the best area", () => {
+    for (const v of vectors("largest-rectangle-histogram")) {
+      const { f } = pileLast("largest-rectangle-histogram", v.input);
+      expect(f.banner?.text, v.name).toBe(`The biggest rectangle has area ${v.expected}.`);
+    }
+  });
+});
+
+describe("the pile panel", () => {
+  it("draws the strip, the pile and the pointer", () => {
+    const trace = pileTraceOf("next-greater-element", { values: [4, 5, 2, 25, 7] });
+    render(<PilePanel story={pileStory("next-greater-element")} step={trace.steps[6]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-strip-cell")).toHaveLength(5);
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(0);
+  });
+  it("is mounted by the workspace for a stack algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="valid-parentheses" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+  it("is mounted by the workspace for a queue algorithm", () => {
+    render(<Workspace algorithmId="sliding-window-maximum" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+  });
+});
+
+// ---------- heap stories ----------
+describe("heap stories agree with the algorithm's real answer", () => {
+  it("heapify-bottom-up and min-heap-build-insert end with the expected heap on the board and in the banner", () => {
+    for (const id of ["heapify-bottom-up", "min-heap-build-insert"]) {
+      for (const v of vectors(id)) {
+        const expected = v.expected as number[];
+        const f = treeLast(id, v.input);
+        if (expected.length === 0) { expect(f.banner?.kind, `${id} ${v.name}`).toBe("info"); continue; }
+        expect(f.banner?.text, `${id} ${v.name}`).toBe(`The finished chart, top desk first: ${expected.join(", ")}.`);
+        expect(f.board?.text, `${id} ${v.name}`).toBe(expected.join(", "));
+      }
+    }
+  });
+  it("kth-largest-element names the expected value", () => {
+    for (const v of vectors("kth-largest-element")) {
+      const f = treeLast("kth-largest-element", v.input);
+      expect(f.banner?.text, v.name).toMatch(new RegExp(`largest value is ${v.expected}\\.$`));
+    }
+  });
+  it("heap-sort ends with the sorted row", () => {
+    for (const v of vectors("heap-sort")) {
+      const t = traceOf("heap-sort", v.input);
+      const last = t.steps[t.steps.length - 1]!;
+      expect(last.state.values, v.name).toEqual(v.expected);
+      const f = storyFor("heap-sort")!.frame(last, t);
+      expect(f.banner?.kind, v.name).toBe("good");
+      if (last.state.values.length > 0) expect(f.cells.every((c) => c.tone === "good"), v.name).toBe(true);
+    }
+  });
+  it("is mounted by the workspace for a heap algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="kth-largest-element" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- remaining tree stories ----------
+describe("batch 10 tree stories agree with the algorithm's real answer", () => {
+  it("level-order-traversal ends with the expected order in the banner and the visit book", () => {
+    for (const v of vectors("level-order-traversal")) {
+      const expected = v.expected as number[];
+      const f = treeLast("level-order-traversal", v.input);
+      if (expected.length === 0) { expect(f.banner?.kind, v.name).toBe("info"); continue; }
+      expect(f.banner?.text, v.name).toBe(`Floor by floor: ${expected.join(", ")}.`);
+      expect(f.board?.text, v.name).toBe(expected.join(", "));
+    }
+  });
+  it("count-leaves states the expected number", () => {
+    for (const v of vectors("count-leaves")) {
+      const f = treeLast("count-leaves", v.input);
+      expect(f.banner?.text, v.name).toBe(`The village has ${v.expected} dead-end ${v.expected === 1 ? "house" : "houses"}.`);
+    }
+  });
+  it("bst-find-min-max states the expected smallest and largest", () => {
+    for (const v of vectors("bst-find-min-max")) {
+      const [lo, hi] = v.expected as number[];
+      const f = treeLast("bst-find-min-max", v.input);
+      expect(f.banner?.text, v.name).toBe(`Smallest ${lo}, largest ${hi}.`);
+    }
+  });
+  it("avl-tree-insert states the expected height", () => {
+    for (const v of vectors("avl-tree-insert")) {
+      const f = treeLast("avl-tree-insert", v.input);
+      if (v.expected === 0) { expect(f.banner?.kind, v.name).toBe("info"); continue; }
+      expect(f.banner?.text, v.name).toBe(`The village is ${v.expected} ${v.expected === 1 ? "level" : "levels"} tall.`);
+    }
+  });
+  it("is mounted by the workspace for an AVL algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="avl-tree-insert" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
     const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
     expect(r.violations.map((x) => x.id)).toEqual([]);
   });

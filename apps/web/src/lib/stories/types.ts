@@ -97,6 +97,76 @@ export interface ChainStory extends StoryMeta {
   frame(step: ExecutionStep<"linkedList">, trace: LinkedListTrace): ChainFrame;
 }
 
+export interface TreeTrace {
+  readonly steps: readonly ExecutionStep<"tree">[];
+}
+/** A story told over a binary tree (traversals, search tree operations, height). Frames use the same shape as chain stories: a colour per node id and characters standing on node ids. */
+export interface TreeStory extends StoryMeta {
+  kind: "tree";
+  frame(step: ExecutionStep<"tree">, trace: TreeTrace): ChainFrame;
+}
+
+export interface GraphTrace {
+  readonly steps: readonly ExecutionStep<"graph">[];
+}
+/** What a graph story says about one step: the chain frame plus a small badge under chosen vertices (distance, cost, waiting count). */
+export interface GraphFrame extends ChainFrame {
+  badges?: Record<string, string>;
+}
+/** A story told over a graph (traversals, shortest paths, ordering). */
+export interface GraphStory extends StoryMeta {
+  kind: "graph";
+  frame(step: ExecutionStep<"graph">, trace: GraphTrace): GraphFrame;
+}
+
+export interface GridTrace {
+  readonly steps: readonly ExecutionStep<"grid">[];
+}
+/**
+ * What a grid story says about one step. Cells are named by their row-major index as a string; `cells` can replace what a
+ * cell shows (a picture instead of a number) and add a tiny caption on its top edge.
+ */
+export interface GridFrame extends ChainFrame {
+  cells?: Record<string, { text?: string; sub?: string }>;
+}
+/** A story told over a table or map (dynamic programming tables, island maps, rotting oranges, spiral walks). */
+export interface GridStory extends StoryMeta {
+  kind: "grid";
+  frame(step: ExecutionStep<"grid">, trace: GridTrace): GridFrame;
+}
+
+export interface PileTrace {
+  readonly input: Readonly<Record<string, unknown>>;
+  readonly steps: readonly ExecutionStep<"stack" | "queue">[];
+}
+export interface PileItem {
+  text: string;
+  tone: Tone;
+  /** A tiny caption on the item (for example the position it came from). */
+  sub?: string;
+}
+/**
+ * What a stack or queue story says about one step: an optional strip of the input being read (with a marker on the current item),
+ * the items now in the stack or queue, and the usual narration, code line, banner and board.
+ */
+export interface PileFrame {
+  strip?: { label: string; items: { text: string; tone: Tone }[]; at?: number };
+  pile: PileItem[];
+  /** Name written next to the container, for example "Plates (top is the right)". */
+  pileName: string;
+  says: string;
+  inCode?: string;
+  banner?: { kind: "good" | "bad" | "info"; text: string };
+  board?: { label: string; text: string };
+}
+/** A story told over a stack or a queue, usually with the input line shown above it. */
+export interface PileStory extends StoryMeta {
+  kind: "pile";
+  /** How the container is drawn: a stack stands up (top at the top), a queue lies down (front on the left). */
+  shape: "stack" | "queue";
+  frame(step: ExecutionStep<"stack" | "queue">, trace: PileTrace): PileFrame;
+}
+
 /** The value of a named variable at this step, or null when it is not set yet. */
 export function variable(step: ExecutionStep, name: string): number | null {
   const v = step.variables.find((x) => x.name === name)?.value;

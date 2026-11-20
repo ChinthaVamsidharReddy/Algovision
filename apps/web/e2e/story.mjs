@@ -47,7 +47,44 @@ const CASES = [
   { id: "linked-list-search", query: "", final: /Found \d+ in coach number|not in the list/, chain: true },
   { id: "linked-list-insert-head", query: "", final: /is now at the front/, chain: true },
   { id: "linked-list-delete-value", query: "", final: /Removed the coach holding|nothing removed/, chain: true },
-];
+  // stories told over a binary tree
+  { id: "binary-tree-inorder", query: "", final: /guest book reads/, chain: true },
+  { id: "binary-tree-preorder", query: "", final: /hellos went in this order/, chain: true },
+  { id: "binary-tree-postorder", query: "", final: /rooms were locked in this order/, chain: true },
+  { id: "bst-search", query: "", final: /Found house \d+|not in the village/, chain: true },
+  { id: "bst-insert", query: "", final: /was built/, chain: true },
+  { id: "tree-height", query: "", final: /generations? tall/, chain: true },
+  // stories told over a graph
+  { id: "bfs-traversal", query: "", final: /rumor reached people in this order/, chain: true },
+  { id: "dfs-traversal", query: "", final: /rooms were explored in this order/, chain: true },
+  { id: "bfs-shortest-path", query: "", final: /Fewest stops from/, chain: true },
+  { id: "dijkstra", query: "", final: /Cheapest cost from/, chain: true },
+  { id: "topological-sort-kahn", query: "", final: /A valid order|No valid order/, chain: true },
+  // stories told over a grid
+  { id: "min-path-sum", query: "", final: /cheapest trip costs \d+/, chain: true },
+  { id: "longest-common-subsequence", query: "", final: /playlists share \d+ songs?/, chain: true },
+  { id: "edit-distance", query: "", final: /takes \d+ edits?|already the same/, chain: true },
+  { id: "number-of-islands", query: "", final: /\d+ islands? counted/, chain: true },
+  { id: "max-area-of-island", query: "", final: /biggest island has \d+ squares?/, chain: true },
+  { id: "rotting-oranges", query: "", final: /rotten after \d+ minutes?|can never rot|0 minutes/, chain: true },
+  { id: "spiral-order", query: "", final: /Spiral order: /, chain: true },
+  { id: "stack-push-pop", query: "", final: /Left in the stack|The stack is empty/, chain: true },
+  { id: "queue-enqueue-dequeue", query: "", final: /Still in the queue|The queue is empty/, chain: true },
+  { id: "valid-parentheses", query: "", final: /Balanced|Not balanced/, chain: true },
+  { id: "evaluate-postfix", query: "", final: /The expression equals -?\d+/, chain: true },
+  { id: "next-greater-element", query: "", final: /The next taller height for each person/, chain: true },
+  { id: "stock-span", query: "", final: /The streak for each day/, chain: true },
+  { id: "largest-rectangle-histogram", query: "", final: /The biggest rectangle has area \d+/, chain: true },
+  { id: "sliding-window-maximum", query: "", final: /The tallest in each window|no full window/, chain: true },
+  { id: "heap-sort", query: "", final: /Sorted from smallest to largest/ },
+  { id: "min-heap-build-insert", query: "", final: /The finished chart, top desk first/, chain: true },
+  { id: "heapify-bottom-up", query: "", final: /The finished chart, top desk first/, chain: true },
+  { id: "kth-largest-element", query: "", final: /largest value is -?\d+/, chain: true },
+  { id: "level-order-traversal", query: "", final: /Floor by floor: /, chain: true },
+  { id: "count-leaves", query: "", final: /dead-end houses?/, chain: true },
+  { id: "bst-find-min-max", query: "", final: /Smallest -?\d+, largest -?\d+/, chain: true },
+  { id: "avl-tree-insert", query: "", final: /\d+ levels? tall/, chain: true },
+].filter((c) => !process.env.ONLY || process.env.ONLY.split(",").includes(c.id));
 const browser = await chromium.launch();
 for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["phone", { width: 375, height: 800 }]]) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1, reducedMotion: "reduce" });
@@ -91,8 +128,8 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
     const pageScroll = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     check(`${tag}: no sideways scrolling of the page`, !pageScroll);
     if (label === "phone" && c.chain) {
-      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), nodes: el.querySelectorAll('[data-testid="story-node"]').length, focusable: el.tabIndex === 0 }));
-      check(`${tag}: the chain scene scales down on the phone and stays reachable`, fit.nodes > 0 && fit.scale <= 1 && fit.focusable, JSON.stringify(fit));
+      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), nodes: el.querySelectorAll('[data-testid="story-node"]').length, empty: /\bempty\b/.test(el.textContent ?? ""), focusable: el.tabIndex === 0 }));
+      check(`${tag}: the chain scene scales down on the phone and stays reachable`, (fit.nodes > 0 || fit.empty) && fit.scale <= 1 && fit.focusable, JSON.stringify(fit));
     } else if (label === "phone") {
       const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), sideways: el.scrollWidth > el.clientWidth + 1, cells: el.querySelectorAll('[data-testid="story-cell"]').length, focusable: el.tabIndex === 0 }));
       // Up to 7 cells fit a 375px phone at a readable size; wider scenes scroll sideways in a keyboard-focusable area.
