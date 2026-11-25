@@ -24,6 +24,7 @@ async function axeCheck(page, name) {
   await page.evaluate(() => { document.documentElement.dataset.theme = "light"; });
 }
 
+const GRID_IDS = new Set(["min-path-sum", "longest-common-subsequence", "edit-distance", "number-of-islands", "max-area-of-island", "rotting-oranges", "spiral-order"]);
 const CASES = [
   { id: "find-duplicate-floyd", query: "", final: /repeated number is 2/ },
   { id: "two-sum-sorted", query: "", final: /exactly 10/ },
@@ -60,6 +61,28 @@ const CASES = [
   { id: "bfs-shortest-path", query: "", final: /Fewest stops from/, chain: true },
   { id: "dijkstra", query: "", final: /Cheapest cost from/, chain: true },
   { id: "topological-sort-kahn", query: "", final: /A valid order|No valid order/, chain: true },
+  { id: "union-find-components", query: "", final: /friend circles?\./, chain: true },
+  { id: "connected-components", query: "", final: /regions?\./, chain: true },
+  { id: "detect-cycle-undirected", query: "", final: /There is a loop|No loop/, chain: true },
+  { id: "kruskal-mst", query: "", final: /Cheapest/, chain: true },
+  { id: "strongly-connected-components", query: "", final: /neighbourhoods?\./, chain: true },
+  { id: "segment-tree-range-sum", query: "", final: /add up to/, chain: true },
+  { id: "fenwick-tree-prefix-sum", query: "", final: /Total up to day/ },
+  { id: "count-frequencies", query: "", final: /Tally:|No votes/ },
+  { id: "first-repeating-element", query: "", final: /First repeat|No repeats/ },
+  { id: "hash-table-insert-linear-probing", query: "", final: /Final lockers/ },
+  { id: "hash-table-search", query: "", final: /has locker|has no locker/ },
+  { id: "circular-queue", query: "", final: /Waiting, front first|Nobody is waiting/ },
+  { id: "linked-list-insert-tail", query: "", final: /is now at the back/, chain: true },
+  { id: "linked-list-insert-at-position", query: "", final: /is now at position/, chain: true },
+  { id: "lru-cache", query: "", final: /add up to/, chain: true },
+  { id: "binary-search-first-occurrence", query: "", final: /first copy|not on the shelf/ },
+  { id: "lower-bound", query: "", final: /Answer: spot/ },
+  { id: "upper-bound", query: "", final: /Answer: spot/ },
+  { id: "jump-search", query: "", final: /is at entry|not in the list/ },
+  { id: "find-peak-element", query: "", final: /A hilltop/ },
+  { id: "search-rotated-array", query: "", final: /is in locker|not in the row/ },
+  { id: "find-maximum", query: "", final: /The tallest is/ },
   // stories told over a grid
   { id: "min-path-sum", query: "", final: /cheapest trip costs \d+/, chain: true },
   { id: "longest-common-subsequence", query: "", final: /playlists share \d+ songs?/, chain: true },
@@ -84,6 +107,15 @@ const CASES = [
   { id: "count-leaves", query: "", final: /dead-end houses?/, chain: true },
   { id: "bst-find-min-max", query: "", final: /Smallest -?\d+, largest -?\d+/, chain: true },
   { id: "avl-tree-insert", query: "", final: /\d+ levels? tall/, chain: true },
+  { id: "trie-insert-search", query: "", final: /\d+ of \d+ questions? answered yes/, chain: true },
+  { id: "trie-distinct-substrings", query: "", final: /distinct substrings?/, chain: true },
+  { id: "longest-repeated-substring", query: "", final: /longest piece that appears twice|No piece of the text/, chain: true },
+  { id: "longest-substring-no-repeat", query: "", final: /no repeated letter has length \d+/ },
+  { id: "longest-repeating-replacement", query: "", final: /can become one letter has length \d+/ },
+  { id: "count-palindromic-substrings", query: "", final: /palindromic pieces?/ },
+  { id: "longest-palindromic-substring", query: "", final: /longest mirror has length \d+/ },
+  { id: "first-unique-character", query: "", final: /first letter that appears only once|answer is -1/ },
+  { id: "string-compression-length", query: "", final: /shorthand/ },
 ].filter((c) => !process.env.ONLY || process.env.ONLY.split(",").includes(c.id));
 const browser = await chromium.launch();
 for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["phone", { width: 375, height: 800 }]]) {
@@ -102,6 +134,7 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
     const total = Number((await page.getByRole("heading", { name: /^Step 1 of \d+$/ }).innerText()).match(/of (\d+)/)[1]);
     let bad = [];
     let overlapIssues = [];
+    let coverIssues = [];
     const seen = new Set();
     for (let i = 0; i < total; i++) {
       const says = await page.getByTestId("story-says").innerText();
@@ -117,12 +150,31 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
           if (x > 6 && y > 6) overlapIssues.push(`step ${i}: ${x.toFixed(0)}x${y.toFixed(0)}px`);
         }
       }
+      if (c.chain && !GRID_IDS.has(c.id)) {
+        // a character must never cover a node other than the one it stands on (table cells are dense: their small characters may touch a neighbour's caption)
+        const hit = await page.evaluate(() => {
+          const out = [];
+          const nodes = [...document.querySelectorAll('[data-testid="story-node"]')].map((g) => ({ id: g.getAttribute("data-story-node"), r: g.getBoundingClientRect() }));
+          for (const el of document.querySelectorAll('[data-testid^="actor-"]')) {
+            const r = el.getBoundingClientRect();
+            for (const n of nodes) {
+              if (n.id === el.dataset.node || el.dataset.node === "end") continue;
+              const x = Math.min(r.right, n.r.right) - Math.max(r.left, n.r.left);
+              const y = Math.min(r.bottom, n.r.bottom) - Math.max(r.top, n.r.top);
+              if (x > 6 && y > 6) out.push(`${el.dataset.testid} covers ${n.id}`);
+            }
+          }
+          return out;
+        });
+        for (const h of hit) coverIssues.push(`step ${i}: ${h}`);
+      }
       if (shots && i === Math.min(5, total - 2)) await page.screenshot({ path: `${shots}/${label}-${c.id}-mid.png`, fullPage: false });
       if (i < total - 1) await page.keyboard.press("ArrowRight");
     }
     check(`${tag}: ${total} steps, no bad values in the narration`, bad.length === 0, bad.slice(0, 2).join(" | "));
     check(`${tag}: narration changes along the run`, seen.size >= Math.min(4, total), `${seen.size} different lines`);
     check(`${tag}: actors on different cells never overlap`, overlapIssues.length === 0, overlapIssues.slice(0, 3).join(" | "));
+    if (c.chain && !GRID_IDS.has(c.id)) check(`${tag}: characters never cover another node`, coverIssues.length === 0, coverIssues.slice(0, 3).join(" | "));
     check(`${tag}: the last step shows the result and the moral`, c.final.test(await page.getByTestId("story-banner").innerText()) && (await page.getByTestId("story-moral").count()) === 1, await page.getByTestId("story-banner").innerText());
     if (shots) await page.screenshot({ path: `${shots}/${label}-${c.id}-end.png`, fullPage: false });
     const pageScroll = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
@@ -133,7 +185,7 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
     } else if (label === "phone") {
       const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), sideways: el.scrollWidth > el.clientWidth + 1, cells: el.querySelectorAll('[data-testid="story-cell"]').length, focusable: el.tabIndex === 0 }));
       // Up to 7 cells fit a 375px phone at a readable size; wider scenes scroll sideways in a keyboard-focusable area.
-      check(`${tag}: the scene fits the phone (up to 7 cells) or scrolls in a focusable area`, fit.cells <= 7 ? fit.scale < 1 && !fit.sideways : fit.focusable, JSON.stringify(fit));
+      check(`${tag}: the scene fits the phone (up to 7 cells) or scrolls in a focusable area`, fit.cells <= 7 ? fit.scale <= 1 && !fit.sideways : fit.focusable, JSON.stringify(fit));
     }
     await axeCheck(page, tag);
     // the standard visualization is still there

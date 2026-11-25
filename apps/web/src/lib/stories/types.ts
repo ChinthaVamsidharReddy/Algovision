@@ -167,6 +167,24 @@ export interface PileStory extends StoryMeta {
   frame(step: ExecutionStep<"stack" | "queue">, trace: PileTrace): PileFrame;
 }
 
+export interface TrieTrace {
+  readonly input: Readonly<Record<string, unknown>>;
+  readonly steps: readonly ExecutionStep<"trie">[];
+}
+/**
+ * What a trie story says about one step: the chain frame (a colour per node id, characters standing on node ids) plus an optional strip of
+ * letters being walked (with a pointer on the next letter) and a small badge under chosen nodes (for example how many endings pass through).
+ */
+export interface TrieFrame extends ChainFrame {
+  strip?: { label: string; items: { text: string; tone: Tone }[]; at?: number };
+  badges?: Record<string, string>;
+}
+/** A story told over a trie of letters (words, prefixes, suffixes). */
+export interface TrieStory extends StoryMeta {
+  kind: "trie";
+  frame(step: ExecutionStep<"trie">, trace: TrieTrace): TrieFrame;
+}
+
 /** The value of a named variable at this step, or null when it is not set yet. */
 export function variable(step: ExecutionStep, name: string): number | null {
   const v = step.variables.find((x) => x.name === name)?.value;

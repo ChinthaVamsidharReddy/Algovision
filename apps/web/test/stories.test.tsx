@@ -17,7 +17,7 @@ import type { Story } from "../src/lib/stories";
 /** The row-of-cells story for an algorithm (these tests drive it with array traces). */
 const storyFor = (id: string): Story | undefined => {
   const s = anyStoryFor(id);
-  return s && s.kind !== "linkedList" && s.kind !== "tree" && s.kind !== "graph" && s.kind !== "grid" && s.kind !== "pile" ? s : undefined;
+  return s && s.kind !== "linkedList" && s.kind !== "tree" && s.kind !== "graph" && s.kind !== "grid" && s.kind !== "pile" && s.kind !== "trie" ? s : undefined;
 };
 
 interface Vector { name: string; input: unknown; expected: unknown }
@@ -912,5 +912,291 @@ describe("batch 10 tree stories agree with the algorithm's real answer", () => {
     expect(screen.getByTestId("story")).toBeInTheDocument();
     const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
     expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+});
+
+// ---------- trie stories ----------
+import { TriePanel } from "../src/components/story/trie-panel";
+import { TRIE_STORIES } from "../src/lib/stories";
+import type { TrieTrace } from "../src/lib/stories/types";
+import { decodeOps } from "../src/lib/stories/trie-util";
+
+const trieTraceOf = (id: string, input: unknown): TrieTrace => traceOf(id, input) as unknown as TrieTrace;
+const trieStory = (id: string) => TRIE_STORIES.find((s) => s.id === id)!;
+const trieLast = (id: string, input: unknown) => {
+  const t = trieTraceOf(id, input);
+  return trieStory(id).frame(t.steps[t.steps.length - 1]!, t);
+};
+
+describe("every trie story frame, on every test vector", () => {
+  it("registers the three trie stories", () => {
+    expect(TRIE_STORIES.map((s) => s.id).sort()).toEqual(["longest-repeated-substring", "trie-distinct-substrings", "trie-insert-search"]);
+  });
+  for (const story of TRIE_STORIES) {
+    it(`${story.id}: each step has clean text, characters on real nodes and a strip that matches the word`, () => {
+      expect(vectors(story.id).length).toBeGreaterThan(3);
+      for (const v of vectors(story.id)) {
+        const trace = trieTraceOf(story.id, v.input);
+        for (const step of trace.steps) {
+          const f = story.frame(step, trace);
+          const where = `${story.id} / ${v.name} / step ${step.index}`;
+          const ids = new Set(step.state.nodes.map((n) => n.id));
+          for (const a of f.actors) expect(ids.has(a.node), `${where}: actor ${a.id}`).toBe(true);
+          for (const id of Object.keys(f.tones)) expect(ids.has(id), `${where}: tone ${id}`).toBe(true);
+          for (const id of Object.keys(f.badges ?? {})) expect(ids.has(id), `${where}: badge ${id}`).toBe(true);
+          const text = [f.says, f.banner?.text ?? "", f.board?.text ?? "", ...(f.strip?.items.map((i) => i.text) ?? []), ...Object.values(f.badges ?? {})].join(" ");
+          expect(text, where).not.toMatch(/undefined|NaN|null|\[object/);
+          expect(f.inCode ?? "", where).not.toMatch(/undefined|NaN|\[object/);
+          expect(f.says.length, where).toBeGreaterThan(15);
+          if (f.strip && step.state.word) expect(f.strip.items.length, where).toBeGreaterThan(0);
+        }
+      }
+    });
+  }
+});
+
+describe("trie stories agree with the algorithm's real answer", () => {
+  it("trie-insert-search counts the yes answers among the questions", () => {
+    for (const v of vectors("trie-insert-search")) {
+      const t = trieTraceOf("trie-insert-search", v.input);
+      const questions = decodeOps(t).filter((o) => o.kind !== "insert").length;
+      const f = trieLast("trie-insert-search", v.input);
+      if (questions === 0) { expect(f.banner?.kind, v.name).toBe("info"); continue; }
+      expect(f.banner?.text, v.name).toBe(`${v.expected} of ${questions} ${questions === 1 ? "question" : "questions"} answered yes.`);
+    }
+  });
+  it("trie-insert-search decodes every operation word", () => {
+    const t = trieTraceOf("trie-insert-search", vectors("trie-insert-search").find((v) => v.name === "classic")!.input);
+    const ops = decodeOps(t);
+    expect(ops.length).toBeGreaterThan(3);
+    for (const o of ops) expect(o.word).toMatch(/^[a-z]{1,6}$/);
+  });
+  it("trie-distinct-substrings states the expected count", () => {
+    for (const v of vectors("trie-distinct-substrings")) {
+      const f = trieLast("trie-distinct-substrings", v.input);
+      expect(f.banner?.text, v.name).toBe(`The text has ${v.expected} distinct ${v.expected === 1 ? "substring" : "substrings"}.`);
+    }
+  });
+  it("longest-repeated-substring states the expected length and a piece of that length that really repeats", () => {
+    for (const v of vectors("longest-repeated-substring")) {
+      const f = trieLast("longest-repeated-substring", v.input);
+      if (v.expected === 0) { expect(f.banner?.text, v.name).toMatch(/No piece/); continue; }
+      const m = /"([a-z]+)", length (\d+)\.$/.exec(f.banner?.text ?? "");
+      expect(m, v.name).not.toBeNull();
+      expect(Number(m![2]), v.name).toBe(v.expected);
+      expect(m![1]!.length, v.name).toBe(v.expected);
+      const s = (v.input as { s: string }).s;
+      expect(s.indexOf(m![1]!) !== s.lastIndexOf(m![1]!), `${v.name}: "${m![1]}" occurs twice in "${s}"`).toBe(true);
+    }
+  });
+});
+
+describe("the trie panel", () => {
+  it("draws the strip, the nodes, a double ring for a word end and a pointer", () => {
+    const trace = trieTraceOf("trie-insert-search", vectors("trie-insert-search").find((v) => v.name === "classic")!.input);
+    const at = trace.steps.findIndex((s) => s.source.kind === "anchor" && s.source.id === "mark");
+    render(<TriePanel story={trieStory("trie-insert-search")} step={trace.steps[at]!} trace={trace} />);
+    expect(screen.getAllByTestId("story-strip-cell").length).toBeGreaterThan(0);
+    expect(screen.getAllByTestId("story-node").length).toBeGreaterThan(1);
+    expect(screen.getAllByTestId("story-word-end").length).toBeGreaterThan(0);
+  });
+  it("is mounted by the workspace for a trie algorithm and has no accessibility violations", async () => {
+    const { container } = render(<Workspace algorithmId="trie-insert-search" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+    const r = await axe.run(container, { runOnly: ["wcag2a", "wcag2aa"], rules: { "color-contrast": { enabled: false } } });
+    expect(r.violations.map((x) => x.id)).toEqual([]);
+  });
+  it("is mounted by the workspace for a suffix-trie algorithm", () => {
+    render(<Workspace algorithmId="longest-repeated-substring" />);
+    expect(screen.getByTestId("story")).toBeInTheDocument();
+  });
+});
+
+// ---------- string stories ----------
+const lastRowFrame = (id: string, input: unknown) => {
+  const t = traceOf(id, input);
+  return storyFor(id)!.frame(t.steps[t.steps.length - 1]!, t);
+};
+describe("string stories agree with the algorithm's real answer", () => {
+  it("each of the six ends with the expected answer in its banner", () => {
+    const checks: [string, (e: number) => RegExp][] = [
+      ["longest-substring-no-repeat", (e) => new RegExp(`has length ${e}\\.$`)],
+      ["longest-repeating-replacement", (e) => new RegExp(`has length ${e}\\.$`)],
+      ["count-palindromic-substrings", (e) => new RegExp(`has ${e} palindromic pieces?\\.$`)],
+      ["longest-palindromic-substring", (e) => new RegExp(`has length ${e}\\.$`)],
+      ["first-unique-character", (e) => (e === -1 ? /answer is -1\.$/ : new RegExp(`at index ${e}\\.$`))],
+      ["string-compression-length", (e) => (e === 0 ? /length 0\.$/ : new RegExp(`is ${e} characters long\\.$`))],
+    ];
+    for (const [id, re] of checks) {
+      expect(vectors(id).length).toBeGreaterThan(3);
+      for (const v of vectors(id)) {
+        const f = lastRowFrame(id, v.input);
+        expect(f.banner?.text, `${id} ${v.name}`).toMatch(re(v.expected as number));
+      }
+    }
+  });
+  it("the compression story writes a shorthand whose length is the expected answer", () => {
+    for (const v of vectors("string-compression-length")) {
+      const f = lastRowFrame("string-compression-length", v.input);
+      const m = /shorthand "([^"]*)" is (\d+) characters/.exec(f.banner?.text ?? "");
+      if (!m) { expect(v.expected, v.name).toBe(0); continue; }
+      expect(m[1]!.length, v.name).toBe(v.expected);
+    }
+  });
+  it("the palindrome stories show real letters on the cells", () => {
+    const v = vectors("longest-palindromic-substring").find((x) => (x.input as { s: string }).s.length > 5)!;
+    const t = traceOf("longest-palindromic-substring", v.input);
+    const f = storyFor("longest-palindromic-substring")!.frame(t.steps[3]!, t);
+    expect(f.cells.map((c) => c.main).join("")).toBe((v.input as { s: string }).s);
+  });
+});
+
+describe("batch 12: union-find, graph leftovers, segment and Fenwick stories", () => {
+  it("count-style graph stories state the expected number", () => {
+    const checks: [string, RegExp | ((e: number) => RegExp)][] = [
+      ["union-find-components", (e) => new RegExp(`^${e} friend circles?\\.$`)],
+      ["connected-components", (e) => new RegExp(`^${e} regions?\\.$`)],
+      ["strongly-connected-components", (e) => new RegExp(`^${e} neighbourhoods?\\.$`)],
+    ];
+    for (const [id, re] of checks) {
+      for (const v of vectors(id)) {
+        const { f } = graphLast(id, v.input);
+        expect(f.banner?.text, `${id} ${v.name}`).toMatch((re as (e: number) => RegExp)(v.expected as number));
+      }
+    }
+  });
+  it("detect-cycle says loop or no loop as the vector expects", () => {
+    for (const v of vectors("detect-cycle-undirected")) {
+      const { f } = graphLast("detect-cycle-undirected", v.input);
+      expect(f.banner?.kind, v.name).toBe(v.expected === 1 ? "bad" : "good");
+    }
+  });
+  it("kruskal names the expected total cost", () => {
+    for (const v of vectors("kruskal-mst")) {
+      const { f } = graphLast("kruskal-mst", v.input);
+      expect(f.banner?.text, v.name).toContain(` ${v.expected}`);
+      expect(f.board?.text, v.name).toContain(`Bill: ${v.expected}`);
+    }
+  });
+  it("segment-tree-range-sum states the expected sum", () => {
+    for (const v of vectors("segment-tree-range-sum")) {
+      const f = treeLast("segment-tree-range-sum", v.input);
+      expect(f.banner?.text, v.name).toMatch(new RegExp(`add up to ${v.expected}\\.$`));
+    }
+  });
+  it("fenwick-tree-prefix-sum states the expected total", () => {
+    for (const v of vectors("fenwick-tree-prefix-sum")) {
+      const f = lastRowFrame("fenwick-tree-prefix-sum", v.input);
+      expect(f.banner?.text, v.name).toMatch(new RegExp(`: ${String(v.expected).replace("-", "\\-")}\\.$`));
+    }
+  });
+  it("the new stories are mounted by the workspace", () => {
+    for (const id of ["union-find-components", "kruskal-mst", "segment-tree-range-sum", "fenwick-tree-prefix-sum"]) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+describe("batch 13: hash tables, circular queue, linked-list leftovers", () => {
+  it("count-frequencies lists every value with its count", () => {
+    for (const v of vectors("count-frequencies")) {
+      const f = lastRowFrame("count-frequencies", v.input);
+      const e = v.expected as number[];
+      if (e.length === 0) { expect(f.banner?.kind, v.name).toBe("info"); continue; }
+      const parts: string[] = [];
+      for (let k = 0; k < e.length; k += 2) parts.push(`${e[k]} ×${e[k + 1]}`);
+      expect(f.banner?.text, v.name).toBe(`Tally: ${parts.join(", ")}.`);
+    }
+  });
+  it("first-repeating-element names the repeated badge or says there is none", () => {
+    for (const v of vectors("first-repeating-element")) {
+      const f = lastRowFrame("first-repeating-element", v.input);
+      if (v.expected === -1) expect(f.banner?.kind, v.name).toBe("good");
+      else expect(f.banner?.text, v.name).toBe(`First repeat: badge ${v.expected}.`);
+    }
+  });
+  it("hash-table-insert shows the expected final table", () => {
+    for (const v of vectors("hash-table-insert-linear-probing")) {
+      const f = lastRowFrame("hash-table-insert-linear-probing", v.input);
+      expect(f.banner?.text, v.name).toBe(`Final lockers: ${(v.expected as number[]).map((x) => (x === -1 ? "free" : x)).join(", ")}.`);
+    }
+  });
+  it("hash-table-search reports the expected locker or none", () => {
+    for (const v of vectors("hash-table-search")) {
+      const f = lastRowFrame("hash-table-search", v.input);
+      const key = (v.input as { key: number }).key;
+      expect(f.banner?.text, v.name).toBe(v.expected === -1 ? `Member ${key} has no locker.` : `Member ${key} has locker ${v.expected}.`);
+    }
+  });
+  it("circular-queue lists who is still waiting, front first", () => {
+    for (const v of vectors("circular-queue")) {
+      const f = lastRowFrame("circular-queue", v.input);
+      const e = v.expected as number[];
+      if (e.length === 0) expect(f.banner?.text, v.name).toBe("Nobody is waiting.");
+      else expect(f.banner?.text, v.name).toBe(`Waiting, front first: ${e.join(", ")}.`);
+    }
+  });
+  it("lru-cache states the expected total", () => {
+    for (const v of vectors("lru-cache")) {
+      const t = chainTraceOf("lru-cache", v.input);
+      const f = chainStory("lru-cache").frame(t.steps[t.steps.length - 1]!, t);
+      expect(f.banner?.text, v.name).toBe(`The values returned by get add up to ${v.expected}.`);
+    }
+  });
+  it("the new stories are mounted by the workspace", () => {
+    for (const id of ["hash-table-insert-linear-probing", "circular-queue", "linked-list-insert-tail", "lru-cache"]) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+describe("batch 14: searching stories", () => {
+  it("first occurrence, bounds, jump search and rotated search state the expected index", () => {
+    for (const v of vectors("binary-search-first-occurrence")) {
+      const f = lastRowFrame("binary-search-first-occurrence", v.input);
+      const e = v.expected as number;
+      const t = (v.input as { target: number }).target;
+      if (e === -1) expect(f.banner?.text, v.name).toBe(`${t} is not on the shelf.`);
+      else expect(f.banner?.text, v.name).toBe(`The first copy of ${t} is book ${e + 1} (index ${e}).`);
+    }
+    for (const id of ["lower-bound", "upper-bound"]) {
+      for (const v of vectors(id)) {
+        const f = lastRowFrame(id, v.input);
+        expect(f.banner?.text, `${id} ${v.name}`).toMatch(new RegExp(`^Answer: spot ${v.expected}[ (:,.]`));
+      }
+    }
+    for (const v of vectors("jump-search")) {
+      const f = lastRowFrame("jump-search", v.input);
+      const e = v.expected as number;
+      if (e === -1) expect(f.banner?.kind, v.name).toBe("info");
+      else expect(f.banner?.text, v.name).toContain(`(index ${e})`);
+    }
+    for (const v of vectors("search-rotated-array")) {
+      const f = lastRowFrame("search-rotated-array", v.input);
+      const e = v.expected as number;
+      if (e === -1) expect(f.banner?.kind, v.name).toBe("info");
+      else expect(f.banner?.text, v.name).toContain(`(index ${e})`);
+    }
+  });
+  it("find-peak-element and find-maximum state the expected answer", () => {
+    for (const v of vectors("find-peak-element")) {
+      const f = lastRowFrame("find-peak-element", v.input);
+      expect(f.banner?.text, v.name).toContain(`(index ${v.expected})`);
+    }
+    for (const v of vectors("find-maximum")) {
+      const f = lastRowFrame("find-maximum", v.input);
+      expect(f.banner?.text, v.name).toContain(`tallest is ${v.expected},`);
+    }
+  });
+  it("the new stories are mounted by the workspace", () => {
+    for (const id of ["lower-bound", "jump-search", "find-peak-element"]) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
   });
 });

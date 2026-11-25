@@ -25,3 +25,9 @@ export function takenOut(trace: { steps: readonly Step[] }, step: Step, anchors:
   return out;
 }
 export const listOut = (xs: readonly number[]): string => (xs.length ? xs.join(", ") : "nobody yet");
+
+/** In the vertex-number graph traces the vertex numbered n has the id g<n>. */
+export const gid = (n: number | null | undefined): string => `g${n}`;
+export const plural = (n: number, one: string, many: string): string => `${n} ${n === 1 ? one : many}`;
+/** Vertices whose mark is already set (a parent, a group, a component). */
+export const marked = (step: Step): string[] => step.state.nodes.filter((n) => step.state.marks[n.id] !== null && step.state.marks[n.id] !== undefined).map((n) => n.id);
