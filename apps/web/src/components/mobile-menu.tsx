@@ -47,6 +47,9 @@ export function MobileMenu() {
       {open && (
         <nav id={id} aria-label="Main menu" className="absolute inset-x-0 top-full z-40 border-b border-border bg-surface px-4 pb-4 pt-2 shadow-lg">
           <div className="mx-auto flex max-w-md flex-col items-stretch gap-1">
+            <Link href="/home" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
+              Home
+            </Link>
             <Link href="/algorithms" className="flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-surface-2">
               Algorithms
             </Link>

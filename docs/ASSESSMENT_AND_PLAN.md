@@ -320,3 +320,31 @@ You asked me to decide based on how the application is built, so the decisions w
 - **Tests:** every story is replayed over every vector (clean text, valid ids); final banners are compared with each vector's expected index or value (first occurrence, bound spot, jump index, rotated index, peak index, maximum); the workspace mounts three of them. Edge cases covered: empty arrays, answer one past the end, absent targets.
 - **Fixes found on the way:** a bookmark character collided with the End flag (now the bookmarked book is simply shown in green); jump-search said "null" for an empty list; the board forgot the chapter size after the first step.
 - **Still without a story scene:** recursion (5) and about 43 array algorithms (sorting, dynamic programming, greedy, sliding-window, maths, bit, backtracking), in batches 15 onwards.
+
+### Story mode, batch 15: sorting and array basics (94 stories in total)
+
+- **Four sorting stories on the row scene:** `counting-sort` (pigeonholes in a mail room; the board shows the tally marks), `merge-sort` (split a class, merge two sorted lines; the board shows the new line being built, rebuilt from the trace's own "found" highlights), `quick-sort` (the measuring stick: pivot, a flag for the next small spot, a scanner; the board counts places that are final) and `shell-sort` (sorting across gaps; the board shows the gap and the person in hand).
+- **Four array-basics stories:** `insert-at-index` (making room in a row of seats, starting from the back), `delete-at-index` (closing the gap), `prefix-sum` (the running total of takings) and `missing-number` (the lost raffle ticket: expected sum against real sum).
+- **Decision: no new scene or schema change.** `sort-util.ts` holds the shared colours (finished places green, out-of-range cells faded) and helpers.
+- **Tests:** every story is replayed over every vector; the four sorting stories must end with "Sorted: <expected row>" (or "Nothing to sort" for an empty row); insert, delete, prefix sum and missing number are compared with each vector's expected result; the workspace mounts four of them. A test that used `prefix-sum` as an example of an algorithm without a story now uses `gcd-euclid`.
+- **Still without a story scene:** recursion (5) and about 35 more algorithms (dynamic programming, greedy, sliding window, maths, bit, backtracking, a few array ones), in batches 16 onwards.
+
+### Story mode, batch 16: recursion (99 stories in total)
+
+Five recursion algorithms get a story on the existing stack scene: factorial, recursive Fibonacci, fast exponentiation, recursive digit sum and Tower of Hanoi moves. Every unfinished call is a "sticky note" on the pile, captioned with the call (for example `fib(3)`); a finished call is taken off with its answer handed to the note below.
+
+- One shared factory, `recursion-core.ts` (`callStory`), reads the trace event type (push, peek, pop, done) and the call's own variables, so no trace-schema change was needed. Each algorithm only supplies its wording.
+- The Fibonacci and Hanoi stories show "Notes written so far" on the board, which makes the repeated work visible.
+- Tests: the closing banner is `Answer: <expected>` on every vector, the pile is empty at the end, captions match the notes, and the workspace mounts each story.
+- Pile text may not contain a question mark (the shared clean-text test), so narration is phrased as statements.
+
+### Rebrand to AlgoMigo, landing page, home page and footer
+
+- **Name.** The product is now AlgoMigo ("Al-go-MEE-go", Algorithm + Amigo), tagline "Your friendly companion for mastering DSA." It lives in `apps/web/brand.config.ts` (name, pronunciation, tagline, description, country, social links, contact email). Domain and trademark availability are NOT verified; check a registrar and the trademark registers before launch.
+- **Kept on purpose.** Internal identifiers were not renamed: the `X-AlgoVision-Client` request header (the deployed API checks it), the Java package `dev.algovision`, the `@algovision/*` workspace names and the `av-*` local-storage keys. Renaming them would break the deployed API's origin check and existing learners' saved settings, and the Spring build cannot be run here. They can be renamed later in one coordinated change.
+- **Logo and icons.** A new SVG mark (`components/brand/logo.tsx`: three rising bars and a highlight dot); PWA icons (192, 512, maskable, Apple touch) regenerated from it.
+- **Footer.** Brand and tagline, social icons (GitHub, LinkedIn, X, Instagram, YouTube; an entry with an empty address is hidden), three link columns that only point at existing pages, copyright with the current year, "Made with love in India", and the server status. The social addresses in `brand.config.ts` are the platforms' root pages until real profiles exist.
+- **Landing page (`/`).** Animated headline (word-by-word rise, gradient word), a live demo window (bars with a scanning pointer, a stepping code highlight and changing captions), a topics marquee, count-up statistics taken from the real catalog, "three ways in", a story-mode teaser (tortoise and hare), eight feature cards and a closing call to action. All motion is CSS (scroll reveals use scroll-driven animations where the browser supports them and are simply visible elsewhere); `prefers-reduced-motion` turns it all off.
+- **Home page (`/home`).** Greeting (signed-in name or a gentle sign-up nudge), six quick-link tiles, eight "Start here" algorithm cards with a small picture of the data shape, 18 topic tiles that jump to that topic in the catalog, and a daily-habit band. The header and footer gained a Home link.
+- **Colours.** New decorative tokens (`--brand-2/3/4`, `--glow-*`) in light and dark themes; text colours still come from the contrast-tested tokens.
+- **Tests.** `test/brand-pages.test.tsx` (brand, footer, header, landing, home, axe) and `e2e/brand.mjs` (desktop and phone, light and dark contrast, reduced motion, navigation, no sideways scroll, no old name on the page).

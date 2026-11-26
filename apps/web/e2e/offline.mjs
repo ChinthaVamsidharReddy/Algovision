@@ -30,7 +30,7 @@ page.on("pageerror", (e) => errors.push(e.message));
 
 // ---- manifest and icons ----
 const manifest = await (await context.request.get(`${base}/manifest.webmanifest`)).json();
-check("manifest names the app and starts standalone", manifest.short_name === "AlgoVision" && manifest.display === "standalone", JSON.stringify(manifest.display));
+check("manifest names the app and starts standalone", manifest.short_name === "AlgoMigo" && manifest.display === "standalone", JSON.stringify(manifest.display));
 check("manifest has 192, 512 and maskable icons", ["192x192", "512x512"].every((s) => manifest.icons.some((i) => i.sizes === s)) && manifest.icons.some((i) => i.purpose === "maskable"));
 for (const i of manifest.icons) {
   const r = await context.request.get(new URL(i.src, base).href);

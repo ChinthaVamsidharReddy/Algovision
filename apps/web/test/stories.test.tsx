@@ -376,7 +376,7 @@ describe("the workspace", () => {
     expect(screen.getByTestId("state-text")).toBeInTheDocument();
   });
   it("shows no story panel for algorithms without one", () => {
-    render(<Workspace algorithmId="prefix-sum" />);
+    render(<Workspace algorithmId="gcd-euclid" />);
     expect(screen.queryByTestId("story")).toBeNull();
   });
 });
@@ -752,8 +752,8 @@ const pileLast = (id: string, input: unknown) => {
 };
 
 describe("every pile story frame, on every test vector", () => {
-  it("registers the eight stack and queue stories", () => {
-    expect(PILE_STORIES.map((s) => s.id).sort()).toEqual(["evaluate-postfix", "largest-rectangle-histogram", "next-greater-element", "queue-enqueue-dequeue", "sliding-window-maximum", "stack-push-pop", "stock-span", "valid-parentheses"]);
+  it("registers the eight stack and queue stories and the five recursion stories", () => {
+    expect(PILE_STORIES.map((s) => s.id).sort()).toEqual(["evaluate-postfix", "factorial", "fibonacci-recursive", "largest-rectangle-histogram", "next-greater-element", "power-fast-exponentiation", "queue-enqueue-dequeue", "sliding-window-maximum", "stack-push-pop", "stock-span", "sum-of-digits-recursive", "tower-of-hanoi-moves", "valid-parentheses"]);
   });
   for (const story of PILE_STORIES) {
     it(`${story.id}: each step has clean text and a pile that matches the state`, () => {
@@ -1194,6 +1194,71 @@ describe("batch 14: searching stories", () => {
   });
   it("the new stories are mounted by the workspace", () => {
     for (const id of ["lower-bound", "jump-search", "find-peak-element"]) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+describe("batch 15: sorting and array basics", () => {
+  const sortedBanner = (e: number[]) => (e.length ? `Sorted: ${e.join(", ")}.` : null);
+  it("the four sorting stories end with the sorted row", () => {
+    for (const id of ["counting-sort", "merge-sort", "quick-sort", "shell-sort"]) {
+      for (const v of vectors(id)) {
+        const f = lastRowFrame(id, v.input);
+        const e = v.expected as number[];
+        const want = sortedBanner(e);
+        if (want === null) expect(f.banner?.text, `${id} ${v.name}`).toBe("Nothing to sort.");
+        else expect(f.banner?.text, `${id} ${v.name}`).toBe(want);
+      }
+    }
+  });
+  it("insert, delete, prefix sum and missing number state the expected result", () => {
+    for (const v of vectors("insert-at-index")) expect(lastRowFrame("insert-at-index", v.input).banner?.text, v.name).toBe(`Now: ${(v.expected as number[]).join(", ")}.`);
+    for (const v of vectors("delete-at-index")) {
+      const e = v.expected as number[];
+      expect(lastRowFrame("delete-at-index", v.input).banner?.text, v.name).toBe(e.length ? `Now: ${e.join(", ")}.` : "The row is empty.");
+    }
+    for (const v of vectors("prefix-sum")) {
+      const e = v.expected as number[];
+      expect(lastRowFrame("prefix-sum", v.input).banner?.text, v.name).toBe(e.length ? `Running totals: ${e.join(", ")}.` : "Nothing to add up.");
+    }
+    for (const v of vectors("missing-number")) expect(lastRowFrame("missing-number", v.input).banner?.text, v.name).toBe(`The missing ticket is ${v.expected}.`);
+  });
+  it("the new stories are mounted by the workspace", () => {
+    for (const id of ["counting-sort", "merge-sort", "quick-sort", "insert-at-index"]) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+// ---------- batch 16: recursion (sticky-note pile) ----------
+describe("recursion stories", () => {
+  const ids = ["factorial", "fibonacci-recursive", "power-fast-exponentiation", "sum-of-digits-recursive", "tower-of-hanoi-moves"];
+  it("end with the real answer on every test vector", () => {
+    for (const id of ids) {
+      for (const v of vectors(id)) {
+        const { f } = pileLast(id, v.input);
+        expect(f.banner?.text, `${id} ${v.name}`).toBe(`Answer: ${v.expected}`);
+        expect(f.pile.length, `${id} ${v.name}`).toBe(0);
+      }
+    }
+  });
+  it("show one pile item per active call, captioned with the call", () => {
+    const t = pileTraceOf("fibonacci-recursive", { n: 4 });
+    const deep = t.steps.reduce((a, b) => (b.state.items.length > a.state.items.length ? b : a));
+    const f = pileStory("fibonacci-recursive").frame(deep, t);
+    expect(f.pile.map((p) => p.sub)).toEqual(f.pile.map((p) => `fib(${p.text})`));
+  });
+  it("the Fibonacci story counts every note written", () => {
+    const { f } = pileLast("fibonacci-recursive", { n: 4 });
+    expect(f.board?.text).toBe("9");
+  });
+  it("are mounted by the workspace", () => {
+    for (const id of ids) {
       const { unmount } = render(<Workspace algorithmId={id} />);
       expect(screen.getByTestId("story"), id).toBeInTheDocument();
       unmount();

@@ -2,7 +2,7 @@
   "name": "algovision",
   "private": true,
   "version": "0.1.0",
-  "description": "AlgoVision: interactive DSA visual learning platform (working name)",
+  "description": "AlgoMigo: your friendly companion for mastering DSA (interactive visual learning platform)",
   "packageManager": "pnpm@10.28.0",
   "engines": {
     "node": ">=22.12.0"

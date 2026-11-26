@@ -1,5 +1,5 @@
 /*
- * AlgoVision service worker: lets the app open and run without a connection.
+ * AlgoMigo service worker: lets the app open and run without a connection.
  *  - Static build files and the code-practice runtime are cached on first use (they never change under the same URL).
  *  - Pages are fetched from the network first and cached; offline, the last copy is shown, or /offline.
  *  - /api/* is never touched, so accounts, progress and sign-in always go to the server (and show their own error

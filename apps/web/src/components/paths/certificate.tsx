@@ -69,7 +69,7 @@ function Inner({ path }: { path: PathData }) {
         <PrintButton />
       </div>
       <article aria-labelledby="cert-title" data-testid="certificate" className="space-y-4 rounded-xl border-4 border-double border-border bg-surface p-8 text-center print:border-black print:bg-white print:text-black">
-        <p className="text-sm font-semibold uppercase tracking-widest text-muted print:text-black">AlgoVision</p>
+        <p className="text-sm font-semibold uppercase tracking-widest text-muted print:text-black">AlgoMigo</p>
         <h1 id="cert-title" className="text-3xl font-bold">
           Certificate of completion
         </h1>
@@ -88,7 +88,7 @@ function Inner({ path }: { path: PathData }) {
           ))}
         </ul>
         <p data-testid="certificate-date">Completed on {date}</p>
-        <p className="text-xs text-muted print:text-black">This is a record of study on AlgoVision. It is not an accredited qualification.</p>
+        <p className="text-xs text-muted print:text-black">This is a record of study on AlgoMigo. It is not an accredited qualification.</p>
       </article>
     </div>
   );

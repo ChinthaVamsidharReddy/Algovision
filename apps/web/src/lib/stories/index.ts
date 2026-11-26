@@ -38,6 +38,11 @@ import { maxAreaOfIslandStory } from "./max-area-of-island";
 import { rottingOrangesStory } from "./rotting-oranges";
 import { spiralOrderStory } from "./spiral-order";
 import { stackPushPopStory } from "./stack-push-pop";
+import { factorialStory } from "./factorial";
+import { fibonacciRecursiveStory } from "./fibonacci-recursive";
+import { powerFastExponentiationStory } from "./power-fast-exponentiation";
+import { sumOfDigitsRecursiveStory } from "./sum-of-digits-recursive";
+import { towerOfHanoiMovesStory } from "./tower-of-hanoi-moves";
 import { queueEnqueueDequeueStory } from "./queue-enqueue-dequeue";
 import { validParenthesesStory } from "./valid-parentheses";
 import { evaluatePostfixStory } from "./evaluate-postfix";
@@ -83,10 +88,18 @@ import { jumpSearchStory } from "./jump-search";
 import { findPeakStory } from "./find-peak-element";
 import { searchRotatedStory } from "./search-rotated-array";
 import { findMaximumStory } from "./find-maximum";
+import { countingSortStory } from "./counting-sort";
+import { mergeSortStory } from "./merge-sort";
+import { quickSortStory } from "./quick-sort";
+import { shellSortStory } from "./shell-sort";
+import { insertAtIndexStory } from "./insert-at-index";
+import { deleteAtIndexStory } from "./delete-at-index";
+import { prefixSumStory } from "./prefix-sum";
+import { missingNumberStory } from "./missing-number";
 import type { ChainStory, GraphStory, GridStory, PileStory, Story, TreeStory, TrieStory } from "./types";
 
 /** Stories by algorithm id. Add an entry here (plus its file and a test case) to tell another algorithm as a story. */
-export const STORIES: readonly Story[] = [findDuplicateFloydStory, twoSumSortedStory, isPalindromeStringStory, binarySearchStory, dutchNationalFlagStory, containerWithMostWaterStory, reverseInPlaceStory, linearSearchStory, bubbleSortStory, selectionSortStory, insertionSortStory, moveZeroesStory, removeDuplicatesSortedStory, twoSumHashStory, kadaneStory, heapSortStory, longestSubstringNoRepeatStory, longestRepeatingReplacementStory, countPalindromicStory, longestPalindromicStory, firstUniqueCharacterStory, stringCompressionStory, fenwickStory, countFrequenciesStory, firstRepeatingStory, hashInsertStory, hashSearchStory, circularQueueStory, firstOccurrenceStory, lowerBoundStory, upperBoundStory, jumpSearchStory, findPeakStory, searchRotatedStory, findMaximumStory];
+export const STORIES: readonly Story[] = [findDuplicateFloydStory, twoSumSortedStory, isPalindromeStringStory, binarySearchStory, dutchNationalFlagStory, containerWithMostWaterStory, reverseInPlaceStory, linearSearchStory, bubbleSortStory, selectionSortStory, insertionSortStory, moveZeroesStory, removeDuplicatesSortedStory, twoSumHashStory, kadaneStory, heapSortStory, longestSubstringNoRepeatStory, longestRepeatingReplacementStory, countPalindromicStory, longestPalindromicStory, firstUniqueCharacterStory, stringCompressionStory, fenwickStory, countFrequenciesStory, firstRepeatingStory, hashInsertStory, hashSearchStory, circularQueueStory, firstOccurrenceStory, lowerBoundStory, upperBoundStory, jumpSearchStory, findPeakStory, searchRotatedStory, findMaximumStory, countingSortStory, mergeSortStory, quickSortStory, shellSortStory, insertAtIndexStory, deleteAtIndexStory, prefixSumStory, missingNumberStory];
 /** Stories told over a chain of nodes (linked lists). */
 /** Stories told over a binary tree. */
 export const TREE_STORIES: readonly TreeStory[] = [binaryTreeInorderStory, binaryTreePreorderStory, binaryTreePostorderStory, bstSearchStory, bstInsertStory, treeHeightStory, minHeapBuildInsertStory, heapifyBottomUpStory, kthLargestStory, levelOrderStory, countLeavesStory, bstFindMinMaxStory, avlInsertStory, segmentTreeStory];
@@ -95,7 +108,7 @@ export const GRAPH_STORIES: readonly GraphStory[] = [bfsTraversalStory, dfsTrave
 /** Stories told over a grid. */
 export const GRID_STORIES: readonly GridStory[] = [minPathSumStory, lcsStory, editDistanceStory, numberOfIslandsStory, maxAreaOfIslandStory, rottingOrangesStory, spiralOrderStory];
 /** Stories told over a stack or a queue. */
-export const PILE_STORIES: readonly PileStory[] = [stackPushPopStory, queueEnqueueDequeueStory, validParenthesesStory, evaluatePostfixStory, nextGreaterElementStory, stockSpanStory, largestRectangleStory, slidingWindowMaximumStory];
+export const PILE_STORIES: readonly PileStory[] = [stackPushPopStory, queueEnqueueDequeueStory, validParenthesesStory, evaluatePostfixStory, nextGreaterElementStory, stockSpanStory, largestRectangleStory, slidingWindowMaximumStory, factorialStory, fibonacciRecursiveStory, powerFastExponentiationStory, sumOfDigitsRecursiveStory, towerOfHanoiMovesStory];
 /** Stories told over a trie. */
 export const TRIE_STORIES: readonly TrieStory[] = [trieInsertSearchStory, trieDistinctSubstringsStory, longestRepeatedStory];
 export const CHAIN_STORIES: readonly ChainStory[] = [linkedListReverseStory, linkedListFindMiddleStory, linkedListRemoveNthStory, linkedListSearchStory, linkedListInsertHeadStory, linkedListDeleteValueStory, linkedListInsertTailStory, linkedListInsertAtPositionStory, lruCacheStory];

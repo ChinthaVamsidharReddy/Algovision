@@ -1,0 +1,259 @@
+/*
+ * Landing and home page motion. Everything here is decoration: it uses the colour tokens from globals.css,
+ * never moves text out of reach, and is switched off completely under prefers-reduced-motion.
+ */
+
+/* ---------- full-width backdrop ---------- */
+.lp-bleed {
+  position: relative;
+  isolation: isolate;
+}
+.lp-bleed::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: -1.5rem 0;
+  inset-inline: calc(50% - 50vw);
+  background:
+    radial-gradient(60rem 28rem at 12% -4%, var(--glow-1), transparent 60%),
+    radial-gradient(48rem 26rem at 92% 6%, var(--glow-2), transparent 60%),
+    radial-gradient(40rem 24rem at 60% 100%, var(--glow-3), transparent 60%);
+}
+.lp-dots {
+  position: absolute;
+  z-index: -1;
+  inset-block: -1.5rem 0;
+  inset-inline: calc(50% - 50vw);
+  background-image: radial-gradient(var(--border) 1px, transparent 1.5px);
+  background-size: 26px 26px;
+  mask-image: linear-gradient(to bottom, #000, transparent 75%);
+  opacity: 0.55;
+}
+.lp-blob {
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: 0.55;
+  animation: lp-float 14s ease-in-out infinite;
+}
+
+/* ---------- headline ---------- */
+.lp-word {
+  display: inline-block;
+  animation: lp-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+}
+.lp-gradient-text {
+  background: linear-gradient(100deg, var(--accent), var(--brand-2), var(--brand-3), var(--accent));
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: lp-shine 9s linear infinite;
+}
+.lp-fade-up {
+  animation: lp-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+.lp-rotator {
+  display: inline-grid;
+  vertical-align: bottom;
+  text-align: left;
+}
+.lp-rotator > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  animation: lp-cycle 15s infinite;
+  animation-delay: calc(var(--i, 0) * 3s);
+}
+.lp-rotator > span:first-child {
+  opacity: 1;
+}
+.lp-badge-dot {
+  animation: lp-pulse 2s ease-in-out infinite;
+}
+
+/* ---------- buttons ---------- */
+.lp-cta {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(100deg, var(--accent), var(--brand-2));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.lp-cta::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: lp-sweep 4.5s ease-in-out infinite;
+}
+.lp-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -10px var(--accent);
+}
+
+/* ---------- hero demo window ---------- */
+.lp-window {
+  animation: lp-float 9s ease-in-out infinite;
+}
+.lp-bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  align-items: end;
+  height: 9rem;
+}
+.lp-bar {
+  height: var(--h);
+  border-radius: 0.5rem 0.5rem 0.25rem 0.25rem;
+  background: var(--role-compared-stroke);
+  opacity: 0.85;
+  transform-origin: bottom;
+  animation: lp-bar-hl 5.6s infinite, lp-bar-breathe 5.6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.8s), calc(var(--i) * 0.8s);
+}
+.lp-pointer {
+  width: calc(100% / 7);
+  animation: lp-point 5.6s steps(7, jump-none) infinite;
+}
+.lp-code-hl {
+  height: 1.75rem;
+  animation: lp-line 5s steps(5, jump-none) infinite;
+}
+.lp-caption > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  animation: lp-cap 5.6s infinite;
+  animation-delay: calc(var(--i) * 0.8s);
+}
+.lp-caption {
+  display: grid;
+}
+
+/* ---------- marquee ---------- */
+.lp-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.lp-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation: lp-scroll 38s linear infinite;
+}
+.lp-marquee:hover .lp-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------- story teaser ---------- */
+.lp-track-hare {
+  animation: lp-hare 6s ease-in-out infinite;
+}
+.lp-track-tortoise {
+  animation: lp-tortoise 6s linear infinite;
+}
+
+/* ---------- cards ---------- */
+.lp-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.lp-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 16px 36px -22px var(--accent);
+}
+.lp-icon {
+  transition: transform 0.3s ease;
+}
+.lp-card:hover .lp-icon {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* ---------- scroll reveal (only where the browser can do it; otherwise everything is simply visible) ---------- */
+@supports (animation-timeline: view()) {
+  .lp-reveal {
+    animation: lp-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+/* ---------- keyframes ---------- */
+@keyframes lp-rise {
+  from { opacity: 0; transform: translateY(1.1rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lp-shine {
+  to { background-position: 250% 0; }
+}
+@keyframes lp-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes lp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--success); }
+  60% { box-shadow: 0 0 0 7px transparent; }
+}
+@keyframes lp-cycle {
+  0% { opacity: 0; transform: translateY(0.5em); }
+  4%, 17% { opacity: 1; transform: none; }
+  21%, 100% { opacity: 0; transform: translateY(-0.5em); }
+}
+@keyframes lp-cap {
+  0% { opacity: 0; transform: translateY(0.4em); }
+  2%, 11% { opacity: 1; transform: none; }
+  13.5%, 100% { opacity: 0; transform: translateY(-0.4em); }
+}
+@keyframes lp-sweep {
+  0%, 55% { inset-inline-start: -60%; }
+  100% { inset-inline-start: 130%; }
+}
+@keyframes lp-bar-hl {
+  0%, 12% { background: var(--role-active-stroke); opacity: 1; }
+  14%, 100% { background: var(--role-compared-stroke); opacity: 0.85; }
+}
+@keyframes lp-bar-breathe {
+  0%, 12% { transform: scaleY(1.06); }
+  14%, 100% { transform: scaleY(1); }
+}
+@keyframes lp-point {
+  from { transform: translateX(0); }
+  to { transform: translateX(600%); }
+}
+@keyframes lp-line {
+  from { transform: translateY(0); }
+  to { transform: translateY(400%); }
+}
+@keyframes lp-scroll {
+  to { transform: translateX(calc(-50% - 0.375rem)); }
+}
+@keyframes lp-hare {
+  0% { left: 0; }
+  45% { left: calc(100% - 2.75rem); }
+  55% { left: calc(100% - 2.75rem); }
+  100% { left: 0; }
+}
+@keyframes lp-tortoise {
+  0% { left: 0; }
+  100% { left: calc(100% - 2.75rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-word, .lp-fade-up, .lp-gradient-text, .lp-blob, .lp-window, .lp-badge-dot, .lp-cta::after, .lp-bar, .lp-pointer, .lp-code-hl,
+  .lp-marquee-track, .lp-track-hare, .lp-track-tortoise, .lp-reveal, .lp-rotator > span, .lp-caption > span {
+    animation: none !important;
+  }
+  .lp-rotator > span:not(:first-child), .lp-caption > span:not(:first-child) {
+    display: none;
+  }
+  .lp-caption > span:first-child, .lp-rotator > span:first-child {
+    opacity: 1;
+  }
+  .lp-card, .lp-cta, .lp-icon {
+    transition: none;
+  }
+}

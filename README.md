@@ -1,4 +1,4 @@
-# AlgoVision (provisional name)
+# AlgoMigo (formerly AlgoVision)
 
 Interactive DSA learning: watch an algorithm run step by step, with the matching line highlighted in Java, Python, C++ or C.
 
@@ -61,7 +61,7 @@ Each one ships verified Java, Python, C++ and C code. `pnpm test` compiles and r
 
 ## Free hosting: the API sleeping on Render
 
-Render's free web services sleep after about 15 minutes without traffic; the next request waits 30 to 60 seconds. AlgoVision handles this in three ways:
+Render's free web services sleep after about 15 minutes without traffic; the next request waits 30 to 60 seconds. AlgoMigo handles this in three ways:
 
 - **The site wakes the server as soon as it opens** (`apps/web/src/lib/wake.ts`) and shows a banner if the wait is longer than a couple of seconds. Visualizations never need the server, so they work during the wait.
 - **Sign-in, sign-up and password reset wait for the server** before sending, instead of failing with a timeout. These calls are never retried automatically, so an account is never created twice.

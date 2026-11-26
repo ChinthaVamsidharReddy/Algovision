@@ -16,6 +16,12 @@
   --accent: #3445d6;
   --accent-text: #ffffff;
   --focus: #3445d6;
+  --brand-2: #6d28d9;
+  --brand-3: #0f766e;
+  --brand-4: #be185d;
+  --glow-1: rgba(52, 69, 214, 0.18);
+  --glow-2: rgba(109, 40, 217, 0.14);
+  --glow-3: rgba(15, 118, 110, 0.14);
   --danger: #b42318;
   --success: #067647;
   --code-bg: #f1f4fa;
@@ -58,6 +64,12 @@
   --accent: #96a3ff;
   --accent-text: #0b0f17;
   --focus: #b4beff;
+  --brand-2: #c4a6ff;
+  --brand-3: #5eead4;
+  --brand-4: #ff9fcf;
+  --glow-1: rgba(150, 163, 255, 0.2);
+  --glow-2: rgba(196, 166, 255, 0.16);
+  --glow-3: rgba(94, 234, 212, 0.14);
   --danger: #ff8a7d;
   --success: #5fd08f;
   --code-bg: #0f1520;
@@ -101,6 +113,12 @@
     --accent: #96a3ff;
     --accent-text: #0b0f17;
     --focus: #b4beff;
+    --brand-2: #c4a6ff;
+    --brand-3: #5eead4;
+    --brand-4: #ff9fcf;
+    --glow-1: rgba(150, 163, 255, 0.2);
+    --glow-2: rgba(196, 166, 255, 0.16);
+    --glow-3: rgba(94, 234, 212, 0.14);
     --danger: #ff8a7d;
     --success: #5fd08f;
     --code-bg: #0f1520;
@@ -142,6 +160,9 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-text);
+  --color-brand-2: var(--brand-2);
+  --color-brand-3: var(--brand-3);
+  --color-brand-4: var(--brand-4);
   --color-danger: var(--danger);
   --color-success: var(--success);
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -154,6 +175,7 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
+  overflow-x: clip;
   min-height: 100dvh;
   background: var(--bg);
   color: var(--text);
