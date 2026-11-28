@@ -91,6 +91,18 @@ const CASES = [
   { id: "delete-at-index", query: "", final: /Now:|The row is empty/ },
   { id: "prefix-sum", query: "", final: /Running totals|Nothing to add up/ },
   { id: "missing-number", query: "", final: /The missing ticket is/ },
+  { id: "climbing-stairs", query: "", final: /ways? to climb/ },
+  { id: "fibonacci-dp", query: "", final: /Fibonacci\(\d+\) = \d+/ },
+  { id: "house-robber", query: "", final: /Most collected|Nothing to collect/ },
+  { id: "min-cost-climbing-stairs", query: "", final: /Cheapest way to the roof/ },
+  { id: "coin-change-min-coins", query: "", final: /Fewest coins|cannot be paid/ },
+  { id: "coin-change-ways", query: "", final: /ways? to pay/ },
+  { id: "best-time-to-buy-sell-stock", query: "", final: /Best profit/ },
+  { id: "jump-game", query: "", final: /last pad (can|cannot) be reached/ },
+  { id: "max-sum-subarray-k", query: "", final: /Best total/ },
+  { id: "longest-ones-k-flips", query: "", final: /Longest stretch/ },
+  { id: "majority-element-boyer-moore", query: "", final: /Majority: / },
+  { id: "single-number-xor", query: "", final: /odd one out is/ },
   // stories told over a grid
   { id: "min-path-sum", query: "", final: /cheapest trip costs \d+/, chain: true },
   { id: "longest-common-subsequence", query: "", final: /playlists share \d+ songs?/, chain: true },
@@ -100,7 +112,7 @@ const CASES = [
   { id: "rotting-oranges", query: "", final: /rotten after \d+ minutes?|can never rot|0 minutes/, chain: true },
   { id: "spiral-order", query: "", final: /Spiral order: /, chain: true },
   { id: "stack-push-pop", query: "", final: /Left in the stack|The stack is empty/, chain: true },
-  { id: "queue-enqueue-dequeue", query: "", final: /Still in the queue|The queue is empty/, chain: true },
+  { id: "queue-enqueue-dequeue", query: "", final: /Still in the queue|The queue is empty/ },
   { id: "valid-parentheses", query: "", final: /Balanced|Not balanced/, chain: true },
   { id: "evaluate-postfix", query: "", final: /The expression equals -?\d+/, chain: true },
   { id: "next-greater-element", query: "", final: /The next taller height for each person/, chain: true },
@@ -195,6 +207,10 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["ph
     if (label === "phone" && c.chain) {
       const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), nodes: el.querySelectorAll('[data-testid="story-node"]').length, empty: /\bempty\b/.test(el.textContent ?? ""), focusable: el.tabIndex === 0 }));
       check(`${tag}: the chain scene scales down on the phone and stays reachable`, (fit.nodes > 0 || fit.empty) && fit.scale <= 1 && fit.focusable, JSON.stringify(fit));
+    } else if (label === "phone" && c.id === "queue-enqueue-dequeue") {
+      // The 3D scene is a canvas scaled to the phone width, kept reachable in a focusable area.
+      const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), canvas: el.querySelectorAll('[data-testid="scene3d-canvas"]').length, cells: el.querySelectorAll('[data-testid="story-cell"]').length, focusable: el.tabIndex === 0 }));
+      check(`${tag}: the 3D scene (or its classic fallback) fits the phone and stays reachable`, (fit.canvas === 1 || fit.cells > 0) && fit.scale <= 1 && fit.focusable, JSON.stringify(fit));
     } else if (label === "phone") {
       const fit = await page.getByTestId("story-scroll").evaluate((el) => ({ scale: Number(el.dataset.scale), sideways: el.scrollWidth > el.clientWidth + 1, cells: el.querySelectorAll('[data-testid="story-cell"]').length, focusable: el.tabIndex === 0 }));
       // Up to 7 cells fit a 375px phone at a readable size; wider scenes scroll sideways in a keyboard-focusable area.

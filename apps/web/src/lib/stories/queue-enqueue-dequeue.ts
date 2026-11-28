@@ -1,4 +1,5 @@
 import { anchorOf, type PileFrame, type PileStory, type Tone } from "./types";
+import { describeQueue } from "@/lib/scene3d/queue-scene";
 import { inputNumber, inputValues, joined, roleAt, toneOfRole, variable } from "./pile-util";
 
 /** A ticket counter: people join at the back and are served from the front, first come first served. */
@@ -14,6 +15,7 @@ export const queueEnqueueDequeueStory: PileStory = {
     { emoji: "🔚", name: "Back", means: "where new arrivals join (enqueue)" },
     { emoji: "🔛", name: "Front", means: "where the next person is served and leaves (dequeue)" },
   ],
+  scene3d: describeQueue,
   moral: "A queue is first in, first out. Arrivals join at the back and leave from the front, so the order of service is exactly the order of arrival.",
   frame(step, trace): PileFrame {
     const a = anchorOf(step);

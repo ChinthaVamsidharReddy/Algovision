@@ -1,9 +1,61 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import type { ExecutionStep } from "@algovision/trace-schema";
 import type { PileStory, PileTrace } from "@/lib/stories/types";
 import { StoryShell, TONE } from "./story-panel";
+
+const SceneCanvas = dynamic(() => import("../scene3d/queue-scene3d"), {
+  ssr: false,
+  loading: () => (
+    <div className="grid h-full place-items-center text-sm text-muted" role="status">
+      Setting up the scene…
+    </div>
+  ),
+});
+const VIEW_KEY = "av-story-view";
+const SCENE_W = 640;
+const SCENE_H = 300;
+
+/** Can this browser draw 3D? Decided once the page is on screen (never on the server). */
+function useWebgl(): boolean | null {
+  const [ok, setOk] = useState<boolean | null>(null);
+  useEffect(() => {
+    let yes = false;
+    try {
+      if (typeof WebGLRenderingContext !== "undefined") {
+        const c = document.createElement("canvas");
+        yes = !!(c.getContext("webgl2") || c.getContext("webgl"));
+      }
+    } catch {
+      yes = false;
+    }
+    setOk(yes);
+  }, []);
+  return ok;
+}
+function useView(): ["3d" | "classic", (v: "3d" | "classic") => void] {
+  const [view, setView] = useState<"3d" | "classic">("3d");
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(VIEW_KEY) === "classic") setView("classic");
+    } catch {
+      /* storage blocked: the default stays */
+    }
+  }, []);
+  return [
+    view,
+    (v) => {
+      setView(v);
+      try {
+        localStorage.setItem(VIEW_KEY, v);
+      } catch {
+        /* ignore */
+      }
+    },
+  ];
+}
 
 const CELL = 48;
 const PITCH = 56;
@@ -17,6 +69,15 @@ const GAP = 14;
  */
 export function PilePanel({ story, step, trace }: { story: PileStory; step: ExecutionStep<"stack" | "queue">; trace: PileTrace }) {
   const frame = useMemo(() => story.frame(step, trace), [story, step, trace]);
+  const webgl = useWebgl();
+  const [view, setView] = useView();
+  const desc3d = useMemo(() => (story.scene3d ? story.scene3d(step, trace) : null), [story, step, trace]);
+  const real = desc3d !== null && webgl === true && view === "3d";
+  const toolbar = desc3d !== null && webgl === true && (
+    <button type="button" onClick={() => setView(real ? "classic" : "3d")} aria-pressed={real} className="min-h-11 rounded-lg border border-border px-3 text-sm font-medium hover:bg-surface-2" data-testid="story-view-toggle">
+      {real ? "Classic view" : "3D view"}
+    </button>
+  );
   const finished = step.index === trace.steps.length - 1;
   // Keep the container the same size for the whole run, so nothing jumps when items come and go.
   const slots = useMemo(() => Math.max(3, ...trace.steps.map((s) => s.state.items.length)), [trace]);
@@ -127,5 +188,8 @@ export function PilePanel({ story, step, trace }: { story: PileStory; step: Exec
       )}
     </svg>
   );
-  return <StoryShell meta={story} content={frame} finished={finished} scene={{ width, height, children: scene }} />;
+  if (real && desc3d) {
+    return <StoryShell meta={story} content={frame} finished={finished} toolbar={toolbar} scene={{ width: SCENE_W, height: SCENE_H, children: <SceneCanvas scene={desc3d} width={SCENE_W} height={SCENE_H} /> }} />;
+  }
+  return <StoryShell meta={story} content={frame} finished={finished} toolbar={toolbar || undefined} scene={{ width, height, children: scene }} />;
 }

@@ -348,3 +348,26 @@ Five recursion algorithms get a story on the existing stack scene: factorial, re
 - **Home page (`/home`).** Greeting (signed-in name or a gentle sign-up nudge), six quick-link tiles, eight "Start here" algorithm cards with a small picture of the data shape, 18 topic tiles that jump to that topic in the catalog, and a daily-habit band. The header and footer gained a Home link.
 - **Colours.** New decorative tokens (`--brand-2/3/4`, `--glow-*`) in light and dark themes; text colours still come from the contrast-tested tokens.
 - **Tests.** `test/brand-pages.test.tsx` (brand, footer, header, landing, home, axe) and `e2e/brand.mjs` (desktop and phone, light and dark contrast, reduced motion, navigation, no sideways scroll, no old name on the page).
+
+### Story mode, batch 17: dynamic-programming tables (105 stories in total)
+
+Six dynamic-programming algorithms whose trace is a table in a row get a story on the existing row scene: climbing stairs (a child on a staircase), Fibonacci DP (a notebook where nothing is worked out twice), house robber (a fundraiser who may not knock on two neighbours), min-cost climbing stairs (tolls on the stairs), coin change fewest coins (a cashier's change chart) and coin change ways (ways to pay exactly).
+
+- Shared helpers in `dp-util.ts`: table cells that show a dash until the algorithm has written them (read from its own "created" and "sorted" highlights), the input list and numbers, and a single helper figure above the current cell. `ArrayTrace` gained an optional `input` (every real trace already carries it); no trace-schema change.
+- The small-input shortcut (`base-case` anchor, no table) is told in its own words, never as a blank row.
+- Unreachable coin amounts are drawn as infinity, never as the internal "amount + 1" marker.
+- Tests: closing banner equals the expected answer on every vector, the climbing table fills one stair at a time, infinity cells, workspace mounts; story E2E extended.
+
+### Story mode, batch 18: greedy, window and array tricks (111 stories in total)
+
+Six more row-based stories: best time to buy and sell stock (a shopper remembering the cheapest day), jump game (a frog on lily pads tracking its farthest reach), maximum sum of k consecutive values (a sliding photo frame), longest run of ones with k flips (an electrician with repair coupons and a ribbon), Boyer-Moore majority element (supporters cancelling out in pairs) and single number by XOR (the odd sock out).
+
+- The two sliding-window stories reuse the existing two-kids actor helper; the others use one or two figures above the row.
+- Every story reads its numbers from the trace and the input (the cheapest day and sale day at the end come from the "buy" and "sell" highlight labels), so the retelling cannot disagree with the code.
+- Tests: the closing banner equals the expected answer on every vector, the stock story names the real buy and sell days, the stuck frog gets a "cannot be reached" banner, workspace mounts; story E2E extended.
+
+### Batch 19 – 3D story engine (pilot: queue at a ticket counter)
+- Stories may now carry an optional pure `scene3d(step, trace): Scene3D` description (`src/lib/scene3d/`). A lazily loaded three.js stage (`src/components/scene3d/`) tweens people, a clerk and a counter to it, so the 3D retelling is derived from the same trace as the board and cannot disagree with it. No trace-schema change.
+- Pilot: `queue-enqueue-dequeue` — people walk to the back of the line (enqueue), the front person is served, gets a ticket and walks away (dequeue). Identity is kept by replaying item-count changes.
+- three.js (`three@^0.187`) loads only when a 3D story is shown. Falls back to the classic 2D scene when WebGL is missing; "3D view / Classic view" toggle is remembered (`av-story-view`). Reduced motion snaps instantly; the loop pauses when off-screen; floor/background follow the light/dark theme.
+- Tests: `test/scene3d.test.tsx` (7), `e2e/scene3d.mjs`. Next: convert more stories scene by scene (stack, sorting, …).

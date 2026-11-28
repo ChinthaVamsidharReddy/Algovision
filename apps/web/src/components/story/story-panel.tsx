@@ -41,7 +41,7 @@ export interface ShellContent {
  * the narration with its code line and result banner, the situation and cast, and the moral at the end of the run.
  * The scene itself is drawn by the caller, so rows of cells and chains of nodes can both use it.
  */
-export function StoryShell({ meta, content, finished, scene }: { meta: StoryMeta; content: ShellContent; finished: boolean; scene: { width: number; height: number; children: ReactNode } }) {
+export function StoryShell({ meta, content, finished, scene, toolbar }: { meta: StoryMeta; content: ShellContent; finished: boolean; scene: { width: number; height: number; children: ReactNode }; toolbar?: ReactNode }) {
   const [open, setOpen] = useState(true);
   useEffect(() => {
     try {
@@ -84,9 +84,12 @@ export function StoryShell({ meta, content, finished, scene }: { meta: StoryMeta
           <span aria-hidden="true">{meta.emoji} </span>
           {meta.title}
         </h2>
-        <button type="button" onClick={toggle} aria-expanded={open} aria-controls="story-body" className="min-h-11 rounded-lg border border-border px-3 text-sm font-medium hover:bg-surface-2">
-          {open ? "Hide the story" : "Show the story"}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {toolbar}
+          <button type="button" onClick={toggle} aria-expanded={open} aria-controls="story-body" className="min-h-11 rounded-lg border border-border px-3 text-sm font-medium hover:bg-surface-2">
+            {open ? "Hide the story" : "Show the story"}
+          </button>
+        </div>
       </div>
 
       <div id="story-body" hidden={!open} className="space-y-4">

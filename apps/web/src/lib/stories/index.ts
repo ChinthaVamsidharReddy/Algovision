@@ -38,6 +38,18 @@ import { maxAreaOfIslandStory } from "./max-area-of-island";
 import { rottingOrangesStory } from "./rotting-oranges";
 import { spiralOrderStory } from "./spiral-order";
 import { stackPushPopStory } from "./stack-push-pop";
+import { bestTimeToBuySellStockStory } from "./best-time-to-buy-sell-stock";
+import { jumpGameStory } from "./jump-game";
+import { maxSumSubarrayKStory } from "./max-sum-subarray-k";
+import { longestOnesKFlipsStory } from "./longest-ones-k-flips";
+import { majorityElementBoyerMooreStory } from "./majority-element-boyer-moore";
+import { singleNumberXorStory } from "./single-number-xor";
+import { climbingStairsStory } from "./climbing-stairs";
+import { fibonacciDpStory } from "./fibonacci-dp";
+import { houseRobberStory } from "./house-robber";
+import { minCostClimbingStairsStory } from "./min-cost-climbing-stairs";
+import { coinChangeMinCoinsStory } from "./coin-change-min-coins";
+import { coinChangeWaysStory } from "./coin-change-ways";
 import { factorialStory } from "./factorial";
 import { fibonacciRecursiveStory } from "./fibonacci-recursive";
 import { powerFastExponentiationStory } from "./power-fast-exponentiation";
@@ -99,7 +111,7 @@ import { missingNumberStory } from "./missing-number";
 import type { ChainStory, GraphStory, GridStory, PileStory, Story, TreeStory, TrieStory } from "./types";
 
 /** Stories by algorithm id. Add an entry here (plus its file and a test case) to tell another algorithm as a story. */
-export const STORIES: readonly Story[] = [findDuplicateFloydStory, twoSumSortedStory, isPalindromeStringStory, binarySearchStory, dutchNationalFlagStory, containerWithMostWaterStory, reverseInPlaceStory, linearSearchStory, bubbleSortStory, selectionSortStory, insertionSortStory, moveZeroesStory, removeDuplicatesSortedStory, twoSumHashStory, kadaneStory, heapSortStory, longestSubstringNoRepeatStory, longestRepeatingReplacementStory, countPalindromicStory, longestPalindromicStory, firstUniqueCharacterStory, stringCompressionStory, fenwickStory, countFrequenciesStory, firstRepeatingStory, hashInsertStory, hashSearchStory, circularQueueStory, firstOccurrenceStory, lowerBoundStory, upperBoundStory, jumpSearchStory, findPeakStory, searchRotatedStory, findMaximumStory, countingSortStory, mergeSortStory, quickSortStory, shellSortStory, insertAtIndexStory, deleteAtIndexStory, prefixSumStory, missingNumberStory];
+export const STORIES: readonly Story[] = [findDuplicateFloydStory, twoSumSortedStory, isPalindromeStringStory, binarySearchStory, dutchNationalFlagStory, containerWithMostWaterStory, reverseInPlaceStory, linearSearchStory, bubbleSortStory, selectionSortStory, insertionSortStory, moveZeroesStory, removeDuplicatesSortedStory, twoSumHashStory, kadaneStory, heapSortStory, longestSubstringNoRepeatStory, longestRepeatingReplacementStory, countPalindromicStory, longestPalindromicStory, firstUniqueCharacterStory, stringCompressionStory, fenwickStory, countFrequenciesStory, firstRepeatingStory, hashInsertStory, hashSearchStory, circularQueueStory, firstOccurrenceStory, lowerBoundStory, upperBoundStory, jumpSearchStory, findPeakStory, searchRotatedStory, findMaximumStory, countingSortStory, mergeSortStory, quickSortStory, shellSortStory, insertAtIndexStory, deleteAtIndexStory, prefixSumStory, missingNumberStory, climbingStairsStory, fibonacciDpStory, houseRobberStory, minCostClimbingStairsStory, coinChangeMinCoinsStory, coinChangeWaysStory, bestTimeToBuySellStockStory, jumpGameStory, maxSumSubarrayKStory, longestOnesKFlipsStory, majorityElementBoyerMooreStory, singleNumberXorStory];
 /** Stories told over a chain of nodes (linked lists). */
 /** Stories told over a binary tree. */
 export const TREE_STORIES: readonly TreeStory[] = [binaryTreeInorderStory, binaryTreePreorderStory, binaryTreePostorderStory, bstSearchStory, bstInsertStory, treeHeightStory, minHeapBuildInsertStory, heapifyBottomUpStory, kthLargestStory, levelOrderStory, countLeavesStory, bstFindMinMaxStory, avlInsertStory, segmentTreeStory];

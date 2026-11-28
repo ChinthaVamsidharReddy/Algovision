@@ -1,7 +1,10 @@
+import type { Scene3D } from "@/lib/scene3d/types";
 import type { ExecutionStep } from "@algovision/trace-schema";
 
 /** The part of a trace a story needs: its steps. */
 export interface ArrayTrace {
+  /** What the algorithm was given (every real trace carries it). */
+  readonly input?: Readonly<Record<string, unknown>>;
   readonly steps: readonly ExecutionStep<"array">[];
 }
 
@@ -165,6 +168,8 @@ export interface PileStory extends StoryMeta {
   /** How the container is drawn: a stack stands up (top at the top), a queue lies down (front on the left). */
   shape: "stack" | "queue";
   frame(step: ExecutionStep<"stack" | "queue">, trace: PileTrace): PileFrame;
+  /** When present, the same step can also be drawn as a real-world 3D scene (people, objects) instead of cells. */
+  scene3d?(step: ExecutionStep<"stack" | "queue">, trace: PileTrace): Scene3D;
 }
 
 export interface TrieTrace {

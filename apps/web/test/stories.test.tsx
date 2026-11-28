@@ -1265,3 +1265,81 @@ describe("recursion stories", () => {
     }
   });
 });
+
+// ---------- batch 17: dynamic programming tables ----------
+describe("dynamic-programming stories", () => {
+  const ids = ["climbing-stairs", "fibonacci-dp", "house-robber", "min-cost-climbing-stairs", "coin-change-min-coins", "coin-change-ways"];
+  const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
+  it("close with the real answer on every test vector", () => {
+    for (const v of vectors("climbing-stairs")) {
+      const n = (v.input as { n: number }).n;
+      const e = v.expected as number;
+      expect(lastRowFrame("climbing-stairs", v.input).banner?.text, v.name).toBe(`There ${e === 1 ? "is 1 way" : `are ${e} ways`} to climb ${n} ${plural(n, "stair", "stairs")}.`);
+    }
+    for (const v of vectors("fibonacci-dp")) expect(lastRowFrame("fibonacci-dp", v.input).banner?.text, v.name).toBe(`Fibonacci(${(v.input as { n: number }).n}) = ${v.expected}.`);
+    for (const v of vectors("house-robber")) {
+      const empty = (v.input as { values: number[] }).values.length === 0;
+      expect(lastRowFrame("house-robber", v.input).banner?.text, v.name).toBe(empty ? "Nothing to collect." : `Most collected: ${v.expected}.`);
+    }
+    for (const v of vectors("min-cost-climbing-stairs")) expect(lastRowFrame("min-cost-climbing-stairs", v.input).banner?.text, v.name).toBe(`Cheapest way to the roof: ${v.expected}.`);
+    for (const v of vectors("coin-change-min-coins")) {
+      const amount = (v.input as { amount: number }).amount;
+      const b = lastRowFrame("coin-change-min-coins", v.input).banner;
+      if (v.expected === -1) {
+        expect(b?.kind, v.name).toBe("bad");
+        expect(b?.text, v.name).toBe(`$${amount} cannot be paid with these coins.`);
+      } else expect(b?.text, v.name).toBe(`Fewest coins: ${v.expected}.`);
+    }
+    for (const v of vectors("coin-change-ways")) {
+      const amount = (v.input as { amount: number }).amount;
+      expect(lastRowFrame("coin-change-ways", v.input).banner?.text, v.name).toBe(`${v.expected} ${plural(v.expected as number, "way", "ways")} to pay $${amount}.`);
+    }
+  });
+  it("never show an unreachable coin amount as a number", () => {
+    const f = lastRowFrame("coin-change-min-coins", { values: [2], amount: 3 });
+    expect(f.cells.map((c) => c.main)).toEqual(["0", "∞", "1", "∞"]);
+  });
+  it("the climbing table fills in one stair at a time", () => {
+    const t = traceOf("climbing-stairs", { n: 4 }) as unknown as ArrayTrace;
+    const mid = t.steps.find((s) => s.index === 2)!;
+    const f = storyFor("climbing-stairs")!.frame(mid, t);
+    expect(f.cells.map((c) => c.main)).toEqual(["–", "1", "2", "–", "–"]);
+  });
+  it("are mounted by the workspace", () => {
+    for (const id of ids) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+// ---------- batch 18: greedy, window and array stories ----------
+describe("greedy and window stories", () => {
+  const ids = ["best-time-to-buy-sell-stock", "jump-game", "max-sum-subarray-k", "longest-ones-k-flips", "majority-element-boyer-moore", "single-number-xor"];
+  const closing: Record<string, (e: number) => string> = {
+    "best-time-to-buy-sell-stock": (e) => `Best profit: ${e}.`,
+    "jump-game": (e) => (e === 1 ? "The last pad can be reached." : "The last pad cannot be reached."),
+    "max-sum-subarray-k": (e) => `Best total: ${e}.`,
+    "longest-ones-k-flips": (e) => `Longest stretch: ${e}.`,
+    "majority-element-boyer-moore": (e) => `Majority: ${e}.`,
+    "single-number-xor": (e) => `The odd one out is ${e}.`,
+  };
+  it("close with the real answer on every test vector", () => {
+    for (const id of ids) for (const v of vectors(id)) expect(lastRowFrame(id, v.input).banner?.text, `${id} ${v.name}`).toBe(closing[id]!(v.expected as number));
+  });
+  it("the stock shopper remembers the cheapest day", () => {
+    const f = lastRowFrame("best-time-to-buy-sell-stock", { values: [7, 1, 5, 3, 6, 4] });
+    expect(f.says).toContain("Buy on day 1 at 1 and sell on day 4 at 6");
+  });
+  it("the frog is stuck when a pad is beyond its reach", () => {
+    expect(lastRowFrame("jump-game", { values: [3, 2, 1, 0, 4] }).banner?.kind).toBe("bad");
+  });
+  it("are mounted by the workspace", () => {
+    for (const id of ids) {
+      const { unmount } = render(<Workspace algorithmId={id} />);
+      expect(screen.getByTestId("story"), id).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
